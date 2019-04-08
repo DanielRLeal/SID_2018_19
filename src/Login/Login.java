@@ -1,6 +1,7 @@
-package interfaceGraphic;
+package Login;
 
 import java.awt.Color;
+import bancoDeDados.*;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -10,13 +11,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.Popup;
 
-/**
- * @author Antonio
- *
- */
+import MenuAdmin.menu_Admin;
+import MenuAuditor.menu_Auditor;
+import MenuInvestigador.menu_Investigador;
+
 public class Login extends JFrame {
 
 	private JFrame frame;
@@ -24,6 +27,12 @@ public class Login extends JFrame {
 	private JPasswordField passwordField;
 	private String userGranted;
 	public int index;
+	public BancoDeDados bd ;
+
+	public void credenciais() {
+		bd = new BancoDeDados();
+		bd.conectar(textField.getName(), passwordField.getName());
+	}
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -33,7 +42,6 @@ public class Login extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 			}
 		});
 	}
@@ -41,13 +49,6 @@ public class Login extends JFrame {
 	public Login() {
 		initialize();
 	}
-
-	/**
-	 * Construtor da frame
-	 * 
-	 * @author Pedro Almeida
-	 * 
-	 */
 
 	private void initialize() {
 
@@ -63,49 +64,43 @@ public class Login extends JFrame {
 		JButton btnNewButton = new JButton("Aceder");
 		btnNewButton.setBackground(Color.WHITE);
 		btnNewButton.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
-				if (acessGranted() == true) {
+				try {
+					frame.dispose();
 					try {
-						frame.dispose();
-
-//								App app = new App();
-
-					} catch (Exception e1) {
-						e1.printStackTrace();
+						credenciais();
+					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(null, "Credências incorrectas!");
 					}
-
-				} else {
+					if (textField.getText().toLowerCase().contains("Investigador".toLowerCase())) {
+						menu_Investigador mInvestigador = new menu_Investigador(bd, textField.getText());
+						frame.setVisible(false);
+						JOptionPane.showMessageDialog(null, "Bem Vindo, Investigador!");
+					}
+					if (textField.getText().toLowerCase().contains("Auditor".toLowerCase())) {
+						menu_Auditor mAduditor = new menu_Auditor(bd, textField.getText());
+						frame.setVisible(false);
+						JOptionPane.showMessageDialog(null, "Bem Vindo, Auditor!");
+					}
+					if (textField.getText().toLowerCase().contains("Admin".toLowerCase())) {
+						menu_Admin mAdmin = new menu_Admin(bd, textField.getText());
+						frame.setVisible(false);
+						JOptionPane.showMessageDialog(null, "Bem Vindo, Admin!");
+					}
+					if (textField.getText().toLowerCase().contains("root".toLowerCase())) {
+						menu_Admin mAdmin = new menu_Admin(bd, textField.getText());
+						menu_Auditor mAduditor = new menu_Auditor(bd, textField.getText());
+						menu_Investigador mInvestigador = new menu_Investigador(bd, textField.getText());
+						frame.setVisible(false);
+						JOptionPane.showMessageDialog(null, "Bem Vindo, Rooteiro!");
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null,"O nome não pertence a nenhum tipo de utilizador");
 				}
 			}
-
-			/**
-			 * verifica acesso
-			 * 
-			 * @return
-			 */
-			private boolean acessGranted() {
-				String username = String.valueOf(textField.getText());
-
-				String pw = String.valueOf(passwordField.getPassword());
-
-//						for (int i = 0; i < users.size(); i++) {
-//							String usernameData = users.get(i).getUsername();
-//							String pwData = users.get(i).getPw();
-//							if (username.equals(usernameData) && pwData.equals(pw)) {
-//
-//								index = i;
-//								saveInfile(index);
-//
-//								return true;
-//
-//							}
-//						}
-
-				return false;
-			}
-
 		});
+
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnNewButton.setBounds(317, 335, 75, 24);
 		frame.getContentPane().add(btnNewButton);
@@ -125,20 +120,6 @@ public class Login extends JFrame {
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		passwordField.setBounds(140, 297, 252, 23);
 		frame.getContentPane().add(passwordField);
-
-		JButton btnNewButton_1 = new JButton("Criar conta");
-		btnNewButton_1.setBackground(Color.WHITE);
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnNewButton_1.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				newAccount window = new newAccount();
-				window.getFrame().setVisible(true);
-			}
-		});
-		btnNewButton_1.setBounds(290, 372, 102, 23);
-		frame.getContentPane().add(btnNewButton_1);
 
 		JLabel lblUsurio = new JLabel("Usu\u00E1rio");
 		lblUsurio.setFont(new Font("Tahoma", Font.BOLD, 17));
@@ -162,14 +143,6 @@ public class Login extends JFrame {
 
 	}
 
-	/**
-	 * Funcao auxiliar que ajuda ao funcionamento da associacao de utilizadores a
-	 * contas das redes sociais
-	 * 
-	 * @author Pedro Almeida
-	 * 
-	 */
-
 //	public void saveInfile(int i) {
 //		try {
 //			File fac = new File(filepath + "acessos");
@@ -184,16 +157,10 @@ public class Login extends JFrame {
 //		}
 //	}
 
-	/**
-	 * @return
-	 */
 	public JFrame getFrame() {
 		return frame;
 	}
 
-	/**
-	 * @param frame
-	 */
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}

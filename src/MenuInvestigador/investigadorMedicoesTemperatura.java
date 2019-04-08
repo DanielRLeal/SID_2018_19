@@ -1,4 +1,4 @@
-package interfaceGraphic;
+package MenuInvestigador;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,21 +17,28 @@ import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.border.MatteBorder;
 
+import Login.Login;
+import bancoDeDados.BancoDeDados;
+
+import javax.swing.JList;
+
 /**
  * @author Antonio
  *
  */
-public class menu_Admin extends JFrame {
+public class investigadorMedicoesTemperatura extends JFrame {
 
 	private JFrame frame;
 	private String userGranted;
 	public int index;
+	public static BancoDeDados bd;
+	public static String username;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					menu_Admin window1 = new menu_Admin();
+					investigadorMedicoesTemperatura window1 = new investigadorMedicoesTemperatura(bd, username);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -39,16 +47,14 @@ public class menu_Admin extends JFrame {
 		});
 	}
 
-	public menu_Admin() {
-		initialize();
+	public investigadorMedicoesTemperatura(BancoDeDados bd, String username) {
+		this.username = username;
+		this.bd = bd;
 	}
 
-	/**
-	 * Construtor da frame
-	 * 
-	 * @author Pedro Almeida
-	 * 
-	 */
+	public investigadorMedicoesTemperatura() {
+		initialize();
+	}
 
 	private void initialize() {
 
@@ -71,58 +77,54 @@ public class menu_Admin extends JFrame {
 		lblNewLabel.setBounds(26, -11, 229, 126);
 		frame.getContentPane().add(lblNewLabel);
 
-		JLabel lblInicieASesso = new JLabel("Escolha uma op\u00E7\u00E3o");
+		JLabel lblInicieASesso = new JLabel("Consulta de Medi\u00E7\u00F5es de Temperatura");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblInicieASesso.setBounds(196, 154, 196, 16);
+		lblInicieASesso.setBounds(135, 157, 220, 16);
 		frame.getContentPane().add(lblInicieASesso);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
-		
-		JLabel lblMenu = new JLabel("Menu");
+
+		JLabel lblMenu = new JLabel("Medi\u00E7\u00F5es Temperatura");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
-		
-		JLabel lblBemVindonome = new JLabel("Bem Vindo:  \"nome\"");
+
+		JLabel lblBemVindonome = new JLabel("Bem Vindo: " + username);
 		lblBemVindonome.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblBemVindonome.setBounds(174, 59, 205, 23);
 		frame.getContentPane().add(lblBemVindonome);
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_1.setBackground(Color.GRAY);
-		panel_1.setBounds(86, 215, 324, 141);
+		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
-		panel_1.setLayout(null);
-		
-		JButton btnUtilizador = new JButton("Utilizador");
-		btnUtilizador.setBounds(94, 21, 144, 33);
-		btnUtilizador.setBackground(Color.WHITE);
-		btnUtilizador.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panel_1.add(btnUtilizador);
-		
-		JButton btnCultura = new JButton("Cultura");
-		btnCultura.setBounds(100, 75, 133, 33);
-		btnCultura.setBackground(Color.WHITE);
-		btnCultura.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panel_1.add(btnCultura);
-		
-		JButton button = new JButton("Voltar");
-		button.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		button.setBackground(new Color(192, 192, 192));
-		button.setBounds(12, 427, 97, 25);
-		frame.getContentPane().add(button);
+
+		// Listar Utilizadores na lista da página
+		// Isto está a dar a null n sei pq
+		bd.listarUtilizador();
+
+		JList list = new JList(bd.listaUtilizadores);
+		list.setBounds(0, 0, 470, 209);
+		panel_1.add(list);
+
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnVoltar.setBackground(new Color(192, 192, 192));
+		btnVoltar.setBounds(12, 427, 97, 25);
+		frame.getContentPane().add(btnVoltar);
+		btnVoltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				menu_Investigador mInve = new menu_Investigador(bd, username);
+				frame.getDefaultCloseOperation();
+			}
+		});
+		;
 
 	}
-
-	/**
-	 * Funcao auxiliar que ajuda ao funcionamento da associacao de utilizadores a
-	 * contas das redes sociais
-	 * 
-	 * @author Pedro Almeida
-	 * 
-	 */
 
 //	public void saveInfile(int i) {
 //		try {

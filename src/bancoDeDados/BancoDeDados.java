@@ -3,6 +3,10 @@ package bancoDeDados;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -11,12 +15,11 @@ public class BancoDeDados {
 	private Connection connection = null;
 	private Statement statement = null;
 	private ResultSet resultset = null;
+	public DefaultListModel<String> listaUtilizadores = new DefaultListModel<String>();
 
-	public void conectar() {
+	public void conectar(String usuario, String senha) {
 		String servidor = "jdbc:mysql://localhost:3306/dbphp";
-		String usuario = "root";
-		String senha = "senai";
-		String driver = "com.mysql.jdbc.Driver";
+		String driver = "com.mysql.cj.jdbc.Driver";
 		try {
 			Class.forName(driver);
 			this.connection = DriverManager.getConnection(servidor, usuario, senha);
@@ -33,28 +36,32 @@ public class BancoDeDados {
 		}
 	}
 
-	public void listar() {
+	public void listarUtilizador() {
 		try {
 			String query = "SELECT * FROM Utilizador";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
+
 				System.out.println("IDUtilizador: " + this.resultset.getString("IDUtilizador") + "Nome do Utilizador: "
 						+ this.resultset.getString("NomeUtilizador") + "Categoria Profissional:"
 						+ this.resultset.getString("CategoriaProfissional") + "Email: "
 						+ this.resultset.getString("Email") + "Activo: " + this.resultset.getString("Activo"));
+				listaUtilizadores.addElement(this.resultset.toString());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Falha a listar Utilizador");
 		}
 	}
 
-	public void inserirUtilizador(String nome, String categoria, String email, boolean activo) {
+	public void inserirUtilizador(String nome, String password, String categoria, String email, boolean activo) {
 		try {
 			String query = "INSERT INTO Utilizador (NomeUtilizador, CategoriaProfissional, Email, Activo) VALUES ("
 					+ nome + ", " + categoria + ", " + email + ", " + activo + " ')";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador");
 		}
 	}
 
@@ -65,6 +72,7 @@ public class BancoDeDados {
 					+ "' WHERE IDUtilizador = " + id + ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a actualizar utilizador");
 		}
 	}
 
@@ -73,6 +81,27 @@ public class BancoDeDados {
 			String query = "DELETE FROM Utilziador WHERE IDUtilizador = " + id + ";";
 			this.statement.executeQuery(query);
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a apagar utilizador");
+		}
+	}
+
+	public void listaCultura(String nome, String descricao, String IDUtilizador_fk) {
+		try {
+			String query = "INSERT INTO Culturas (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES (" + nome
+					+ ", " + descricao + ", " + IDUtilizador_fk + "')";
+			this.statement.executeUpdate(query);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a inserir cultura");
+		}
+	}
+
+	public void inserirCultura(String nome, String descricao, String IDUtilizador_fk) {
+		try {
+			String query = "INSERT INTO Cultura (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES (" + nome + ", "
+					+ descricao + ", " + IDUtilizador_fk + " ')";
+			this.statement.executeUpdate(query);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador");
 		}
 	}
 
@@ -82,5 +111,4 @@ public class BancoDeDados {
 		} catch (Exception e) {
 		}
 	}
-
 }
