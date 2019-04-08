@@ -30,7 +30,7 @@ public class menu_Investigador extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login window1 = new Login();
+					menu_Investigador window1 = new menu_Investigador();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -124,13 +124,13 @@ public class menu_Investigador extends JFrame {
 		panel_2.setLayout(null);
 		
 		JButton button_4 = new JButton("Medi\u00E7\u00F5es Luminiosidade");
-		button_4.setBounds(11, 11, 249, 33);
+		button_4.setBounds(4, 13, 261, 33);
 		button_4.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		button_4.setBackground(Color.WHITE);
 		panel_2.add(button_4);
 		
 		JButton button_5 = new JButton("Medi\u00E7\u00F5es Temperatura");
-		button_5.setBounds(17, 52, 237, 33);
+		button_5.setBounds(3, 52, 264, 33);
 		button_5.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		button_5.setBackground(Color.WHITE);
 		panel_2.add(button_5);
@@ -143,13 +143,13 @@ public class menu_Investigador extends JFrame {
 		panel_3.setLayout(null);
 		
 		JButton btnSistema = new JButton("Sistema");
-		btnSistema.setBounds(61, 28, 103, 33);
+		btnSistema.setBounds(61, 33, 120, 33);
 		btnSistema.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnSistema.setBackground(Color.WHITE);
 		panel_3.add(btnSistema);
 		
 		JButton btnVoltar = new JButton("Voltar");
-		btnVoltar.setBackground(Color.BLACK);
+		btnVoltar.setBackground(new Color(192, 192, 192));
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnVoltar.setBounds(10, 427, 97, 25);
 		frame.getContentPane().add(btnVoltar);

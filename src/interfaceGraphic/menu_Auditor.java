@@ -30,7 +30,7 @@ public class menu_Auditor extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login window1 = new Login();
+					menu_Auditor window1 = new menu_Auditor();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -121,7 +121,7 @@ public class menu_Auditor extends JFrame {
 		
 		JButton button = new JButton("Voltar");
 		button.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		button.setBackground(Color.BLACK);
+		button.setBackground(new Color(192, 192, 192));
 		button.setBounds(12, 427, 97, 25);
 		frame.getContentPane().add(button);
 		

@@ -30,7 +30,7 @@ public class menu_Admin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Login window1 = new Login();
+					menu_Admin window1 = new menu_Admin();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -97,20 +97,20 @@ public class menu_Admin extends JFrame {
 		panel_1.setLayout(null);
 		
 		JButton btnUtilizador = new JButton("Utilizador");
-		btnUtilizador.setBounds(101, 21, 117, 33);
+		btnUtilizador.setBounds(94, 21, 144, 33);
 		btnUtilizador.setBackground(Color.WHITE);
 		btnUtilizador.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel_1.add(btnUtilizador);
 		
 		JButton btnCultura = new JButton("Cultura");
-		btnCultura.setBounds(112, 75, 97, 33);
+		btnCultura.setBounds(100, 75, 133, 33);
 		btnCultura.setBackground(Color.WHITE);
 		btnCultura.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		panel_1.add(btnCultura);
 		
 		JButton button = new JButton("Voltar");
 		button.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		button.setBackground(Color.BLACK);
+		button.setBackground(new Color(192, 192, 192));
 		button.setBounds(12, 427, 97, 25);
 		frame.getContentPane().add(button);
 
