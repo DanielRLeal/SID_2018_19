@@ -85,13 +85,22 @@ public class BancoDeDados {
 		}
 	}
 
-	public void listaCultura(String nome, String descricao, String IDUtilizador_fk) {
+	public void listaCultura() {
 		try {
-			String query = "INSERT INTO Culturas (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES (" + nome
-					+ ", " + descricao + ", " + IDUtilizador_fk + "')";
-			this.statement.executeUpdate(query);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Falha a inserir cultura");
+			String query = "SELECT * FROM Cultura";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+			while (this.resultset.next()) {
+
+				System.out.println("IDCultura: " + this.resultset.getString("IDUtilizador") + "Nome da Cultura: "
+						+ this.resultset.getString("NomeCultura") + "Descrição da Cultura:"
+						+ this.resultset.getString("DescricaoCultura") + "Utilizador associado: "
+						+ this.resultset.getString("Utilizador_fk"));
+				listaUtilizadores.addElement(this.resultset.toString());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar Cultura");
 		}
 	}
 
@@ -105,6 +114,35 @@ public class BancoDeDados {
 		}
 	}
 
+	//alterar lá dentro 
+	public void actualizarCulura(int id, String nome, String categoria, String email, boolean activo) {
+		try {
+			String query = "UPDATE Utilizador set IDUtilizador = '" + id + "', NomeUtilizador = '" + nome
+					+ "' , CategoriaProfissional = '" + categoria + "',Email = '" + email + "', Activo = '" + activo
+					+ "' WHERE IDUtilizador = " + id + ";";
+			this.statement.executeUpdate(query);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a actualizar utilizador");
+		}
+	}
+
+	//alterar lá dentro 
+	public void apagarCultura(int id) {
+		try {
+			String query = "DELETE FROM Utilziador WHERE IDUtilizador = " + id + ";";
+			this.statement.executeQuery(query);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a apagar utilizador");
+		}
+	}
+
+	//Listar(..) Medicoes
+	//Listar(..) Variaveis
+	//Listar(..) VariaveisMedidas
+	//Listar(..) MedicoesLuminiosidade
+	//Listar(..) MedicoesTemperatura
+	//Listar(..) Sistema
+	
 	public void desconectar() {
 		try {
 			this.connection.close();

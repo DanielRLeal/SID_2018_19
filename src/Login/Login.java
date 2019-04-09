@@ -132,7 +132,7 @@ public class Login extends JFrame {
 		frame.getContentPane().add(lblPassword);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/interfaceGraphic/iscte-iul_s.png")));
+		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/Login/iscte-iul_s.png")));
 		lblNewLabel.setBounds(51, 65, 229, 126);
 		frame.getContentPane().add(lblNewLabel);
 

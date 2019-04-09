@@ -66,7 +66,7 @@ public class menu_Admin extends JFrame {
 		frame.getContentPane().add(lblBomDiaAcademia);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/interfaceGraphic/iscte-iul_s.png")));
+		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/Login/iscte-iul_s.png")));
 		lblNewLabel.setBounds(26, -11, 229, 126);
 		frame.getContentPane().add(lblNewLabel);
 
