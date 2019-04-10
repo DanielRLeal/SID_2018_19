@@ -78,7 +78,7 @@ public class BancoDeDados {
 
 	public void apagarUtilizador(int id) {
 		try {
-			String query = "DELETE FROM Utilziador WHERE IDUtilizador = " + id + ";";
+			String query = "DELETE FROM Utilizador WHERE IDUtilizador = " + id + ";";
 			this.statement.executeQuery(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar utilizador");
@@ -114,35 +114,32 @@ public class BancoDeDados {
 		}
 	}
 
-	//alterar lá dentro 
-	public void actualizarCulura(int id, String nome, String categoria, String email, boolean activo) {
+	public void actualizarCulura(int id, String nome, String descricao, String IDUtilizador_fk) {
 		try {
-			String query = "UPDATE Utilizador set IDUtilizador = '" + id + "', NomeUtilizador = '" + nome
-					+ "' , CategoriaProfissional = '" + categoria + "',Email = '" + email + "', Activo = '" + activo
-					+ "' WHERE IDUtilizador = " + id + ";";
+			String query = "UPDATE Cultura set NomeCultura = '" + nome + "' , DescricaoCultura = '" + descricao
+					+ "', IDUtilizador_fk = '" + IDUtilizador_fk + "' WHERE IDCultura = " + id + ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Falha a actualizar utilizador");
+			JOptionPane.showMessageDialog(null, "Falha a actualizar cultura");
 		}
 	}
 
-	//alterar lá dentro 
 	public void apagarCultura(int id) {
 		try {
-			String query = "DELETE FROM Utilziador WHERE IDUtilizador = " + id + ";";
+			String query = "DELETE FROM Cultura WHERE IDCultura = " + id + ";";
 			this.statement.executeQuery(query);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Falha a apagar utilizador");
+			JOptionPane.showMessageDialog(null, "Falha a apagar cultura");
 		}
 	}
 
-	//Listar(..) Medicoes
-	//Listar(..) Variaveis
-	//Listar(..) VariaveisMedidas
-	//Listar(..) MedicoesLuminiosidade
-	//Listar(..) MedicoesTemperatura
-	//Listar(..) Sistema
-	
+	// Listar(..) Medicoes
+	// Listar(..) Variaveis
+	// Listar(..) VariaveisMedidas
+	// Listar(..) MedicoesLuminiosidade
+	// Listar(..) MedicoesTemperatura
+	// Listar(..) Sistema
+
 	public void desconectar() {
 		try {
 			this.connection.close();
