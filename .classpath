@@ -16,6 +16,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Utilizador/Desktop/mysql-connector-java-8.0.15/mysql-connector-java-8.0.15.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo/Documents/GitHub/SID_2018_19/JAR Mongo Extensions/jackson-mapper-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo/Documents/GitHub/SID_2018_19/JAR Mongo Extensions/mongo-java-driver-3.5.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo/Documents/GitHub/SID_2018_19/JAR Mongo Extensions/org.eclipse.paho.client.mqttv3-1.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo/Documents/GitHub/SID_2018_19/JAR Mongo Extensions/org.json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo/Documents/GitHub/SID_2018_19/JAR Mongo Extensions/mysql-connector-java.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
