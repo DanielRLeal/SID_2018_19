@@ -64,7 +64,7 @@ public class MongoWrite implements MqttCallback{
             sampleClient.setCallback(this);
             
             //Subscreve o topico no servidor
-            sampleClient.subscribe(topic);
+            sampleClient.subscribe(topic, qos);
             
             /*************Publica mensagem no Paho*************/
             /*System.out.println("Publishing message: "+content);
@@ -113,14 +113,14 @@ public class MongoWrite implements MqttCallback{
 		
 		JSONObject jsonObj = new JSONObject(message.toString());
 		
-		if(!jsonObj.has("dat") || !jsonObj.has("tmp") || !jsonObj.has("cell"))
+		if(!jsonObj.has("dat") || !jsonObj.has("tim") || !jsonObj.has("tmp") || !jsonObj.has("cell"))
 		{
-			System.out.println("mensagem não contêm todos os dados necessários (dat, tmp, cell)");
+			System.out.println("mensagem não contêm todos os dados necessários (dat, tim, tmp, cell)");
 			return;
 		}
 		
-		//valor da data
-		String dataValor = jsonObj.get("dat").toString();
+		//valor da data e tempo
+		String dataValor = jsonObj.get("dat").toString() + " " + jsonObj.get("tim").toString();
 		//valor da temperatura
 		String tempValor = jsonObj.get("tmp").toString();
 		//valor da luminosidade
@@ -132,9 +132,14 @@ public class MongoWrite implements MqttCallback{
 		BasicDBObject document = new BasicDBObject();
 		document.put("ValorTemperatura", tempValor);
 		document.put("ValorLuminosidade", lumValor);
+		
+		//Valida se data é valida para o java
+		if(!isDateValid(dataValor))
+			return;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(dataValor);
         document.put("DataHoraMedicao", dateFormat.format(date));
+        
         System.out.println(document.toString());
         //insere o documento na coleção
 		try { table.insert(document);} catch (Exception e) {}
@@ -152,13 +157,22 @@ public class MongoWrite implements MqttCallback{
 	    try {
 	        new JSONObject(test);
 	    } catch (JSONException ex) {
-	        // edited, to include @Arthur's comment
-	        // e.g. in case JSONArray is valid as well...
 	        try {
 	            new JSONArray(test);
 	        } catch (JSONException ex1) {
 	            return false;
 	        }
+	    }
+	    return true;
+	}
+	
+	public boolean isDateValid(String test) {
+	    try {
+	    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    	Date date = new Date(test);
+	    	dateFormat.format(date);
+	    } catch (Exception e) {
+	        return false;
 	    }
 	    return true;
 	}
