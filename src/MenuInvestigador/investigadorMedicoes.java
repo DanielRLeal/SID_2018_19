@@ -22,23 +22,18 @@ import bancoDeDados.BancoDeDados;
 
 import javax.swing.JList;
 
-/**
- * @author Antonio
- *
- */
 public class investigadorMedicoes extends JFrame {
 
 	private JFrame frame;
 	private String userGranted;
 	public int index;
 	public static BancoDeDados bd;
-	public static String username;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					investigadorMedicoes window1 = new investigadorMedicoes(bd, username);
+					investigadorMedicoes window1 = new investigadorMedicoes(bd);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,8 +42,7 @@ public class investigadorMedicoes extends JFrame {
 		});
 	}
 
-	public investigadorMedicoes(BancoDeDados bd, String username) {
-		this.username = username;
+	public investigadorMedicoes(BancoDeDados bd) {
 		this.bd = bd;
 	}
 
@@ -90,7 +84,7 @@ public class investigadorMedicoes extends JFrame {
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
-		JLabel lblBemVindonome = new JLabel("Bem Vindo: " + username);
+		JLabel lblBemVindonome = new JLabel("Bem Vindo: " + bd.utilizadorLogado.NomeUtilizador);
 		lblBemVindonome.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblBemVindonome.setBounds(174, 59, 205, 23);
 		frame.getContentPane().add(lblBemVindonome);
@@ -118,7 +112,7 @@ public class investigadorMedicoes extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				menu_Investigador mInve = new menu_Investigador(bd, username);
+				menu_Investigador mInve = new menu_Investigador(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});

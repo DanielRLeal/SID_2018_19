@@ -22,10 +22,6 @@ import bancoDeDados.BancoDeDados;
 
 import javax.swing.JList;
 
-/**
- * @author Antonio
- *
- */
 public class auditorMedicoes_Log extends JFrame {
 
 	private JFrame frame;

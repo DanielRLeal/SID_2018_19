@@ -16,14 +16,16 @@ public class BancoDeDados {
 	private Statement statement = null;
 	private ResultSet resultset = null;
 	public DefaultListModel<String> listaUtilizadores = new DefaultListModel<String>();
-
-	public void conectar(String usuario, String senha) {
-		String servidor = "jdbc:mysql://localhost:3306/dbphp";
-		String driver = "com.mysql.cj.jdbc.Driver";
+	public Utilizador utilizadorLogado;
+	
+	public void conectar(String utilizador, String pass) {
+		String servidor = "jdbc:mysql://localhost:3306/sid_bd_php";
+		String driver = "com.mysql.jdbc.Driver";
 		try {
 			Class.forName(driver);
-			this.connection = DriverManager.getConnection(servidor, usuario, senha);
+			this.connection = DriverManager.getConnection(servidor, utilizador, pass);
 			this.statement = this.connection.createStatement();
+			getUtilizador(utilizador);
 		} catch (Exception e) {
 		}
 	}
@@ -35,19 +37,43 @@ public class BancoDeDados {
 			return false;
 		}
 	}
+	
+	public void getUtilizador(String utilizador) {
+		try {
+			if(utilizador.equals("root"))
+			{
+				utilizadorLogado = new Utilizador(0,"UserRoot","root","root@iscte-iul.pt",true);
+				return;
+			}
+				
+			String query = "SELECT * FROM utilizador WHERE IDUtilizador = " + utilizador;
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
 
+			utilizadorLogado = new Utilizador(Integer.parseInt(this.resultset.getString("IDUtilizador")),
+					this.resultset.getString("NomeUtilizador"),
+					this.resultset.getString("CategoriaProfissional"),
+					this.resultset.getString("Email"),
+					Boolean.parseBoolean(this.resultset.getString("Activo")));
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a pesquisar o Utilizador");
+		}
+	}
+	
 	public void listarUtilizador() {
 		try {
-			String query = "SELECT * FROM Utilizador";
+			String query = "SELECT * FROM utilizador";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
-				System.out.println("IDUtilizador: " + this.resultset.getString("IDUtilizador") + "Nome do Utilizador: "
-						+ this.resultset.getString("NomeUtilizador") + "Categoria Profissional:"
-						+ this.resultset.getString("CategoriaProfissional") + "Email: "
-						+ this.resultset.getString("Email") + "Activo: " + this.resultset.getString("Activo"));
-				listaUtilizadores.addElement(this.resultset.toString());
+				Utilizador user = new Utilizador(Integer.parseInt(this.resultset.getString("IDUtilizador")),
+						this.resultset.getString("NomeUtilizador"),
+						this.resultset.getString("CategoriaProfissional"),
+						this.resultset.getString("Email"),
+						Boolean.parseBoolean(this.resultset.getString("Activo")));
+				listaUtilizadores.addElement(user.toString());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

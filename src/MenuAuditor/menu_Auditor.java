@@ -19,23 +19,18 @@ import javax.swing.border.MatteBorder;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
 
-/**
- * @author Antonio
- *
- */
 public class menu_Auditor extends JFrame {
 
 	private JFrame frame;
 	private String userGranted;
 	public int index;
 	public static BancoDeDados bd;
-	public static String username;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					menu_Auditor window1 = new menu_Auditor(bd, username);
+					menu_Auditor window1 = new menu_Auditor(bd);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -44,9 +39,8 @@ public class menu_Auditor extends JFrame {
 		});
 	}
 
-	public menu_Auditor(BancoDeDados bd, String username) {
+	public menu_Auditor(BancoDeDados bd) {
 		this.bd = bd;
-		this.username = username;
 		initialize();
 	}
 
@@ -94,7 +88,7 @@ public class menu_Auditor extends JFrame {
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
-		JLabel lblBemVindonome = new JLabel("Bem Vindo: " + username);
+		JLabel lblBemVindonome = new JLabel("Bem Vindo: " + bd.utilizadorLogado.NomeUtilizador);
 		lblBemVindonome.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblBemVindonome.setBounds(174, 59, 205, 23);
 		frame.getContentPane().add(lblBemVindonome);

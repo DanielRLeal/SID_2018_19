@@ -22,10 +22,6 @@ import bancoDeDados.BancoDeDados;
 
 import javax.swing.JList;
 
-/**
- * @author Antonio
- *
- */
 public class auditorUtilizadores extends JFrame {
 
 	private JFrame frame;

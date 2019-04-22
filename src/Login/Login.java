@@ -20,46 +20,23 @@ import MenuAdmin.menu_Admin;
 import MenuAuditor.menu_Auditor;
 import MenuInvestigador.menu_Investigador;
 
-public class Login extends JFrame {
-
-	private JFrame frame;
+public class Login extends JanelaBase {
 	private JTextField textField;
 	private JPasswordField passwordField;
-	private String userGranted;
-	public int index;
-	public BancoDeDados bd ;
-
-	public void credenciais() {
-		bd = new BancoDeDados();
-		bd.conectar(textField.getName(), passwordField.getName());
-	}
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login window1 = new Login();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	public Login() {
+		super(null);
 		initialize();
 	}
+	
+	public void credenciais() {
+		bd = new BancoDeDados();
+		bd.conectar(textField.getText(), passwordField.getText());
+	}
 
-	private void initialize() {
-
-		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.ORANGE);
-		frame.getContentPane().setFont(new Font("Monotype Corsiva", Font.BOLD, 16));
-		frame.setBounds(250, 250, 500, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.setResizable(false);
-		frame.setVisible(true);
+	@Override
+	protected void initialize() {
+		super.initialize();
 
 		JButton btnNewButton = new JButton("Aceder");
 		btnNewButton.setBackground(Color.WHITE);
@@ -72,25 +49,27 @@ public class Login extends JFrame {
 					} catch (Exception e2) {
 						JOptionPane.showMessageDialog(null, "Credências incorrectas!");
 					}
-					if (textField.getText().toLowerCase().contains("Investigador".toLowerCase())) {
-						menu_Investigador mInvestigador = new menu_Investigador(bd, textField.getText());
+					
+					if (bd.utilizadorLogado.CategoriaProfissional.equals("Investigador")) {
+						menu_Investigador mInvestigador = new menu_Investigador(bd);
 						frame.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Bem Vindo, Investigador!");
 					}
-					if (textField.getText().toLowerCase().contains("Auditor".toLowerCase())) {
-						menu_Auditor mAduditor = new menu_Auditor(bd, textField.getText());
+					/*if (bd.utilizadorLogado.CategoriaProfissional.equals("Auditor")) {
+						menu_Auditor mAduditor = new menu_Auditor(bd);
 						frame.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Bem Vindo, Auditor!");
-					}
-					if (textField.getText().toLowerCase().contains("Admin".toLowerCase())) {
-						menu_Admin mAdmin = new menu_Admin(bd, textField.getText());
+					}*/
+					else if (bd.utilizadorLogado.CategoriaProfissional.equals("Administrador")) {
+						menu_Admin mAdmin = new menu_Admin(bd);
 						frame.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Bem Vindo, Admin!");
 					}
-					if (textField.getText().toLowerCase().contains("root".toLowerCase())) {
-						menu_Admin mAdmin = new menu_Admin(bd, textField.getText());
-						menu_Auditor mAduditor = new menu_Auditor(bd, textField.getText());
-						menu_Investigador mInvestigador = new menu_Investigador(bd, textField.getText());
+					//utilizador root
+					else if (bd.utilizadorLogado.ID == 0) {
+						menu_Admin mAdmin = new menu_Admin(bd);
+						//menu_Auditor mAduditor = new menu_Auditor(bd);
+						//menu_Investigador mInvestigador = new menu_Investigador(bd);
 						frame.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Bem Vindo, Rooteiro!");
 					}
@@ -100,15 +79,9 @@ public class Login extends JFrame {
 				}
 			}
 		});
-
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnNewButton.setBounds(317, 335, 75, 24);
 		frame.getContentPane().add(btnNewButton);
-
-		JLabel lblBomDiaAcademia = new JLabel("Controlo de Culturas");
-		lblBomDiaAcademia.setFont(new Font("Leelawadee", Font.BOLD, 26));
-		lblBomDiaAcademia.setBounds(152, 109, 306, 37);
-		frame.getContentPane().add(lblBomDiaAcademia);
 
 		textField = new JTextField();
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -131,37 +104,21 @@ public class Login extends JFrame {
 		lblPassword.setBounds(51, 299, 92, 16);
 		frame.getContentPane().add(lblPassword);
 
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/Login/iscte-iul_s.png")));
-		lblNewLabel.setBounds(51, 65, 229, 126);
-		frame.getContentPane().add(lblNewLabel);
-
 		JLabel lblInicieASesso = new JLabel("Inicie a sess\u00E3o para continuar");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(231, 232, 196, 16);
 		frame.getContentPane().add(lblInicieASesso);
-
 	}
-
-//	public void saveInfile(int i) {
-//		try {
-//			File fac = new File(filepath + "acessos");
-//			if (!fac.exists()) {
-//				fac.createNewFile();
-//			}
-//			FileWriter write = new FileWriter(fac);
-//			write.write(Integer.toString(i));
-//			write.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Login window1 = new Login();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }

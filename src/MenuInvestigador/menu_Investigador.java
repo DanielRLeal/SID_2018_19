@@ -14,74 +14,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import Login.FuncoesAjuda;
+import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
 
-public class menu_Investigador extends JFrame {
-
-	private JFrame frame;
-	private String userGranted;
-	public int index;
-	public static BancoDeDados bd;
-	public static String username;
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					menu_Investigador window1 = new menu_Investigador(bd, username);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-		});
-	}
-
-	public menu_Investigador(BancoDeDados bd, String username) {
+public class menu_Investigador extends JanelaBase {
+	public menu_Investigador(BancoDeDados bd) {
+		super(bd, true);
 		initialize();
-		this.username = username;
-		this.bd = bd;
 	}
 
-	private void initialize() {
-
-		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.ORANGE);
-		frame.getContentPane().setFont(new Font("Monotype Corsiva", Font.BOLD, 16));
-		frame.setBounds(250, 250, 500, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.setResizable(false);
-		frame.setVisible(true);
-
-		JLabel lblBomDiaAcademia = new JLabel("Controlo de Culturas");
-		lblBomDiaAcademia.setFont(new Font("Leelawadee", Font.BOLD, 26));
-		lblBomDiaAcademia.setBounds(131, 12, 306, 37);
-		frame.getContentPane().add(lblBomDiaAcademia);
-
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/Login/iscte-iul_s.png")));
-		lblNewLabel.setBounds(26, -11, 229, 126);
-		frame.getContentPane().add(lblNewLabel);
-
-		JLabel lblInicieASesso = new JLabel("Escolha uma op\u00E7\u00E3o");
-		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblInicieASesso.setBounds(196, 154, 196, 16);
-		frame.getContentPane().add(lblInicieASesso);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 107, 494, 37);
-		frame.getContentPane().add(panel);
-
-		JLabel lblMenu = new JLabel("Menu");
-		panel.add(lblMenu);
-		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
-
-		JLabel lblBemVindonome = new JLabel("Bem Vindo: " + username);
-		lblBemVindonome.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblBemVindonome.setBounds(174, 59, 205, 23);
-		frame.getContentPane().add(lblBemVindonome);
+	@Override
+	protected void initialize() {
+		super.initialize();
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
@@ -97,7 +43,7 @@ public class menu_Investigador extends JFrame {
 		btnVariaveis.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				investigadorVariaveis iVar = new investigadorVariaveis();
+				investigadorVariaveis iVar = new investigadorVariaveis(bd);
 				frame.setVisible(false);
 			}
 		});
@@ -110,7 +56,7 @@ public class menu_Investigador extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorCultura iCul = new investigadorCultura();
+				investigadorCultura iCul = new investigadorCultura(bd);
 			}
 		});
 
@@ -122,7 +68,7 @@ public class menu_Investigador extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorMedicoes iMedi = new investigadorMedicoes();
+				investigadorMedicoes iMedi = new investigadorMedicoes(bd);
 			}
 		});
 
@@ -134,7 +80,7 @@ public class menu_Investigador extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorVariaveisMedidas iVM = new investigadorVariaveisMedidas();
+				investigadorVariaveisMedidas iVM = new investigadorVariaveisMedidas(bd);
 			}
 		});
 
@@ -154,7 +100,7 @@ public class menu_Investigador extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorMedicoesLuminiosidade mLum = new investigadorMedicoesLuminiosidade();
+				investigadorMedicoesLuminiosidade mLum = new investigadorMedicoesLuminiosidade(bd);
 			}
 		});
 
@@ -167,7 +113,7 @@ public class menu_Investigador extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorMedicoesTemperatura mTemp = new investigadorMedicoesTemperatura();
+				investigadorMedicoesTemperatura mTemp = new investigadorMedicoesTemperatura(bd);
 			}
 		});
 
@@ -187,44 +133,8 @@ public class menu_Investigador extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorSistema sis = new investigadorSistema();
+				investigadorSistema sis = new investigadorSistema(bd);
 			}
 		});
-
-		JButton btnVoltar = new JButton("Voltar");
-		btnVoltar.setBackground(new Color(192, 192, 192));
-		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnVoltar.setBounds(10, 427, 97, 25);
-		frame.getContentPane().add(btnVoltar);
-		btnVoltar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				Login log = new Login();
-			}
-		});
-		;
-	}
-
-//	public void saveInfile(int i) {
-//		try {
-//			File fac = new File(filepath + "acessos");
-//			if (!fac.exists()) {
-//				fac.createNewFile();
-//			}
-//			FileWriter write = new FileWriter(fac);
-//			write.write(Integer.toString(i));
-//			write.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
 	}
 }
