@@ -1,24 +1,20 @@
 package Login;
 
 import java.awt.Color;
-import bancoDeDados.*;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.Popup;
 
 import MenuAdmin.menu_Admin;
-import MenuAuditor.menu_Auditor;
 import MenuInvestigador.menu_Investigador;
+import bancoDeDados.BancoDeDados;
 
 public class Login extends JanelaBase {
 	private JTextField textField;
@@ -55,11 +51,6 @@ public class Login extends JanelaBase {
 						frame.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Bem Vindo, Investigador!");
 					}
-					/*if (bd.utilizadorLogado.CategoriaProfissional.equals("Auditor")) {
-						menu_Auditor mAduditor = new menu_Auditor(bd);
-						frame.setVisible(false);
-						JOptionPane.showMessageDialog(null, "Bem Vindo, Auditor!");
-					}*/
 					else if (bd.utilizadorLogado.CategoriaProfissional.equals("Administrador")) {
 						menu_Admin mAdmin = new menu_Admin(bd);
 						frame.setVisible(false);
@@ -68,7 +59,6 @@ public class Login extends JanelaBase {
 					//utilizador root
 					else if (bd.utilizadorLogado.ID == 0) {
 						menu_Admin mAdmin = new menu_Admin(bd);
-						//menu_Auditor mAduditor = new menu_Auditor(bd);
 						//menu_Investigador mInvestigador = new menu_Investigador(bd);
 						frame.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Bem Vindo, Rooteiro!");

@@ -5,12 +5,15 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import bancoDeDados.ObjectBD;
 
 public class FuncoesAjuda {
 	public static JFrame CriarJanelaVazia(){
@@ -79,5 +82,16 @@ public class FuncoesAjuda {
 		});
 		
 		return frame;
+	}
+	
+	public static Object[][] listaParaTabela(ArrayList<? extends ObjectBD> listObject,int nrPorpriedades) {		
+		Object[][] list = new Object[listObject.size()][nrPorpriedades];
+		for(int x = 0; x < listObject.size(); x++){
+			for(int y = 0; y < nrPorpriedades; y++){
+				list[x] = listObject.get(x).toObjectArray();
+			}
+		}
+		
+		return list;
 	}
 }

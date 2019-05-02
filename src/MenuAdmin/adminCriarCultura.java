@@ -90,17 +90,23 @@ public class adminCriarCultura extends JanelaBase {
 		JButton buttonCriar = new JButton("Criar");
 		buttonCriar.setBounds(340, 339, 97, 25);
 		frame.getContentPane().add(buttonCriar);
-		btnVoltar.addActionListener(new ActionListener() {
+		buttonCriar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					bd.inserirCultura(textField_NomeCultura.getText(), textField_DescricaoCultura.getText(),
 							textField_Utilizador_resp.getText());
 				} catch (Exception e2) {
-//					JOptionPane.showConfirmDialog(null, "Faltam dados");
-//					JOptionPane.showConfirmDialog(null, "Cultura já existente");
 				}
-				JOptionPane.showConfirmDialog(null, "Cultura adiciona com sucesso!");
+			}
+		});
+		
+		btnVoltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				adminCulturas ac = new adminCulturas(bd);
+				frame.getDefaultCloseOperation();
 			}
 		});
 	}

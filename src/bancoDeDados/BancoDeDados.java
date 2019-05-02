@@ -3,6 +3,7 @@ package bancoDeDados;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -111,32 +112,43 @@ public class BancoDeDados {
 		}
 	}
 
-	public void listaCultura() {
+	public ArrayList<Cultura> listaCultura() {
 		try {
-			String query = "SELECT * FROM Cultura";
+			String query = "SELECT c.IDCultura, c.NomeCultura, c.DescricaoCultura, c.IDUtilizador_fk, u.NomeUtilizador "
+					+ "FROM cultura c "
+					+ "INNER JOIN utilizador u ON u.IDUtilizador = c.IDUtilizador_fk;";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
+			
+			ArrayList<Cultura> listCulturas = new ArrayList<Cultura>();
 			while (this.resultset.next()) {
-
-				System.out.println("IDCultura: " + this.resultset.getString("IDUtilizador") + "Nome da Cultura: "
-						+ this.resultset.getString("NomeCultura") + "Descrição da Cultura:"
-						+ this.resultset.getString("DescricaoCultura") + "Utilizador associado: "
-						+ this.resultset.getString("Utilizador_fk"));
-				listaUtilizadores.addElement(this.resultset.toString());
+				Cultura cultura = new Cultura(
+						Integer.parseInt(this.resultset.getString("IDCultura")),
+						this.resultset.getString("NomeCultura"),
+						this.resultset.getString("DescricaoCultura"),
+						Integer.parseInt(this.resultset.getString("IDUtilizador_fk")),
+						this.resultset.getString("NomeUtilizador"));
+				listCulturas.add(cultura);
 			}
+			
+			return listCulturas;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Falha a listar Cultura");
+			return null;
 		}
 	}
 
 	public void inserirCultura(String nome, String descricao, String IDUtilizador_fk) {
 		try {
-			String query = "INSERT INTO Cultura (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES (" + nome + ", "
-					+ descricao + ", " + IDUtilizador_fk + " ')";
+			String query = "INSERT INTO cultura (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES ('" + nome + "', '"
+					+ descricao + "', " + IDUtilizador_fk + ")";
 			this.statement.executeUpdate(query);
+			this.statement = this.connection.createStatement();
+			
+			JOptionPane.showMessageDialog(null, "Cultura adiciona com sucesso!");
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador");
+			JOptionPane.showMessageDialog(null, "Falha a inserir cultura");
 		}
 	}
 

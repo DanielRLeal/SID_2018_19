@@ -1,8 +1,6 @@
 package bancoDeDados;
 
-import org.omg.CORBA.Environment;
-
-public class Utilizador {
+public class Utilizador implements ObjectBD{
 	public final int ID;
 	public String NomeUtilizador;
 	public String CategoriaProfissional;
@@ -22,12 +20,9 @@ public class Utilizador {
 		Email = email;
 		Ativo = ativo;
 	}
-	
+
 	@Override
-	public String toString(){
-		return "IDUtilizador: " + this.ID + ";\r\n Nome do Utilizador: "
-				+ this.NomeUtilizador + ";\r\n Categoria Profissional:"
-				+ this.CategoriaProfissional + ";\r\n Email: "
-				+ this.Email + ";\r\n Activo: " + this.Ativo;
+	public Object[] toObjectArray() {
+		return new Object[]{ this.ID, this.NomeUtilizador, this.CategoriaProfissional, this.Email, this.Ativo };
 	}
 }
