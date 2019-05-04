@@ -39,9 +39,9 @@ public class menu_Admin extends JanelaBase {
 		panel_1.setLayout(null);
 
 		JButton btnUtilizador = new JButton("Utilizador");
-		btnUtilizador.setBounds(94, 21, 144, 33);
+		btnUtilizador.setBounds(10, 11, 106, 23);
 		btnUtilizador.setBackground(Color.WHITE);
-		btnUtilizador.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnUtilizador.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		panel_1.add(btnUtilizador);
 		btnUtilizador.addActionListener(new ActionListener() {
 			@Override
@@ -52,10 +52,28 @@ public class menu_Admin extends JanelaBase {
 		});
 
 		JButton btnCultura = new JButton("Cultura");
-		btnCultura.setBounds(100, 75, 133, 33);
+		btnCultura.setBounds(15, 41, 96, 23);
 		btnCultura.setBackground(Color.WHITE);
-		btnCultura.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnCultura.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		panel_1.add(btnCultura);
+		
+		JButton btnMediesTemperatura = new JButton("Medi\u00E7\u00F5es Temperatura");
+		btnMediesTemperatura.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnMediesTemperatura.setBackground(Color.WHITE);
+		btnMediesTemperatura.setBounds(54, 71, 212, 23);
+		panel_1.add(btnMediesTemperatura);
+		
+		JButton btnMediesLuminiosidade = new JButton("Medi\u00E7\u00F5es Luminiosidade");
+		btnMediesLuminiosidade.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnMediesLuminiosidade.setBackground(Color.WHITE);
+		btnMediesLuminiosidade.setBounds(54, 98, 212, 23);
+		panel_1.add(btnMediesLuminiosidade);
+		
+		JButton btnMedies = new JButton("Medi\u00E7\u00F5es");
+		btnMedies.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnMedies.setBackground(Color.WHITE);
+		btnMedies.setBounds(133, 12, 106, 23);
+		panel_1.add(btnMedies);
 		btnCultura.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

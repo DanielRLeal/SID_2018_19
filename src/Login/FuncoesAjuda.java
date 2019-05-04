@@ -16,6 +16,9 @@ import javax.swing.JPanel;
 import bancoDeDados.ObjectBD;
 
 public class FuncoesAjuda {
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public static JFrame CriarJanelaVazia(){
 		return CriarJanelaContent(null);
 	}
