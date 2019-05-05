@@ -85,7 +85,7 @@ public class BancoDeDados {
 	public void inserirUtilizador(String nome, String password, String categoria, String email, boolean activo) {
 		try {
 			String query = "INSERT INTO Utilizador (NomeUtilizador, CategoriaProfissional, Email, Activo) VALUES ("
-					+ nome + ", " + categoria + ", " + email + ", " + activo + " ')";
+					+ nome + ", " + categoria + ", " + email + ", " + activo + " ')" + ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador");

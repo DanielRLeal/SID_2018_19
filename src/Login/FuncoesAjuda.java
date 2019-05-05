@@ -75,14 +75,7 @@ public class FuncoesAjuda {
 		btnVoltar.setBackground(new Color(192, 192, 192));
 		btnVoltar.setBounds(10, 427, 97, 25);
 		frame.getContentPane().add(btnVoltar);
-		btnVoltar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				Login login = new Login();
-				frame.getDefaultCloseOperation();
-			}
-		});
+
 		
 		return frame;
 	}

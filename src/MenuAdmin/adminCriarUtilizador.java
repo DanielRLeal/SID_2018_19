@@ -97,17 +97,27 @@ public class adminCriarUtilizador extends JanelaBase {
 		textField_Email.setColumns(10);
 		textField_Email.setBounds(194, 347, 216, 22);
 		frame.getContentPane().add(textField_Email);
-
+		btnVoltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				adminUtilizadores mA = new adminUtilizadores(bd);
+				frame.getDefaultCloseOperation();
+			}
+		});
+		
 		JButton btnCriar = new JButton("Criar");
 		btnCriar.setBounds(313, 382, 97, 25);
 		frame.getContentPane().add(btnCriar);
-		btnVoltar.addActionListener(new ActionListener() {
+		btnCriar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				bd.inserirUtilizador(textField_nome.getText(), textField_password.getText(),
 						textField_TipoDeUti.getText(), textField_Email.getText(), true);
-				JOptionPane.showConfirmDialog(null, "Faltam dados");
-
+				if (textField_nome.getText() == null || textField_password.getText() == null
+						|| textField_TipoDeUti.getText() == null || textField_Email.getText() == null) {
+					JOptionPane.showConfirmDialog(null, "Faltam dados");
+				}
 			}
 		});
 		;
