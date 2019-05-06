@@ -105,18 +105,19 @@ public class adminCriarUtilizador extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-		
+
 		JButton btnCriar = new JButton("Criar");
 		btnCriar.setBounds(313, 382, 97, 25);
 		frame.getContentPane().add(btnCriar);
 		btnCriar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				bd.inserirUtilizador(textField_nome.getText(), textField_password.getText(),
-						textField_TipoDeUti.getText(), textField_Email.getText(), true);
 				if (textField_nome.getText() == null || textField_password.getText() == null
 						|| textField_TipoDeUti.getText() == null || textField_Email.getText() == null) {
 					JOptionPane.showConfirmDialog(null, "Faltam dados");
+				} else {
+					bd.inserirUtilizador(textField_nome.getText(), textField_password.getText(),
+							textField_TipoDeUti.getText(), textField_Email.getText(), true);
 				}
 			}
 		});

@@ -59,7 +59,7 @@ public class menu_Admin_Logs {
 		panel_1.setLayout(null);
 
 		JButton btnUtilizador = new JButton("Log Utilizador");
-		btnUtilizador.setBounds(144, 67, 161, 23);
+		btnUtilizador.setBounds(144, 68, 161, 23);
 		btnUtilizador.setBackground(Color.WHITE);
 		btnUtilizador.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		panel_1.add(btnUtilizador);
@@ -79,13 +79,13 @@ public class menu_Admin_Logs {
 		JButton btnLogVariveis = new JButton("Log Vari\u00E1veis");
 		btnLogVariveis.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnLogVariveis.setBackground(Color.WHITE);
-		btnLogVariveis.setBounds(144, 162, 161, 23);
+		btnLogVariveis.setBounds(144, 163, 161, 23);
 		panel_1.add(btnLogVariveis);
 
 		JButton button = new JButton("Log Vari\u00E1veis");
 		button.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		button.setBackground(Color.WHITE);
-		button.setBounds(144, 33, 161, 23);
+		button.setBounds(144, 36, 161, 23);
 		panel_1.add(button);
 
 		JButton btnVoltar = new JButton("Voltar");
@@ -93,6 +93,12 @@ public class menu_Admin_Logs {
 		btnVoltar.setBackground(Color.WHITE);
 		btnVoltar.setBounds(10, 227, 103, 23);
 		panel_1.add(btnVoltar);
+		
+		JButton btnLogAlertas = new JButton("Log Alertas");
+		btnLogAlertas.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnLogAlertas.setBackground(Color.WHITE);
+		btnLogAlertas.setBounds(144, 193, 161, 23);
+		panel_1.add(btnLogAlertas);
 		btnVoltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

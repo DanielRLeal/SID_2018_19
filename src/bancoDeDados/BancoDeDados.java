@@ -18,7 +18,7 @@ public class BancoDeDados {
 	private ResultSet resultset = null;
 	public DefaultListModel<String> listaUtilizadores = new DefaultListModel<String>();
 	public Utilizador utilizadorLogado;
-	
+
 	public void conectar(String utilizador, String pass) {
 		String servidor = "jdbc:mysql://localhost:3306/bd_mongo";
 		String driver = "com.mysql.jdbc.Driver";
@@ -38,30 +38,27 @@ public class BancoDeDados {
 			return false;
 		}
 	}
-	
+
 	public void getUtilizador(String utilizador) {
 		try {
-			if(utilizador.equals("root"))
-			{
-				utilizadorLogado = new Utilizador(0,"UserRoot","root","root@iscte-iul.pt",true);
+			if (utilizador.equals("root")) {
+				utilizadorLogado = new Utilizador(0, "UserRoot", "root", "root@iscte-iul.pt", true);
 				return;
 			}
-				
+
 			String query = "SELECT * FROM utilizador WHERE IDUtilizador = " + utilizador;
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
 			utilizadorLogado = new Utilizador(Integer.parseInt(this.resultset.getString("IDUtilizador")),
-					this.resultset.getString("NomeUtilizador"),
-					this.resultset.getString("CategoriaProfissional"),
-					this.resultset.getString("Email"),
-					Boolean.parseBoolean(this.resultset.getString("Activo")));
+					this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
+					this.resultset.getString("Email"), Boolean.parseBoolean(this.resultset.getString("Activo")));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Falha a pesquisar o Utilizador");
 		}
 	}
-	
+
 	public void listarUtilizador() {
 		try {
 			String query = "SELECT * FROM utilizador";
@@ -70,10 +67,8 @@ public class BancoDeDados {
 			while (this.resultset.next()) {
 
 				Utilizador user = new Utilizador(Integer.parseInt(this.resultset.getString("IDUtilizador")),
-						this.resultset.getString("NomeUtilizador"),
-						this.resultset.getString("CategoriaProfissional"),
-						this.resultset.getString("Email"),
-						Boolean.parseBoolean(this.resultset.getString("Activo")));
+						this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
+						this.resultset.getString("Email"), Boolean.parseBoolean(this.resultset.getString("Activo")));
 				listaUtilizadores.addElement(user.toString());
 			}
 		} catch (SQLException e) {
@@ -88,7 +83,9 @@ public class BancoDeDados {
 					+ nome + ", " + categoria + ", " + email + ", " + activo + " ')" + ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador");
+			// Cria utilizador insere no programa enquanto nao fechado
+			// Mas não adiciona correctamente na GUI
+			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador - mas ");
 		}
 	}
 
@@ -115,22 +112,19 @@ public class BancoDeDados {
 	public ArrayList<Cultura> listaCultura() {
 		try {
 			String query = "SELECT c.IDCultura, c.NomeCultura, c.DescricaoCultura, c.IDUtilizador_fk, u.NomeUtilizador "
-					+ "FROM cultura c "
-					+ "INNER JOIN utilizador u ON u.IDUtilizador = c.IDUtilizador_fk;";
+					+ "FROM cultura c " + "INNER JOIN utilizador u ON u.IDUtilizador = c.IDUtilizador_fk;";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
-			
+
 			ArrayList<Cultura> listCulturas = new ArrayList<Cultura>();
 			while (this.resultset.next()) {
-				Cultura cultura = new Cultura(
-						Integer.parseInt(this.resultset.getString("IDCultura")),
-						this.resultset.getString("NomeCultura"),
-						this.resultset.getString("DescricaoCultura"),
+				Cultura cultura = new Cultura(Integer.parseInt(this.resultset.getString("IDCultura")),
+						this.resultset.getString("NomeCultura"), this.resultset.getString("DescricaoCultura"),
 						Integer.parseInt(this.resultset.getString("IDUtilizador_fk")),
 						this.resultset.getString("NomeUtilizador"));
 				listCulturas.add(cultura);
 			}
-			
+
 			return listCulturas;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -142,7 +136,7 @@ public class BancoDeDados {
 	public void inserirCultura(String nome, String descricao, String IDUtilizador_fk) {
 		try {
 			String query = "INSERT INTO cultura (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES ('" + nome + "', '"
-					+ descricao + "', " + IDUtilizador_fk + ")";
+					+ descricao + "', " + IDUtilizador_fk  + ")";
 			this.statement.executeUpdate(query);
 			this.statement = this.connection.createStatement();
 			
