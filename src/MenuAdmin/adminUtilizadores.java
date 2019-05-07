@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -21,19 +22,34 @@ import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
+import bancoDeDados.Utilizador;
 
 import javax.swing.JList;
 
 public class adminUtilizadores extends JanelaBase {
+
+	ArrayList<Utilizador> users;
+	DefaultListModel<String> dlm = new DefaultListModel<>();
+
 	public adminUtilizadores(BancoDeDados bd) {
 		super(bd);
+		users = removeDuplicates(bd.listarUtilizador());
+		for (Utilizador u : users) {
+			System.out.println(u.getNomeUtilizador());
+		}
+		if (dlm.isEmpty()) {
+			for (Utilizador u : users) {
+
+				dlm.addElement(u.getNomeUtilizador());
+			}
+		}
 		initialize();
 	}
 
 	@Override
 	protected void initialize() {
 		super.initialize();
-		
+
 		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
@@ -55,11 +71,12 @@ public class adminUtilizadores extends JanelaBase {
 
 		// Listar Utilizadores na lista da página
 		// Isto está a dar a null n sei pq
-		bd.listarUtilizador();
+//		bd.listarUtilizador();
+//		removeDuplicates(users);
 
-		JList list = new JList(bd.listaUtilizadores);
+		JList list = new JList(dlm);
 		list.setBounds(0, 0, 470, 209);
-		panel_1.add(list);		
+		panel_1.add(list);
 
 		JButton button_1 = new JButton("Criar conta");
 		button_1.setBounds(380, 416, 102, 23);
@@ -87,5 +104,27 @@ public class adminUtilizadores extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
+
 	}
+
+	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
+
+		// Create a new ArrayList
+		ArrayList<Utilizador> newList = new ArrayList<>();
+
+		// Traverse through the first list
+		for (Utilizador element : list) {
+
+			// If this element is not present in newList
+			// then add it
+			if (!newList.contains(element)) {
+
+				newList.add(element);
+			}
+		}
+
+		// return the new list
+		return newList;
+	}
+
 }

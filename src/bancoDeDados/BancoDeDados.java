@@ -1,5 +1,6 @@
 package bancoDeDados;
 
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -18,6 +19,7 @@ public class BancoDeDados {
 	private ResultSet resultset = null;
 	public DefaultListModel<String> listaUtilizadores = new DefaultListModel<String>();
 	public Utilizador utilizadorLogado;
+	ArrayList<Utilizador> users = new ArrayList<>();
 
 	public void conectar(String utilizador, String pass) {
 		String servidor = "jdbc:mysql://localhost:3306/sid_bd_php";
@@ -59,7 +61,8 @@ public class BancoDeDados {
 		}
 	}
 
-	public void listarUtilizador() {
+	public ArrayList<Utilizador> listarUtilizador() {
+		ArrayList<Utilizador> temp = new ArrayList<>();
 		try {
 			String query = "SELECT * FROM utilizador";
 			this.resultset = this.statement.executeQuery(query);
@@ -69,12 +72,15 @@ public class BancoDeDados {
 				Utilizador user = new Utilizador(Integer.parseInt(this.resultset.getString("IDUtilizador")),
 						this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
 						this.resultset.getString("Email"), Boolean.parseBoolean(this.resultset.getString("Activo")));
-				listaUtilizadores.addElement(user.toString());
+				temp.add(user);
+				users = removeDuplicates(temp);
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Falha a listar Utilizador");
 		}
+		return users;
 	}
 
 	public void inserirUtilizador(String nome, String password, String categoria, String email, boolean activo) {
@@ -135,11 +141,10 @@ public class BancoDeDados {
 
 	public void inserirCultura(String nome, String descricao, String IDUtilizador_fk) {
 		try {
-			String query = "INSERT INTO cultura (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES ('" + nome + "', '"
-					+ descricao + "', " + IDUtilizador_fk  + ")";
+			String query = "INSERT INTO Cultura (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES ('" + nome
+					+ "', '" + descricao + "', '" + IDUtilizador_fk + "');";
+
 			this.statement.executeUpdate(query);
-			this.statement = this.connection.createStatement();
-			
 			JOptionPane.showMessageDialog(null, "Cultura adiciona com sucesso!");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a inserir cultura");
@@ -171,6 +176,26 @@ public class BancoDeDados {
 	// Listar(..) MedicoesLuminiosidade
 	// Listar(..) MedicoesTemperatura
 	// Listar(..) Sistema
+
+	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
+
+		// Create a new ArrayList
+		ArrayList<Utilizador> newList = new ArrayList<>();
+
+		// Traverse through the first list
+		for (Utilizador element : list) {
+
+			// If this element is not present in newList
+			// then add it
+			if (!newList.contains(element)) {
+
+				newList.add(element);
+			}
+		}
+
+		// return the new list
+		return newList;
+	}
 
 	public void desconectar() {
 		try {
