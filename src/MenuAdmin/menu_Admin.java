@@ -86,7 +86,7 @@ public class menu_Admin extends JanelaBase {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				//Hugo preciso que ajustes esta secção com a maneira que estás a construir as janelas da GUI
-				menu_Admin_Logs login = new menu_Admin_Logs(null);
+				//menu_Admin_Logs login = new menu_Admin_Logs(null);
 				frame.getDefaultCloseOperation();
 			}
 		});

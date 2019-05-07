@@ -20,7 +20,7 @@ public class BancoDeDados {
 	public Utilizador utilizadorLogado;
 
 	public void conectar(String utilizador, String pass) {
-		String servidor = "jdbc:mysql://localhost:3306/bd_mongo";
+		String servidor = "jdbc:mysql://localhost:3306/sid_bd_php";
 		String driver = "com.mysql.jdbc.Driver";
 		try {
 			Class.forName(driver);
@@ -79,8 +79,8 @@ public class BancoDeDados {
 
 	public void inserirUtilizador(String nome, String password, String categoria, String email, boolean activo) {
 		try {
-			String query = "INSERT INTO Utilizador (NomeUtilizador, CategoriaProfissional, Email, Activo) VALUES ("
-					+ nome + ", " + categoria + ", " + email + ", " + activo + " ')" + ";";
+			String query = "INSERT INTO Utilizador (NomeUtilizador, CategoriaProfissional, Email, Activo) VALUES ('"
+					+ nome + "', '" + categoria + "', '" + email + "', " + activo + ");";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			// Cria utilizador insere no programa enquanto nao fechado
