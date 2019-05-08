@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -30,6 +32,15 @@ import bancoDeDados.Cultura;
 import javax.swing.JList;
 
 public class adminCulturas extends JanelaBase {
+	/**
+	 * @wbp.nonvisual location=39,334
+	 */
+	private final JButton btnEditar = new JButton("Editar");
+	/**
+	 * @wbp.nonvisual location=319,334
+	 */
+	private final JButton btnEliminar = new JButton("Eliminar");
+
 	public adminCulturas(BancoDeDados bd) {
 		super(bd);
 		initialize();
@@ -38,7 +49,7 @@ public class adminCulturas extends JanelaBase {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		
+
 		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
@@ -58,18 +69,38 @@ public class adminCulturas extends JanelaBase {
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = {"#",
-                "Nome Cultura",
-                "Descrição Cultura",
-                "Utilizador"
-        };
-		
+		Object[] columnNames = { "#", "Nome Cultura", "Descrição Cultura", "Utilizador" };
+
 		Object[][] culturas = FuncoesAjuda.listaParaTabela(bd.listaCultura(), 4);
-		
+
 		JTable table = new JTable(culturas, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultEditor(Object.class, null);
-		
+
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				int index = table.getSelectedRow();
+				// EDITAR
+				if (evt.getClickCount() == 1 && btnEditar.isSelected()) {
+					for (int i = 0; i < table.getRowHeight(); i++) {
+						if (i == index) {
+							//necessita de uma janela para inserção de dados a actualizar.
+							//ou possibilitar a edição direta na tabela 
+//							bd.actualizarCulura(id, nome, descricao, IDUtilizador_fk);
+						}
+					}
+				}
+				//ELIMINAR
+				if (evt.getClickCount() == 1 && btnEliminar.isSelected()) {
+					for (int i = 0; i < table.getRowHeight(); i++) {
+						if (i == index) {
+							bd.apagarCultura(i);
+						}
+					}
+				}
+			}
+		});
+
 		panel_1.setViewportView(table);
 
 		JButton btnVoltar = new JButton("Voltar");
@@ -83,7 +114,7 @@ public class adminCulturas extends JanelaBase {
 		frame.getContentPane().add(btnCriarCultura);
 		btnCriarCultura.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnCriarCultura.setBackground(new Color(240, 230, 140));
-		
+
 		btnCriarCultura.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -92,7 +123,7 @@ public class adminCulturas extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-		
+
 		btnVoltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

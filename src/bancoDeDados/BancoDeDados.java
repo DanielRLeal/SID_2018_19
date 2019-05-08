@@ -22,7 +22,7 @@ public class BancoDeDados {
 	ArrayList<Utilizador> users = new ArrayList<>();
 
 	public void conectar(String utilizador, String pass) {
-		String servidor = "jdbc:mysql://localhost:3306/sid_bd_php";
+		String servidor = "jdbc:mysql://localhost:3306/bd_mongo";
 		String driver = "com.mysql.jdbc.Driver";
 		try {
 			Class.forName(driver);
