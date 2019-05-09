@@ -21,7 +21,7 @@ import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
 
-public class menu_Admin extends JanelaBase {	
+public class menu_Admin extends JanelaBase {
 	public menu_Admin(BancoDeDados bd) {
 		super(bd, true);
 		initialize();
@@ -30,7 +30,7 @@ public class menu_Admin extends JanelaBase {
 	@Override
 	protected void initialize() {
 		super.initialize();
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_1.setBackground(Color.GRAY);
@@ -56,25 +56,34 @@ public class menu_Admin extends JanelaBase {
 		btnCultura.setBackground(Color.WHITE);
 		btnCultura.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		panel_1.add(btnCultura);
-		
+
 		JButton btnMediesTemperatura = new JButton("Medi\u00E7\u00F5es Temperatura");
 		btnMediesTemperatura.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnMediesTemperatura.setBackground(Color.WHITE);
 		btnMediesTemperatura.setBounds(60, 71, 212, 23);
 		panel_1.add(btnMediesTemperatura);
-		
+
 		JButton btnMediesLuminiosidade = new JButton("Medi\u00E7\u00F5es Luminiosidade");
 		btnMediesLuminiosidade.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnMediesLuminiosidade.setBackground(Color.WHITE);
 		btnMediesLuminiosidade.setBounds(60, 99, 212, 23);
 		panel_1.add(btnMediesLuminiosidade);
-		
+
 		JButton btnMedies = new JButton("Medi\u00E7\u00F5es");
 		btnMedies.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnMedies.setBackground(Color.WHITE);
 		btnMedies.setBounds(208, 11, 106, 23);
 		panel_1.add(btnMedies);
-		
+
+		btnMedies.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminMedicoes aMed = new adminMedicoes(bd);
+				frame.setVisible(false);
+			}
+		});
+
 		JButton btnLogs = new JButton("Logs");
 		btnLogs.setForeground(Color.WHITE);
 		btnLogs.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -85,12 +94,13 @@ public class menu_Admin extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				//Hugo preciso que ajustes esta secção com a maneira que estás a construir as janelas da GUI
-				//menu_Admin_Logs login = new menu_Admin_Logs(null);
+				// Hugo preciso que ajustes esta secção com a maneira que estás a construir as
+				// janelas da GUI
+				// menu_Admin_Logs login = new menu_Admin_Logs(null);
 				frame.getDefaultCloseOperation();
 			}
 		});
-		
+
 		JButton btnVariveisMedidas = new JButton("Vari\u00E1veis Medidas");
 		btnVariveisMedidas.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnVariveisMedidas.setBackground(Color.WHITE);

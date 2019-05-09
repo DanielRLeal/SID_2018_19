@@ -17,6 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
@@ -78,6 +80,38 @@ public class adminUtilizadores extends JanelaBase {
 		list.setBounds(0, 0, 470, 209);
 		panel_1.add(list);
 
+		JButton btnEditar = new JButton("Editar");
+		JButton btnEliminar = new JButton("Ativar/Desativar");
+
+		list.addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				btnEditar.setBounds(150, 416, 75, 23);
+				frame.getContentPane().add(btnEditar);
+				btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+				btnEditar.setBackground(new Color(240, 230, 140));
+
+				btnEliminar.setBounds(230, 416, 140, 23);
+				frame.getContentPane().add(btnEliminar);
+				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+				btnEliminar.setBackground(new Color(240, 230, 140));
+			}
+		});
+
+		btnEliminar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int index = list.getSelectedIndex();
+				Utilizador u = users.get(index);
+				System.out.println(
+						"Vou apagar o user no index: " + index + "\n" + "Utilizador com ID= " + u.getID() + "\n");
+				bd.apagarUtilizador(u.getID(), !u.isAtivo());
+
+			}
+		});
+
 		JButton button_1 = new JButton("Criar conta");
 		button_1.setBounds(380, 416, 102, 23);
 		frame.getContentPane().add(button_1);
@@ -94,7 +128,7 @@ public class adminUtilizadores extends JanelaBase {
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnVoltar.setBackground(new Color(192, 192, 192));
-		btnVoltar.setBounds(10, 427, 97, 25);
+		btnVoltar.setBounds(12, 416, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 		btnVoltar.addActionListener(new ActionListener() {
 			@Override
@@ -108,22 +142,12 @@ public class adminUtilizadores extends JanelaBase {
 	}
 
 	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
-
-		// Create a new ArrayList
 		ArrayList<Utilizador> newList = new ArrayList<>();
-
-		// Traverse through the first list
 		for (Utilizador element : list) {
-
-			// If this element is not present in newList
-			// then add it
 			if (!newList.contains(element)) {
-
 				newList.add(element);
 			}
 		}
-
-		// return the new list
 		return newList;
 	}
 

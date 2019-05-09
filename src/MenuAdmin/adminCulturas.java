@@ -22,27 +22,26 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
 import bancoDeDados.Cultura;
+import bancoDeDados.Utilizador;
 
 import javax.swing.JList;
 
 public class adminCulturas extends JanelaBase {
-	/**
-	 * @wbp.nonvisual location=39,334
-	 */
-	private final JButton btnEditar = new JButton("Editar");
-	/**
-	 * @wbp.nonvisual location=319,334
-	 */
-	private final JButton btnEliminar = new JButton("Eliminar");
+
+	private ArrayList<Cultura> culturas2;
 
 	public adminCulturas(BancoDeDados bd) {
 		super(bd);
+		getContentPane().setLayout(null);
+		culturas2 = bd.listaCultura();
 		initialize();
 	}
 
@@ -77,45 +76,55 @@ public class adminCulturas extends JanelaBase {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultEditor(Object.class, null);
 
-		table.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent evt) {
-				int index = table.getSelectedRow();
-				// EDITAR
-				if (evt.getClickCount() == 1 && btnEditar.isSelected()) {
-					for (int i = 0; i < table.getRowHeight(); i++) {
-						if (i == index) {
-							//necessita de uma janela para inserção de dados a actualizar.
-							//ou possibilitar a edição direta na tabela 
-//							bd.actualizarCulura(id, nome, descricao, IDUtilizador_fk);
-						}
-					}
-				}
-				//ELIMINAR
-				if (evt.getClickCount() == 1 && btnEliminar.isSelected()) {
-					for (int i = 0; i < table.getRowHeight(); i++) {
-						if (i == index) {
-							bd.apagarCultura(i);
-						}
-					}
-				}
-			}
-		});
-
 		panel_1.setViewportView(table);
 
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnVoltar.setBackground(new Color(192, 192, 192));
-		btnVoltar.setBounds(12, 427, 97, 25);
+		btnVoltar.setBounds(12, 416, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 
 		JButton btnCriarCultura = new JButton("Criar Cultura");
-		btnCriarCultura.setBounds(334, 416, 148, 23);
+		btnCriarCultura.setBounds(360, 416, 120, 23);
 		frame.getContentPane().add(btnCriarCultura);
 		btnCriarCultura.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnCriarCultura.setBackground(new Color(240, 230, 140));
 
+		JButton btnEditar = new JButton("Editar");
+		JButton btnEliminar = new JButton("Eliminar");
+
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				btnEditar.setBounds(150, 416, 75, 23);
+				frame.getContentPane().add(btnEditar);
+				btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+				btnEditar.setBackground(new Color(240, 230, 140));
+
+				btnEliminar.setBounds(230, 416, 100, 23);
+				frame.getContentPane().add(btnEliminar);
+				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+				btnEliminar.setBackground(new Color(240, 230, 140));
+			}
+		});
+
+		btnEliminar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int index = table.getSelectedRow();
+				Cultura c = culturas2.get(index);
+
+				System.out.println(
+						"Vou apagar a cultura no index: " + index + "\n" + "Cultura com ID= " + c.getID() + "\n");
+				bd.apagarCultura(c.getID());
+				// falta fazer com que a window atualize a table
+
+			}
+		});
 		btnCriarCultura.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
