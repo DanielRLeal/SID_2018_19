@@ -2,6 +2,7 @@ package bancoDeDados;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Medicoes implements ObjectBD {
@@ -53,12 +54,13 @@ public class Medicoes implements ObjectBD {
 	public Date getDataHoraMedicao() {
 		return DataHoraMedicao;
 	}
-	
+
 	public String getDataHoraMedicaoString() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		System.out.println(dateFormat);
 		return dateFormat.format(DataHoraMedicao);
 	}
-	
+
 	public void setDataHoraMedicao(Date dataHoraMedicao) {
 		DataHoraMedicao = dataHoraMedicao;
 	}
@@ -73,6 +75,7 @@ public class Medicoes implements ObjectBD {
 
 	@Override
 	public Object[] toObjectArray() {
-		return new Object[] { this.IDMedicoes, this.IDCultura_fk, this.IDVariavel_fk, getDataHoraMedicaoString(), this.ValorMedicao };
+		return new Object[] { this.IDMedicoes, this.IDCultura_fk, this.IDVariavel_fk, getDataHoraMedicaoString(),
+				this.ValorMedicao };
 	}
 }

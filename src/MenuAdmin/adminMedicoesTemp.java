@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,16 +20,17 @@ import javax.swing.event.ListSelectionListener;
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
-import bancoDeDados.Medicoes;
+import bancoDeDados.MedicaoTemperatura;
+import bancoDeDados.MedicaoTemperatura;
 
-public class adminMedicoes extends JanelaBase {
+public class adminMedicoesTemp extends JanelaBase {
 
-	private ArrayList<Medicoes> medicoes;
+	private ArrayList<MedicaoTemperatura> medTemp;
 
-	public adminMedicoes(BancoDeDados bd) {
+	public adminMedicoesTemp(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
-		medicoes = bd.listaMedicoes();
+		medTemp = bd.listaMedicoesTemperatura();
 		initialize();
 	}
 
@@ -36,7 +38,7 @@ public class adminMedicoes extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JLabel lblInicieASesso = new JLabel("Consulta de Medicoes");
+		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
 		frame.getContentPane().add(lblInicieASesso);
@@ -45,7 +47,7 @@ public class adminMedicoes extends JanelaBase {
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Medicoess");
+		JLabel lblMenu = new JLabel("MedicaoTemperaturas");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
@@ -55,11 +57,11 @@ public class adminMedicoes extends JanelaBase {
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = { "#", "IDCultura_fk", " IDVariavel_fk", "DataHoraMedicao", "ValorMedicao" };
+		Object[] coTempnNames = { "#", "DataHoraMedicao", "ValorMedicaoTemperatura" };
 
-		Object[][] Medicoes = FuncoesAjuda.listaParaTabela(bd.listaMedicoes(), 5);
+		Object[][] MedicaoTemperaturas = FuncoesAjuda.listaParaTabela(bd.listaMedicoesTemperatura(), 3);
 
-		JTable table = new JTable(Medicoes, columnNames);
+		JTable table = new JTable(MedicaoTemperaturas, coTempnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultEditor(Object.class, null);
 
@@ -71,11 +73,11 @@ public class adminMedicoes extends JanelaBase {
 		btnVoltar.setBounds(12, 416, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 
-		JButton btnCriarMedicoes = new JButton("Criar Medicoes");
-		btnCriarMedicoes.setBounds(360, 416, 120, 23);
-		frame.getContentPane().add(btnCriarMedicoes);
-		btnCriarMedicoes.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnCriarMedicoes.setBackground(new Color(240, 230, 140));
+		JButton btnCriarMedicaoTemperatura = new JButton("Criar MedicaoTemperatura");
+		btnCriarMedicaoTemperatura.setBounds(360, 416, 120, 23);
+		frame.getContentPane().add(btnCriarMedicaoTemperatura);
+		btnCriarMedicaoTemperatura.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnCriarMedicaoTemperatura.setBackground(new Color(240, 230, 140));
 
 		JButton btnEditar = new JButton("Editar");
 		JButton btnEliminar = new JButton("Eliminar");
@@ -101,20 +103,21 @@ public class adminMedicoes extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
-				Medicoes m = medicoes.get(index);
+				MedicaoTemperatura medicaoTemp = medTemp.get(index);
 
-				System.out.println("Vou apagar a Medicoes no index: " + index + "\n" + "Medicoes com ID= "
-						+ m.getIDMedicoes() + "\n");
-				bd.apagarMedicoes(m.getIDMedicoes());
+				System.out.println("Vou apagar a MedicaoTemperatura no index: " + index + "\n"
+						+ "MedicaoTemperatura com ID= " + medicaoTemp.getIDMedicao() + "\n");
+				bd.apagarMedicoesTemperatura(medicaoTemp.getIDMedicao());
+				// falta fazer com que a window atualize a table
 
 			}
 		});
-		btnCriarMedicoes.addActionListener(new ActionListener() {
+		btnCriarMedicaoTemperatura.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				adminCriarMedicoes acd = new adminCriarMedicoes(bd);
+				adminCriarMedicaoTemperatura acd = new adminCriarMedicaoTemperatura(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});
@@ -128,4 +131,5 @@ public class adminMedicoes extends JanelaBase {
 			}
 		});
 	}
+
 }

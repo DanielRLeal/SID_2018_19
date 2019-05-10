@@ -1,22 +1,19 @@
 package bancoDeDados;
 
-import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class BancoDeDados {
 
@@ -190,13 +187,13 @@ public class BancoDeDados {
 			ArrayList<Medicoes> listMedicoes = new ArrayList<Medicoes>();
 			while (this.resultset.next()) {
 
-				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		        Date date = dateFormat.parse(this.resultset.getString("DataHoraMedicao"));
-				
-		        Medicoes medicao = new Medicoes(Integer.parseInt(this.resultset.getString("IDMedicoes")),
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date date = dateFormat.parse(this.resultset.getString("DataHoraMedicao"));
+				System.out.println(date + "ola");
+
+				Medicoes medicao = new Medicoes(Integer.parseInt(this.resultset.getString("IDMedicoes")),
 						Integer.parseInt(this.resultset.getString("IDCultura_fk")),
-						Integer.parseInt(this.resultset.getString("IDVariavel_fk")),
-						date,
+						Integer.parseInt(this.resultset.getString("IDVariavel_fk")), date,
 						Double.parseDouble(this.resultset.getString("valorMedicao")));
 				listMedicoes.add(medicao);
 			}
@@ -213,13 +210,11 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirMedicoes(int IDMedicoes, int IDCultura_fk, int IDVariavel_fk, Time DataHoraMedicao,
-			int ValorMedicao) {
+	public void inserirMedicoes(int IDCultura_fk, int IDVariavel_fk, Date DataHoraMedicao, int ValorMedicao) {
 		try {
-			String query = "INSERT INTO Medicoes (IDMedicoes, IDCultura_fk, IDVariavel_fk, DataHoraMedicao, ValorMedicao) VALUES ('"
-					+ IDMedicoes + "', '" + IDCultura_fk + "', '" + IDVariavel_fk + DataHoraMedicao + "', '"
-					+ ValorMedicao + "');";
-
+			String query = "INSERT INTO Medicoes (IDCultura_fk, IDVariavel_fk, DataHoraMedicao, ValorMedicao) VALUES ('"
+					+ IDCultura_fk + "', '" + IDVariavel_fk + DataHoraMedicao + "', '" + ValorMedicao + "');";
+			System.out.println(query);
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "Medicoes adiciona com sucesso!");
 		} catch (Exception e) {
@@ -227,7 +222,7 @@ public class BancoDeDados {
 		}
 	}
 
-	public void actualizarMedicoes(int IDMedicoes, int IDCultura_fk, int IDVariavel_fk, Time DataHoraMedicao,
+	public void actualizarMedicoes(int IDMedicoes, int IDCultura_fk, int IDVariavel_fk, Date DataHoraMedicao,
 			int ValorMedicao) {
 		try {
 			String query = "UPDATE Medicoes set IDCultura_fk = '" + IDCultura_fk + "' , DataHoraMedicao = '"
@@ -307,8 +302,138 @@ public class BancoDeDados {
 	}
 
 	// Listar(..) VariaveisMedidas
+
 	// Listar(..) MedicoesLuminiosidade
+
+	public ArrayList<MedicaoLuminosidade> listaMedicoesLuminosidade() {
+		try {
+			String query = "SELECT * FROM medicoesluminosidade";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+
+			ArrayList<MedicaoLuminosidade> listMedicoesLumin = new ArrayList<>();
+			while (this.resultset.next()) {
+
+				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				Date date = dateFormat.parse(this.resultset.getString("DataHoraMedicao"));
+
+				MedicaoLuminosidade medLum = new MedicaoLuminosidade(
+						Integer.parseInt(this.resultset.getString("IDMedicao")), date,
+						Double.parseDouble(this.resultset.getString("ValorMedicaoLuminosidade")));
+
+				listMedicoesLumin.add(medLum);
+			}
+
+			return listMedicoesLumin;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar medicoesluminosidade");
+			return null;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar medicoesluminosidade");
+			return null;
+		}
+	}
+
+	public void inserirMedicoesLuminosidade(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoLuminosidade) {
+		try {
+			String query = "INSERT INTO medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoLuminosidade) VALUES ('"
+					+ IDMedicao + "', '" + DataHoraMedicao + "', '" + ValorMedicaoLuminosidade + "');";
+			System.out.println(query);
+
+			this.statement.executeUpdate(query);
+			JOptionPane.showMessageDialog(null, "medicoesluminosidade adiciona com sucesso!");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a inserir medicoesluminosidade");
+		}
+	}
+
+	public void actualizarMedicoesLuminosidade(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoLuminosidade) {
+		try {
+			String query = "UPDATE medicoesluminosidade set DataHoraMedicao = '" + DataHoraMedicao
+					+ "', ValorMedicaoLuminosidade = '" + ValorMedicaoLuminosidade + "' WHERE IDMedicao = " + IDMedicao
+					+ ";";
+			this.statement.executeUpdate(query);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a actualizar medicoesluminosidade");
+		}
+	}
+
+	public void apagarMedicoesLuminosidade(int IDMedicao) {
+		try {
+			String query = "DELETE FROM medicoesluminosidade WHERE IDMedicao = '" + IDMedicao + "';";
+			this.statement.executeUpdate(query);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a apagar medicoesluminosidade");
+		}
+	}
+
 	// Listar(..) MedicoesTemperatura
+
+	public ArrayList<MedicaoTemperatura> listaMedicoesTemperatura() {
+		try {
+			String query = "SELECT * FROM medicoestemperatura";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+
+			ArrayList<MedicaoTemperatura> listMedicoesTemp = new ArrayList<>();
+			while (this.resultset.next()) {
+
+				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				Date date = dateFormat.parse(this.resultset.getString("DataHoraMedicao"));
+
+				MedicaoTemperatura medTemp = new MedicaoTemperatura(
+						Integer.parseInt(this.resultset.getString("IDMedicao")), date,
+						Double.parseDouble(this.resultset.getString("ValorMedicaoTemperatura")));
+
+				listMedicoesTemp.add(medTemp);
+			}
+
+			return listMedicoesTemp;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar medicoestemperatura");
+			return null;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar medicoestemperatura");
+			return null;
+		}
+	}
+
+	public void inserirMedicoesTemperatura(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoTemperatura) {
+		try {
+			String query = "INSERT INTO medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoTemperatura) VALUES ('"
+					+ IDMedicao + "', '" + DataHoraMedicao + "', '" + ValorMedicaoTemperatura + "');";
+
+			this.statement.executeUpdate(query);
+			JOptionPane.showMessageDialog(null, "medicoestemperatura adiciona com sucesso!");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a inserir medicoestemperatura");
+		}
+	}
+
+	public void actualizarMedicoesTemperatura(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoTemperatura) {
+		try {
+			String query = "UPDATE medicoestemperatura set DataHoraMedicao = '" + DataHoraMedicao
+					+ "', ValorMedicaoLuminosidade = '" + ValorMedicaoTemperatura + "' WHERE IDMedicao = " + IDMedicao
+					+ ";";
+			this.statement.executeUpdate(query);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a actualizar medicoestemperatura");
+		}
+	}
+
+	public void apagarMedicoesTemperatura(int IDMedicao) {
+		try {
+			String query = "DELETE FROM medicoestemperatura WHERE IDMedicao = '" + IDMedicao + "';";
+			this.statement.executeUpdate(query);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a apagar medicoestemperatura");
+		}
+	}
+
 	// Listar(..) Sistema
 
 	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
@@ -327,4 +452,5 @@ public class BancoDeDados {
 		} catch (Exception e) {
 		}
 	}
+
 }

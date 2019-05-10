@@ -13,18 +13,19 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.DateFormatter;
 
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
 
-public class adminCriarMedicoes extends JanelaBase {
+public class adminCriarMedicaoLuminosidade extends JanelaBase {
 
 	private JTextField textField_IDMedicaoLum;
 	private JTextField textField_DescricaoCultura;
 	private JTextField textField_valorMedLum;
 	private JFormattedTextField formatText;
 
-	public adminCriarMedicoes(BancoDeDados bd) {
+	public adminCriarMedicaoLuminosidade(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
@@ -67,12 +68,12 @@ public class adminCriarMedicoes extends JanelaBase {
 //		lblDescrioDaCultura.setBounds(12, 239, 197, 16);
 //		frame.getContentPane().add(lblDescrioDaCultura);
 
-//		Date date = new Date();
-//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//		String dateString = formatter.format(date);
-//		formatText = new JFormattedTextField(formatter);
-//		formatText.setColumns(20);
-//		formatText.setText(dateString);
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		String dateString = formatter.format(date);
+		formatText = new JFormattedTextField(formatter);
+		formatText.setColumns(20);
+		formatText.setText(dateString);
 
 		textField_DescricaoCultura = new JTextField();
 		textField_DescricaoCultura.setColumns(10);
@@ -99,7 +100,7 @@ public class adminCriarMedicoes extends JanelaBase {
 					DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 					Date date = new Date();
 
-					bd.inserirMedicoes(1, 1, date, 50);
+					bd.inserirMedicoesLuminosidade(5, date, 20.0);
 					// textField_IDMedicaoLum.getText(), date, textField_valorMedLum.getText()
 				} catch (Exception e2) {
 				}
@@ -110,7 +111,7 @@ public class adminCriarMedicoes extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				adminMedicoes aMed = new adminMedicoes(bd);
+				adminMedicoesLuminosidade aMedLum = new adminMedicoesLuminosidade(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});

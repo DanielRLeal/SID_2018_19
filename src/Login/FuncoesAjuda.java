@@ -2,9 +2,6 @@ package Login;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -21,7 +18,7 @@ public class FuncoesAjuda {
 	 */
 	public static JFrame CriarJanelaVazia(){
 		return CriarJanelaContent(null);
-	}
+	} 
 	
 	public static JFrame CriarJanelaContent(String UserName){
 		JFrame frame = new JFrame();

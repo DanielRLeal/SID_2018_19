@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,16 +20,17 @@ import javax.swing.event.ListSelectionListener;
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
-import bancoDeDados.Medicoes;
+import bancoDeDados.MedicaoLuminosidade;
+import bancoDeDados.MedicaoLuminosidade;
 
-public class adminMedicoes extends JanelaBase {
+public class adminMedicoesLuminosidade extends JanelaBase {
 
-	private ArrayList<Medicoes> medicoes;
+	private ArrayList<MedicaoLuminosidade> medLum;
 
-	public adminMedicoes(BancoDeDados bd) {
+	public adminMedicoesLuminosidade(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
-		medicoes = bd.listaMedicoes();
+		medLum = bd.listaMedicoesLuminosidade();
 		initialize();
 	}
 
@@ -36,7 +38,7 @@ public class adminMedicoes extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JLabel lblInicieASesso = new JLabel("Consulta de Medicoes");
+		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
 		frame.getContentPane().add(lblInicieASesso);
@@ -45,7 +47,7 @@ public class adminMedicoes extends JanelaBase {
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Medicoess");
+		JLabel lblMenu = new JLabel("MedicaoLuminosidades");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
@@ -55,11 +57,11 @@ public class adminMedicoes extends JanelaBase {
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = { "#", "IDCultura_fk", " IDVariavel_fk", "DataHoraMedicao", "ValorMedicao" };
+		Object[] columnNames = { "#", "DataHoraMedicao", "ValorMedicaoLuminosidade" };
 
-		Object[][] Medicoes = FuncoesAjuda.listaParaTabela(bd.listaMedicoes(), 5);
+		Object[][] MedicaoLuminosidades = FuncoesAjuda.listaParaTabela(bd.listaMedicoesLuminosidade(), 3);
 
-		JTable table = new JTable(Medicoes, columnNames);
+		JTable table = new JTable(MedicaoLuminosidades, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultEditor(Object.class, null);
 
@@ -71,11 +73,11 @@ public class adminMedicoes extends JanelaBase {
 		btnVoltar.setBounds(12, 416, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 
-		JButton btnCriarMedicoes = new JButton("Criar Medicoes");
-		btnCriarMedicoes.setBounds(360, 416, 120, 23);
-		frame.getContentPane().add(btnCriarMedicoes);
-		btnCriarMedicoes.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnCriarMedicoes.setBackground(new Color(240, 230, 140));
+		JButton btnCriarMedicaoLuminosidade = new JButton("Criar MedicaoLuminosidade");
+		btnCriarMedicaoLuminosidade.setBounds(360, 416, 120, 23);
+		frame.getContentPane().add(btnCriarMedicaoLuminosidade);
+		btnCriarMedicaoLuminosidade.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnCriarMedicaoLuminosidade.setBackground(new Color(240, 230, 140));
 
 		JButton btnEditar = new JButton("Editar");
 		JButton btnEliminar = new JButton("Eliminar");
@@ -101,20 +103,21 @@ public class adminMedicoes extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
-				Medicoes m = medicoes.get(index);
+				MedicaoLuminosidade medicaoLum = medLum.get(index);
 
-				System.out.println("Vou apagar a Medicoes no index: " + index + "\n" + "Medicoes com ID= "
-						+ m.getIDMedicoes() + "\n");
-				bd.apagarMedicoes(m.getIDMedicoes());
+				System.out.println("Vou apagar a MedicaoLuminosidade no index: " + index + "\n"
+						+ "MedicaoLuminosidade com ID= " + medicaoLum.getIDMedicao() + "\n");
+				bd.apagarMedicoesLuminosidade(medicaoLum.getIDMedicao());
+				// falta fazer com que a window atualize a table
 
 			}
 		});
-		btnCriarMedicoes.addActionListener(new ActionListener() {
+		btnCriarMedicaoLuminosidade.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				adminCriarMedicoes acd = new adminCriarMedicoes(bd);
+				adminCriarMedicaoLuminosidade acd = new adminCriarMedicaoLuminosidade(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});
@@ -128,4 +131,5 @@ public class adminMedicoes extends JanelaBase {
 			}
 		});
 	}
+
 }

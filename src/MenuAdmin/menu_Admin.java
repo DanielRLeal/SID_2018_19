@@ -1,24 +1,15 @@
 package MenuAdmin;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.JPanel;
-import java.awt.FlowLayout;
 import javax.swing.border.MatteBorder;
 
-import Login.FuncoesAjuda;
 import Login.JanelaBase;
-import Login.Login;
 import bancoDeDados.BancoDeDados;
 
 public class menu_Admin extends JanelaBase {
@@ -69,6 +60,24 @@ public class menu_Admin extends JanelaBase {
 		btnMediesLuminiosidade.setBounds(60, 99, 212, 23);
 		panel_1.add(btnMediesLuminiosidade);
 
+		btnMediesLuminiosidade.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				adminMedicoesLuminosidade aLuminosidade = new adminMedicoesLuminosidade(bd);
+				frame.setVisible(false);
+			}
+		});
+
+		btnMediesTemperatura.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				adminMedicoesTemp aTemp = new adminMedicoesTemp(bd);
+				frame.setVisible(false);
+			}
+		});
+
 		JButton btnMedies = new JButton("Medi\u00E7\u00F5es");
 		btnMedies.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnMedies.setBackground(Color.WHITE);
@@ -105,6 +114,16 @@ public class menu_Admin extends JanelaBase {
 		btnVariveisMedidas.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnVariveisMedidas.setBackground(Color.WHITE);
 		btnVariveisMedidas.setBounds(149, 41, 165, 23);
+
+		btnVariveisMedidas.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				adminVariaveisMedidas aVarMedidas = new adminVariaveisMedidas(bd);
+				frame.setVisible(false);
+			}
+		});
+
 		panel_1.add(btnVariveisMedidas);
 		btnCultura.addActionListener(new ActionListener() {
 			@Override
