@@ -206,10 +206,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirMedicoes(int IDCultura_fk, int IDVariavel_fk, Date DataHoraMedicao, int ValorMedicao) {
+	public void inserirMedicoes(String IDCultura_fk, String iDVariavel_fk, String DataHoraMedicao, double valorMedido) {
 		try {
 			String query = "INSERT INTO Medicoes (IDCultura_fk, IDVariavel_fk, DataHoraMedicao, ValorMedicao) VALUES ('"
-					+ IDCultura_fk + "', '" + IDVariavel_fk + DataHoraMedicao + "', '" + ValorMedicao + "');";
+					+ IDCultura_fk + "', '" + iDVariavel_fk + "', '" + DataHoraMedicao + "', '" + valorMedido + "');";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "Medicoes adiciona com sucesso!");
@@ -323,12 +323,12 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirVariaveisMedidas(int IDCultura_fk, int IDVariavel_fk, int LimiteSuperior, int LimiteInferior) {
+	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, String limSuperior, String limInferior) {
 
 //		IDCultura_fk,IDVariavel_fk,LimiteSuperior,LimiteInferior,
 		try {
 			String query = "INSERT INTO VariaveisMedidas (IDCultura_fk,IDVariavel_fk,LimiteSuperior,LimiteInferior) VALUES ('"
-					+ IDCultura_fk + "', '" + IDVariavel_fk + "', '" + LimiteSuperior + "', '" + LimiteInferior + "');";
+					+ iDCultura_fk + "', '" + iDVariavel_fk + "', '" + limSuperior + "', '" + limInferior + "');";
 
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "VariaveisMedidas adiciona com sucesso!");
@@ -384,10 +384,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirMedicoesLuminosidade(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoLuminosidade) {
+	public void inserirMedicoesLuminosidade(String dataHoraMedicao, double ValorMedicaoLuminosidade) {
 		try {
-			String query = "INSERT INTO medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoLuminosidade) VALUES ('"
-					+ IDMedicao + "', '" + DataHoraMedicao + "', '" + ValorMedicaoLuminosidade + "');";
+			String query = "INSERT INTO medicoesluminosidade (DataHoraMedicao, ValorMedicaoLuminosidade) VALUES ('"
+					+ dataHoraMedicao + "', '" + ValorMedicaoLuminosidade + "');";
 			System.out.println(query);
 
 			this.statement.executeUpdate(query);
@@ -445,10 +445,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirMedicoesTemperatura(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoTemperatura) {
+	public void inserirMedicoesTemperatura(String dataHoraMedicao, double ValorMedicaoTemperatura) {
 		try {
 			String query = "INSERT INTO medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoTemperatura) VALUES ('"
-					+ IDMedicao + "', '" + DataHoraMedicao + "', '" + ValorMedicaoTemperatura + "');";
+					+ dataHoraMedicao + "', '" + ValorMedicaoTemperatura + "');";
 
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "medicoestemperatura adiciona com sucesso!");
@@ -479,13 +479,6 @@ public class BancoDeDados {
 
 	// Listar(..) Sistema
 
-	<<<<<<<HEAD
-//	public Date formateDate(Date d) {
-//
-//		return date;
-//
-//	}
-
 	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
 		ArrayList<Utilizador> newList = new ArrayList<>();
 		for (Utilizador element : list) {
@@ -494,14 +487,7 @@ public class BancoDeDados {
 			}
 		}
 		return newList;
-	}=======
-	/*
-	 * public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador>
-	 * list) { ArrayList<Utilizador> newList = new ArrayList<>(); for (Utilizador
-	 * element : list) { if (!newList.contains(element)) { newList.add(element); } }
-	 * return newList; }
-	 */
-	>>>>>>>db62fc84a651548da1cf86cc3eebedda5ebeb6fa
+	}
 
 	public void desconectar() {
 		try {
@@ -509,8 +495,6 @@ public class BancoDeDados {
 		} catch (Exception e) {
 		}
 	}
-
-	<<<<<<<HEAD=======
 
 	public ArrayList<Utilizador_Log> listarUtilizador_Log() {
 		ArrayList<Utilizador_Log> temp = new ArrayList<>();
@@ -652,5 +636,5 @@ public class BancoDeDados {
 			System.out.println("Falha a listar Variaveis_Log");
 		}
 		return temp;
-	}>>>>>>>db62fc84a651548da1cf86cc3eebedda5ebeb6fa
+	}
 }

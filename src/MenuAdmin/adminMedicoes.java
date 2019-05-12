@@ -114,7 +114,7 @@ public class adminMedicoes extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				adminCriarMedicoes acd = new adminCriarMedicoes(bd);
+				adminCriarMedicao acd = new adminCriarMedicao(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});

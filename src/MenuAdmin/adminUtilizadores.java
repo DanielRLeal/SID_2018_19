@@ -33,21 +33,18 @@ import javax.swing.JList;
 
 public class adminUtilizadores extends JanelaBase {
 
-	//ArrayList<Utilizador> users;
-	//DefaultListModel<String> dlm = new DefaultListModel<>();
+	// ArrayList<Utilizador> users;
+	// DefaultListModel<String> dlm = new DefaultListModel<>();
 
 	public adminUtilizadores(BancoDeDados bd) {
 		super(bd);
-		/*users = removeDuplicates(bd.listarUtilizador());
-		for (Utilizador u : users) {
-			System.out.println(u.getNomeUtilizador());
-		}
-		if (dlm.isEmpty()) {
-			for (Utilizador u : users) {
-
-				dlm.addElement(u.getNomeUtilizador());
-			}
-		}*/
+		/*
+		 * users = removeDuplicates(bd.listarUtilizador()); for (Utilizador u : users) {
+		 * System.out.println(u.getNomeUtilizador()); } if (dlm.isEmpty()) { for
+		 * (Utilizador u : users) {
+		 * 
+		 * dlm.addElement(u.getNomeUtilizador()); } }
+		 */
 		initialize();
 	}
 
@@ -86,7 +83,7 @@ public class adminUtilizadores extends JanelaBase {
 
 		JButton btnEditar = new JButton("Editar");
 		JButton btnEliminar = new JButton("Ativar/Desativar");
-		
+
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
 			@Override
@@ -109,9 +106,8 @@ public class adminUtilizadores extends JanelaBase {
 			public void actionPerformed(ActionEvent e) {
 				int column = 0;
 				int row = table.getSelectedRow();
-				int id = (int)table.getModel().getValueAt(row, column);
-				System.out.println(
-						"Vou apagar o Utilizador com ID= " + id + "\n");
+				int id = (int) table.getModel().getValueAt(row, column);
+				System.out.println("Vou apagar o Utilizador com ID= " + id + "\n");
 				bd.apagarUtilizador(id);
 
 			}

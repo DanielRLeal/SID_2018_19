@@ -68,9 +68,9 @@ public class adminVariaveisMedidas extends JanelaBase {
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = { "#", "Nome Cultura", "Descrição Cultura", "Utilizador" };
+		Object[] columnNames = { "#", "IDCultura_fk", "IDVariavel_fk", "LimiteSuperior", "LimiteInferior" };
 
-		Object[][] culturas = FuncoesAjuda.listaParaTabela(bd.listaCultura(), 4);
+		Object[][] culturas = FuncoesAjuda.listaParaTabela(bd.listaVariaveisMedidas(), 5);
 
 		JTable table = new JTable(culturas, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

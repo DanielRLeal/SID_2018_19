@@ -13,8 +13,7 @@ public class Variaveis implements ObjectBD {
 
 	@Override
 	public Object[] toObjectArray() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Object[] { this.IDVariaveis, this.NomeVariaveis, this.IDCultura_fk };
 	}
 
 	public int getIDVariaveis() {
