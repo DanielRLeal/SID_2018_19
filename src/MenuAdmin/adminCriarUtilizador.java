@@ -119,9 +119,8 @@ public class adminCriarUtilizador extends JanelaBase {
 					bd.inserirUtilizador(textField_nome.getText(), textField_password.getText(),
 							textField_TipoDeUti.getText(), textField_Email.getText(), true);
 					frame.setVisible(false);
-					frame.dispose();
 
-					menu_Admin mA = new menu_Admin(bd);
+					adminUtilizadores mA = new adminUtilizadores(bd);
 					mA.setVisible(true);
 
 				}

@@ -13,7 +13,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.border.MatteBorder;
@@ -30,12 +33,12 @@ import javax.swing.JList;
 
 public class adminUtilizadores extends JanelaBase {
 
-	ArrayList<Utilizador> users;
-	DefaultListModel<String> dlm = new DefaultListModel<>();
+	//ArrayList<Utilizador> users;
+	//DefaultListModel<String> dlm = new DefaultListModel<>();
 
 	public adminUtilizadores(BancoDeDados bd) {
 		super(bd);
-		users = removeDuplicates(bd.listarUtilizador());
+		/*users = removeDuplicates(bd.listarUtilizador());
 		for (Utilizador u : users) {
 			System.out.println(u.getNomeUtilizador());
 		}
@@ -44,7 +47,7 @@ public class adminUtilizadores extends JanelaBase {
 
 				dlm.addElement(u.getNomeUtilizador());
 			}
-		}
+		}*/
 		initialize();
 	}
 
@@ -65,25 +68,26 @@ public class adminUtilizadores extends JanelaBase {
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
-		JPanel panel_1 = new JPanel();
+		JScrollPane panel_1 = new JScrollPane();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_1.setBackground(Color.GRAY);
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		// Listar Utilizadores na lista da página
-		// Isto está a dar a null n sei pq
-//		bd.listarUtilizador();
-//		removeDuplicates(users);
+		Object[] columnNames = { "#", "Nome Utilizador", "Categoria Profissional", "Email", "Activo" };
 
-		JList list = new JList(dlm);
-		list.setBounds(0, 0, 470, 209);
-		panel_1.add(list);
+		Object[][] culturas = FuncoesAjuda.listaParaTabela(bd.listarUtilizador(), 5);
+
+		JTable table = new JTable(culturas, columnNames);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setDefaultEditor(Object.class, null);
+
+		panel_1.setViewportView(table);
 
 		JButton btnEditar = new JButton("Editar");
 		JButton btnEliminar = new JButton("Ativar/Desativar");
-
-		list.addListSelectionListener(new ListSelectionListener() {
+		
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -103,11 +107,12 @@ public class adminUtilizadores extends JanelaBase {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int index = list.getSelectedIndex();
-				Utilizador u = users.get(index);
+				int column = 0;
+				int row = table.getSelectedRow();
+				int id = (int)table.getModel().getValueAt(row, column);
 				System.out.println(
-						"Vou apagar o user no index: " + index + "\n" + "Utilizador com ID= " + u.getID() + "\n");
-				bd.apagarUtilizador(u.getID(), !u.isAtivo());
+						"Vou apagar o Utilizador com ID= " + id + "\n");
+				bd.apagarUtilizador(id);
 
 			}
 		});

@@ -15,11 +15,11 @@ public class Utilizador implements ObjectBD {
 	 * @param ativo
 	 */
 	public Utilizador(int iD, String nomeUtilizador, String categoriaProfissional, String email, boolean ativo) {
-		ID = iD;
-		NomeUtilizador = nomeUtilizador;
-		CategoriaProfissional = categoriaProfissional;
-		Email = email;
-		Ativo = ativo;
+		this.ID = iD;
+		this.NomeUtilizador = nomeUtilizador;
+		this.CategoriaProfissional = categoriaProfissional;
+		this.Email = email;
+		this.Ativo = ativo;
 	}
 
 	@Override
