@@ -1,34 +1,18 @@
 package MenuAdmin;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.JPanel;
-import java.awt.FlowLayout;
-import javax.swing.border.MatteBorder;
-import javax.xml.crypto.Data;
+import javax.swing.JTextField;
 
 import Login.JanelaBase;
-import Login.Login;
 import bancoDeDados.BancoDeDados;
-
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 
 public class adminCriarMedicaoLuminosidade extends JanelaBase {
 	private JTextField textField_IDMedicao;

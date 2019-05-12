@@ -13,22 +13,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
 import bancoDeDados.Medicoes;
+import bancoDeDados.Utilizador_Log;
 
 public class admin_LogUtilizador extends JanelaBase {
 
-	private ArrayList<Medicoes> medicoes;
+	private ArrayList<Utilizador_Log> utilizador_log;
 
 	public admin_LogUtilizador(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
-		medicoes = bd.listaMedicoes();
+		utilizador_log = bd.listarUtilizador_Log();
 		initialize();
 	}
 
@@ -57,8 +56,7 @@ public class admin_LogUtilizador extends JanelaBase {
 
 		Object[] columnNames = { "IDLog", "IDLogUtilizador", " IDUtilizador", "NomeUtilizador", "CategoriaProfissioanl", "Email", "Activo", "Operacao", "Data" };
 
-		//bd.listarLogUtilziadores
-		Object[][] logutilziadores = FuncoesAjuda.listaParaTabela(bd.listarUtilizador_Log(), 5);
+		Object[][] logutilziadores = FuncoesAjuda.listaParaTabela(bd.listarUtilizador_Log(), 20);
 
 		JTable table = new JTable(logutilziadores, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

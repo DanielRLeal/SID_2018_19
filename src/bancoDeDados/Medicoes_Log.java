@@ -7,12 +7,12 @@ public class Medicoes_Log implements ObjectBD {
 	public int IDCultura;
 	public int IDVariavel;
 	public String DataHoraMedicao;
-	public int ValorMedicao;
+	public double ValorMedicao;
 	public String Operacao;
 	public String data;
 
 	public Medicoes_Log(int IDLog, int IDLogUtilizador, int IDMedicoes, int IDCultura, int IDVariavel,
-			String DataHoraMedicao, int ValorMedicao, String Operacao, String data) {
+			String DataHoraMedicao, double ValorMedicao, String Operacao, String data) {
 		this.IDLog = IDLog;
 		this.IDLogUtilizador = IDLogUtilizador;
 		this.IDMedicoes = IDMedicoes;
@@ -70,7 +70,7 @@ public class Medicoes_Log implements ObjectBD {
 		DataHoraMedicao = dataHoraMedicao;
 	}
 
-	public int getValorMedicao() {
+	public double getValorMedicao() {
 		return ValorMedicao;
 	}
 
