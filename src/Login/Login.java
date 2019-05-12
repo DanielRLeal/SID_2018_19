@@ -19,12 +19,12 @@ import bancoDeDados.BancoDeDados;
 public class Login extends JanelaBase {
 	private JTextField textField;
 	private JPasswordField passwordField;
-	
+
 	public Login() {
 		super(null);
 		initialize();
 	}
-	
+
 	public void credenciais() {
 		bd = new BancoDeDados();
 		bd.conectar(textField.getText(), passwordField.getText());
@@ -45,27 +45,26 @@ public class Login extends JanelaBase {
 					} catch (Exception e2) {
 						JOptionPane.showMessageDialog(null, "Credências incorrectas!");
 					}
-					
+
 					if (bd.utilizadorLogado.CategoriaProfissional.equals("Investigador")) {
 						menu_Investigador mInvestigador = new menu_Investigador(bd);
 						frame.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Bem Vindo, Investigador!");
-					}
-					else if (bd.utilizadorLogado.CategoriaProfissional.equals("Administrador")) {
+					} else if (bd.utilizadorLogado.CategoriaProfissional.equals("Administrador")) {
 						menu_Admin mAdmin = new menu_Admin(bd);
 						frame.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Bem Vindo, Admin!");
 					}
-					//utilizador root
+					// utilizador root
 					else if (bd.utilizadorLogado.ID == 0) {
 						menu_Admin mAdmin = new menu_Admin(bd);
-						//menu_Investigador mInvestigador = new menu_Investigador(bd);
+						menu_Investigador mInvestigador = new menu_Investigador(bd);
 						frame.setVisible(false);
 						//JOptionPane.showMessageDialog(null, "Bem Vindo, Rooteiro!");
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(null,"O nome não pertence a nenhum tipo de utilizador");
+					JOptionPane.showMessageDialog(null, "O nome não pertence a nenhum tipo de utilizador");
 				}
 			}
 		});
@@ -99,7 +98,7 @@ public class Login extends JanelaBase {
 		lblInicieASesso.setBounds(231, 232, 196, 16);
 		frame.getContentPane().add(lblInicieASesso);
 	}
-	
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

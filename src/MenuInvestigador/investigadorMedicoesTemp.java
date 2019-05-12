@@ -1,4 +1,4 @@
-package MenuAdmin;
+package MenuInvestigador;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -23,11 +23,11 @@ import bancoDeDados.BancoDeDados;
 import bancoDeDados.MedicaoTemperatura;
 import bancoDeDados.MedicaoTemperatura;
 
-public class adminMedicoesTemp extends JanelaBase {
+public class investigadorMedicoesTemp extends JanelaBase {
 
 	private ArrayList<MedicaoTemperatura> medTemp;
 
-	public adminMedicoesTemp(BancoDeDados bd) {
+	public investigadorMedicoesTemp(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
 		medTemp = bd.listaMedicoesTemperatura();
@@ -117,7 +117,7 @@ public class adminMedicoesTemp extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				adminCriarMedicaoTemp acd = new adminCriarMedicaoTemp(bd);
+				investigadorCriarMedicaoTemp acd = new investigadorCriarMedicaoTemp(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});
@@ -126,7 +126,7 @@ public class adminMedicoesTemp extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				menu_Admin mA = new menu_Admin(bd);
+				menu_Investigador mA = new menu_Investigador(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});

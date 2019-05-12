@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -12,20 +13,31 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
+import bancoDeDados.MedicaoLuminosidade;
 
 import javax.swing.JList;
 
 public class investigadorMedicoesLuminiosidade extends JanelaBase {
+	private ArrayList<MedicaoLuminosidade> medLuminosidade;
+
 	public investigadorMedicoesLuminiosidade(BancoDeDados bd) {
 		super(bd);
+		getContentPane().setLayout(null);
+		medLuminosidade = bd.listaMedicoesLuminosidade();
 		initialize();
 	}
 
@@ -33,39 +45,95 @@ public class investigadorMedicoesLuminiosidade extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JLabel lblInicieASesso = new JLabel("Consulta de Medi\u00E7\u00F5es de Luminiosidade");
+		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblInicieASesso.setBounds(142, 157, 229, 16);
+		lblInicieASesso.setBounds(186, 157, 196, 16);
 		frame.getContentPane().add(lblInicieASesso);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Medi\u00E7\u00F5es Luminiosidade");
+		JLabel lblMenu = new JLabel("MedicaoLuminosidades");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
-		JPanel panel_1 = new JPanel();
+		JScrollPane panel_1 = new JScrollPane();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_1.setBackground(Color.GRAY);
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		JList list = new JList();
-		list.setBounds(0, 0, 470, 209);
-		panel_1.add(list);
+		Object[] columnNames = { "#", "DataHoraMedicao", "ValorMedicaoLuminosidade" };
+
+		Object[][] MedicaoLuminosidades = FuncoesAjuda.listaParaTabela(bd.listaMedicoesLuminosidade(), 3);
+
+		JTable table = new JTable(MedicaoLuminosidades, columnNames);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setDefaultEditor(Object.class, null);
+
+		panel_1.setViewportView(table);
 
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnVoltar.setBackground(new Color(192, 192, 192));
-		btnVoltar.setBounds(12, 427, 97, 25);
+		btnVoltar.setBounds(12, 416, 97, 25);
 		frame.getContentPane().add(btnVoltar);
+
+		JButton btnCriarMedicaoLuminosidade = new JButton("Criar MedicaoLuminosidade");
+		btnCriarMedicaoLuminosidade.setBounds(360, 416, 120, 23);
+		frame.getContentPane().add(btnCriarMedicaoLuminosidade);
+		btnCriarMedicaoLuminosidade.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnCriarMedicaoLuminosidade.setBackground(new Color(240, 230, 140));
+
+		JButton btnEditar = new JButton("Editar");
+		JButton btnEliminar = new JButton("Eliminar");
+
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				btnEditar.setBounds(150, 416, 75, 23);
+				frame.getContentPane().add(btnEditar);
+				btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+				btnEditar.setBackground(new Color(240, 230, 140));
+
+				btnEliminar.setBounds(230, 416, 100, 23);
+				frame.getContentPane().add(btnEliminar);
+				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+				btnEliminar.setBackground(new Color(240, 230, 140));
+			}
+		});
+
+		btnEliminar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int index = table.getSelectedRow();
+				MedicaoLuminosidade medicaoLum = medLuminosidade.get(index);
+
+				System.out.println("Vou apagar a MedicaoLuminosidade no index: " + index + "\n"
+						+ "MedicaoLuminosidade com ID= " + medicaoLum.getIDMedicao() + "\n");
+				bd.apagarMedicoesLuminosidade(medicaoLum.getIDMedicao());
+				// falta fazer com que a window atualize a table
+
+			}
+		});
+		btnCriarMedicaoLuminosidade.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				investigadorCriarMedicaoLuminosidade icd = new investigadorCriarMedicaoLuminosidade(bd);
+				frame.getDefaultCloseOperation();
+			}
+		});
+
 		btnVoltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				menu_Investigador mInve = new menu_Investigador(bd);
+				menu_Investigador mInv = new menu_Investigador(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});
