@@ -50,11 +50,11 @@ public class Utilizador_Log implements ObjectBD {
 		IDLogUtilizador = iDLogUtilizador;
 	}
 
-	public char getOperacao() {
+	public String getOperacao() {
 		return Operacao;
 	}
 
-	public void setOperacao(char operacao) {
+	public void setOperacao(String operacao) {
 		Operacao = operacao;
 	}
 

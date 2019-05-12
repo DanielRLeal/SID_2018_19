@@ -1,18 +1,13 @@
 package bancoDeDados;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.DefaultListModel;
@@ -194,6 +189,8 @@ public class BancoDeDados {
 				Date date = new Date(timestamp.getTime());
 				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 				sdf.format(date);
+				System.out.println(date + " finalmente");
+				System.out.println("sdf  = " + sdf);
 
 				Medicoes medicao = new Medicoes(Integer.parseInt(this.resultset.getString("IDMedicoes")),
 						Integer.parseInt(this.resultset.getString("IDCultura_fk")),
@@ -387,10 +384,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirMedicoesLuminosidade(String timestamp, double ValorMedicaoLuminosidade) {
+	public void inserirMedicoesLuminosidade(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoLuminosidade) {
 		try {
-			String query = "INSERT INTO medicoesluminosidade (DataHoraMedicao,ValorMedicaoLuminosidade) VALUES ('"
-					+ timestamp + "', '" + ValorMedicaoLuminosidade + "');";
+			String query = "INSERT INTO medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoLuminosidade) VALUES ('"
+					+ IDMedicao + "', '" + DataHoraMedicao + "', '" + ValorMedicaoLuminosidade + "');";
 			System.out.println(query);
 
 			this.statement.executeUpdate(query);
@@ -431,10 +428,8 @@ public class BancoDeDados {
 			ArrayList<MedicaoTemperatura> listMedicoesTemp = new ArrayList<>();
 			while (this.resultset.next()) {
 
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date date = new Date();
-				dateFormat.format(date);
-
+				Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
+				Date date = new Date(timestamp.getTime());
 				MedicaoTemperatura medTemp = new MedicaoTemperatura(
 						Integer.parseInt(this.resultset.getString("IDMedicao")), date,
 						Double.parseDouble(this.resultset.getString("ValorMedicaoTemperatura")));
@@ -450,11 +445,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirMedicoesTemperatura(String DataHoraMedicao, double ValorMedicaoTemperatura) {
+	public void inserirMedicoesTemperatura(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoTemperatura) {
 		try {
-			String query = "INSERT INTO medicoestemperatura (DataHoraMedicao,ValorMedicaoTemperatura) VALUES ('"
-					+ DataHoraMedicao + "', '" + ValorMedicaoTemperatura + "');";
-			System.out.println(query);
+			String query = "INSERT INTO medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoTemperatura) VALUES ('"
+					+ IDMedicao + "', '" + DataHoraMedicao + "', '" + ValorMedicaoTemperatura + "');";
 
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "medicoestemperatura adiciona com sucesso!");
@@ -485,6 +479,7 @@ public class BancoDeDados {
 
 	// Listar(..) Sistema
 
+	<<<<<<<HEAD
 //	public Date formateDate(Date d) {
 //
 //		return date;
@@ -499,7 +494,14 @@ public class BancoDeDados {
 			}
 		}
 		return newList;
-	}
+	}=======
+	/*
+	 * public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador>
+	 * list) { ArrayList<Utilizador> newList = new ArrayList<>(); for (Utilizador
+	 * element : list) { if (!newList.contains(element)) { newList.add(element); } }
+	 * return newList; }
+	 */
+	>>>>>>>db62fc84a651548da1cf86cc3eebedda5ebeb6fa
 
 	public void desconectar() {
 		try {
@@ -508,4 +510,147 @@ public class BancoDeDados {
 		}
 	}
 
+	<<<<<<<HEAD=======
+
+	public ArrayList<Utilizador_Log> listarUtilizador_Log() {
+		ArrayList<Utilizador_Log> temp = new ArrayList<>();
+		try {
+			String query = "SELECT * FROM utilizador_log";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+			while (this.resultset.next()) {
+
+				Utilizador_Log user = new Utilizador_Log(Integer.parseInt(this.resultset.getString("IDLog")),
+						Integer.parseInt(this.resultset.getString("IDLogUtilizador")),
+						Integer.parseInt(this.resultset.getString("IDUtilizador")),
+						this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
+						this.resultset.getString("Email"), "1".equals(this.resultset.getString("Activo")),
+						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
+				temp.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar Utilizador_Log");
+		}
+		return temp;
+	}
+
+	public ArrayList<Alertas_Log> listarAlertas_Log() {
+		ArrayList<Alertas_Log> temp = new ArrayList<>();
+		try {
+			String query = "SELECT * FROM alertas_log";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+			while (this.resultset.next()) {
+
+				Alertas_Log user = new Alertas_Log(Integer.parseInt(this.resultset.getString("IDLog")),
+						Integer.parseInt(this.resultset.getString("IDAlerta")),
+						Integer.parseInt(this.resultset.getString("IDUtilizador")),
+						this.resultset.getString("DataHora"), this.resultset.getString("NomeVariavel"),
+						this.resultset.getDouble("LimiteInferior"), this.resultset.getDouble("LimiteSuperior"),
+						this.resultset.getDouble("ValorMedicao"), this.resultset.getString("Descricao"),
+						"0".equals(this.resultset.getString("Visto")), this.resultset.getString("Data"));
+				temp.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar Alertas_Log");
+		}
+		return temp;
+	}
+
+	public ArrayList<Medicoes_Log> listarMedicoes_Log() {
+		ArrayList<Medicoes_Log> temp = new ArrayList<>();
+		try {
+			String query = "SELECT * FROM medicoes_log";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+			while (this.resultset.next()) {
+
+				// passar para double ValorMEDICAO
+				Medicoes_Log user = new Medicoes_Log(Integer.parseInt(this.resultset.getString("IDLog")),
+						Integer.parseInt(this.resultset.getString("IDLogUtilizador")),
+						Integer.parseInt(this.resultset.getString("IDMedicoes")),
+						Integer.parseInt(this.resultset.getString("IDCultura")),
+						Integer.parseInt(this.resultset.getString("IDVariavel")),
+						this.resultset.getString("DataHoraMedicao"), this.resultset.getDouble("ValorMedicao"),
+						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
+				temp.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar Medicoes_Log");
+		}
+		return temp;
+	}
+
+	public ArrayList<Cultura_Log> listarCultura_Log() {
+		ArrayList<Cultura_Log> temp = new ArrayList<>();
+		try {
+			String query = "SELECT * FROM cultura_log";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+			while (this.resultset.next()) {
+
+				Cultura_Log user = new Cultura_Log(Integer.parseInt(this.resultset.getString("IDLog")),
+						Integer.parseInt(this.resultset.getString("IDLogUtilizador")),
+						Integer.parseInt(this.resultset.getString("IDCultura")),
+						this.resultset.getString("NomeCultura"), this.resultset.getString("DescricaoCultura"),
+						Integer.parseInt(this.resultset.getString("IDUtilizador")),
+						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
+				temp.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar Cultura_Log");
+		}
+		return temp;
+	}
+
+	public ArrayList<VariaveisMedidas_Log> listarVariaveisMedidas_Log() {
+		ArrayList<VariaveisMedidas_Log> temp = new ArrayList<>();
+		try {
+			String query = "SELECT * FROM variaveismedidas_log";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+			while (this.resultset.next()) {
+
+				VariaveisMedidas_Log user = new VariaveisMedidas_Log(
+						Integer.parseInt(this.resultset.getString("IDLog")),
+						Integer.parseInt(this.resultset.getString("IDLogUtilizador")),
+						Integer.parseInt(this.resultset.getString("IDCultura")),
+						Integer.parseInt(this.resultset.getString("IDVariavel")),
+						this.resultset.getDouble("LimiteSuperior"), this.resultset.getDouble("LimiteInferior"),
+						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
+				temp.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar VariaveisMedidas_Log");
+		}
+		return temp;
+	}
+
+	public ArrayList<Variaveis_Log> listarVariaveis_Log() {
+		ArrayList<Variaveis_Log> temp = new ArrayList<>();
+		try {
+			String query = "SELECT * FROM variaveis_log";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+			while (this.resultset.next()) {
+
+				Variaveis_Log user = new Variaveis_Log(Integer.parseInt(this.resultset.getString("IDLog")),
+						Integer.parseInt(this.resultset.getString("IDLogUtilizador")),
+						Integer.parseInt(this.resultset.getString("IDVariaveis")),
+						this.resultset.getString("NomeVariaveis"),
+						Integer.parseInt(this.resultset.getString("IDCultura")), this.resultset.getString("Operacao"),
+						this.resultset.getString("Data"));
+				temp.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar Variaveis_Log");
+		}
+		return temp;
+	}>>>>>>>db62fc84a651548da1cf86cc3eebedda5ebeb6fa
 }

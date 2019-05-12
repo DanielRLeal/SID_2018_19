@@ -6,15 +6,16 @@ public class Alertas_Log implements ObjectBD {
 	public final int IDUtilizador;
 	public String DataHora;
 	public String NomeVariavel;
-	public int LimiteInferior;
-	public int LimiteSuperior;
-	public int ValorMedicao;
+	public double LimiteInferior;
+	public double LimiteSuperior;
+	public double ValorMedicao;
 	public String Descricao;
 	public boolean Visto;
 	public String data;
 
 	public Alertas_Log(int IDLog, int IDAlerta, int IDUtilizador, String DataHora, String NomeVariavel,
-			int LimiteInferior, int LimiteSuperior, int ValorMedicao, String Descricao, boolean Visto, String data) {
+			double LimiteInferior, double LimiteSuperior, double ValorMedicao, String Descricao, boolean Visto,
+			String data) {
 		this.IDLog = IDLog;
 		this.IDAlerta = IDAlerta;
 		this.IDUtilizador = IDUtilizador;
@@ -64,15 +65,15 @@ public class Alertas_Log implements ObjectBD {
 		NomeVariavel = nomeVariavel;
 	}
 
-	public int getLimiteInferior() {
+	public double getLimiteInferior() {
 		return LimiteInferior;
 	}
 
-	public void setLimiteInferior(int limiteInferior) {
+	public void setLimiteInferior(double limiteInferior) {
 		LimiteInferior = limiteInferior;
 	}
 
-	public int getLimiteSuperior() {
+	public double getLimiteSuperior() {
 		return LimiteSuperior;
 	}
 
@@ -80,7 +81,7 @@ public class Alertas_Log implements ObjectBD {
 		LimiteSuperior = limiteSuperior;
 	}
 
-	public int getValorMedicao() {
+	public double getValorMedicao() {
 		return ValorMedicao;
 	}
 
