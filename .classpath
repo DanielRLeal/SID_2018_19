@@ -16,9 +16,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="JAR Mongo Extensions/mongo-java-driver-3.5.0.jar"/>
-	<classpathentry kind="lib" path="JAR Mongo Extensions/mysql-connector-java.jar"/>
-	<classpathentry kind="lib" path="JAR Mongo Extensions/org.eclipse.paho.client.mqttv3-1.1.0.jar"/>
-	<classpathentry kind="lib" path="JAR Mongo Extensions/org.json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo/Documents/GitHub/SID_2018_19/JAR Mongo Extensions/mongo-java-driver-3.5.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo/Documents/GitHub/SID_2018_19/JAR Mongo Extensions/mysql-connector-java.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo/Documents/GitHub/SID_2018_19/JAR Mongo Extensions/org.eclipse.paho.client.mqttv3-1.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hugo/Documents/GitHub/SID_2018_19/JAR Mongo Extensions/org.json.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

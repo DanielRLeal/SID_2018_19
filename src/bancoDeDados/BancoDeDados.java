@@ -1,5 +1,6 @@
 package bancoDeDados;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -20,7 +21,6 @@ public class BancoDeDados {
 	private Connection connection = null;
 	private Statement statement = null;
 	private ResultSet resultset = null;
-	public DefaultListModel<String> listaUtilizadores = new DefaultListModel<String>();
 	public Utilizador utilizadorLogado;
 	ArrayList<Utilizador> users = new ArrayList<>();
 
@@ -74,11 +74,10 @@ public class BancoDeDados {
 
 				Utilizador user = new Utilizador(Integer.parseInt(this.resultset.getString("IDUtilizador")),
 						this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
-						this.resultset.getString("Email"), Boolean.parseBoolean(this.resultset.getString("Activo")));
+						this.resultset.getString("Email"), "1".equals(this.resultset.getString("Activo")));
 				temp.add(user);
-				users = removeDuplicates(temp);
-
 			}
+			users = temp;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Falha a listar Utilizador");
@@ -87,35 +86,62 @@ public class BancoDeDados {
 	}
 
 	public void inserirUtilizador(String nome, String password, String categoria, String email, boolean activo) {
-		try {
-			String query = "INSERT INTO Utilizador (NomeUtilizador, CategoriaProfissional, Email, Activo) VALUES ('"
-					+ nome + "', '" + categoria + "', '" + email + "', " + activo + ");";
-			System.out.println(query);
-			this.statement.executeUpdate(query);
+		try {			
+			String query = "{call sid_bd_php.CriarUtilizador(?, ?, ?, ?, ?)}";
+			/*String query = "INSERT INTO Utilizador (NomeUtilizador, CategoriaProfissional, Email, Activo) VALUES ('"
+					+ nome + "', '" + categoria + "', '" + email + "', " + activo + ");";*/
+			
+			CallableStatement stmt = this.connection.prepareCall(query);
+			
+			stmt.setString(1, nome);
+			stmt.setString(2, categoria);
+			stmt.setString(3, email);
+			stmt.setBoolean(4, activo);
+			stmt.setString(5, password);
+			
+			stmt.execute();
+			stmt.close();
 		} catch (Exception e) {
 			// Cria utilizador insere no programa enquanto nao fechado
 			// Mas não adiciona correctamente na GUI
-			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador - mas ");
+			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador\r\n" + e.toString());
 		}
 	}
 
-	public void actualizarUtilizador(int id, String nome, String categoria, String email, boolean activo) {
+	public void actualizarUtilizador(int id, String nome, String password, String categoria, String email, boolean activo) {
 		try {
-			String query = "UPDATE Utilizador set IDUtilizador = '" + id + "', NomeUtilizador = '" + nome
+			String query = "{call sid_bd_php.EditarUtilizador(?, ?, ?, ?, ?, ?)}";
+			/*String query = "UPDATE Utilizador set IDUtilizador = '" + id + "', NomeUtilizador = '" + nome
 					+ "' , CategoriaProfissional = '" + categoria + "',Email = '" + email + "', Activo = '" + activo
-					+ "' WHERE IDUtilizador = " + id + ";";
-			this.statement.executeUpdate(query);
+					+ "' WHERE IDUtilizador = " + id + ";";*/
+			CallableStatement stmt = this.connection.prepareCall(query);
+			
+			stmt.setInt(1, id);
+			stmt.setString(2, nome);
+			stmt.setString(3, categoria);
+			stmt.setString(4, email);
+			stmt.setBoolean(5, activo);
+			stmt.setString(6, password);
+			
+			stmt.execute();
+			stmt.close();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a actualizar utilizador");
 		}
 	}
 
-	public void apagarUtilizador(int id, boolean bool) {
+	public void apagarUtilizador(int id) {
 		try {
-			String query = "UPDATE Utilizador set Activo = " + bool + " WHERE IDUtilizador = " + id + ";";
-			System.out.println(query + "\n" + "Vou desativar o utilizador com id " + id);
-			this.statement.executeUpdate(query);
-
+			String query = "{call ApagarUtilizador(?)}";
+			//String query = "UPDATE Utilizador set Activo = " + bool + " WHERE IDUtilizador = " + id + ";";
+			//System.out.println(query + "\n" + "Vou desativar o utilizador com id " + id);
+			
+			CallableStatement stmt = this.connection.prepareCall(query);
+			
+			stmt.setInt(1, id);
+			
+			stmt.executeQuery();
+			stmt.close();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar utilizador");
 		}
@@ -436,7 +462,7 @@ public class BancoDeDados {
 
 	// Listar(..) Sistema
 
-	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
+	/*public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
 		ArrayList<Utilizador> newList = new ArrayList<>();
 		for (Utilizador element : list) {
 			if (!newList.contains(element)) {
@@ -444,7 +470,7 @@ public class BancoDeDados {
 			}
 		}
 		return newList;
-	}
+	}*/
 
 	public void desconectar() {
 		try {

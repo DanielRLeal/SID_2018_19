@@ -11,45 +11,20 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import Login.JanelaBase;
 import Login.Login;
+import bancoDeDados.BancoDeDados;
 
-public class menu_Admin_Logs {
+public class menu_Admin_Logs extends JanelaBase {
 
-	private JFrame frame;
-	private static menu_Admin mAdmin;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					menu_Admin_Logs window = new menu_Admin_Logs(mAdmin);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public menu_Admin_Logs(menu_Admin mAdmin) {
+	public menu_Admin_Logs(BancoDeDados bd) {
+		super(bd);
 		initialize();
-		this.mAdmin = mAdmin;
-
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	@Override
+	protected void initialize() {
+		super.initialize();
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
@@ -103,7 +78,7 @@ public class menu_Admin_Logs {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				Login login = new Login();
+				menu_Admin mA = new menu_Admin(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});
