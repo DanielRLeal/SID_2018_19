@@ -100,7 +100,7 @@ public class menu_Investigador extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorMedicoesLuminiosidade mLum = new investigadorMedicoesLuminiosidade(bd);
+				investigadorMedicoesLuminosidade mLum = new investigadorMedicoesLuminosidade(bd);
 			}
 		});
 

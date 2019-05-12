@@ -5,11 +5,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.DefaultListModel;
@@ -191,8 +193,6 @@ public class BancoDeDados {
 				Date date = new Date(timestamp.getTime());
 				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 				sdf.format(date);
-				System.out.println(date + " finalmente");
-				System.out.println("sdf  = " + sdf);
 
 				Medicoes medicao = new Medicoes(Integer.parseInt(this.resultset.getString("IDMedicoes")),
 						Integer.parseInt(this.resultset.getString("IDCultura_fk")),
@@ -386,10 +386,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirMedicoesLuminosidade(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoLuminosidade) {
+	public void inserirMedicoesLuminosidade(String timestamp, double ValorMedicaoLuminosidade) {
 		try {
-			String query = "INSERT INTO medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoLuminosidade) VALUES ('"
-					+ IDMedicao + "', '" + DataHoraMedicao + "', '" + ValorMedicaoLuminosidade + "');";
+			String query = "INSERT INTO medicoesluminosidade (DataHoraMedicao,ValorMedicaoLuminosidade) VALUES ('"
+					+ timestamp + "', '" + ValorMedicaoLuminosidade + "');";
 			System.out.println(query);
 
 			this.statement.executeUpdate(query);
@@ -430,8 +430,10 @@ public class BancoDeDados {
 			ArrayList<MedicaoTemperatura> listMedicoesTemp = new ArrayList<>();
 			while (this.resultset.next()) {
 
-				Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
-				Date date = new Date(timestamp.getTime());
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Date date = new Date();
+				dateFormat.format(date);
+
 				MedicaoTemperatura medTemp = new MedicaoTemperatura(
 						Integer.parseInt(this.resultset.getString("IDMedicao")), date,
 						Double.parseDouble(this.resultset.getString("ValorMedicaoTemperatura")));
@@ -447,10 +449,11 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirMedicoesTemperatura(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoTemperatura) {
+	public void inserirMedicoesTemperatura(String DataHoraMedicao, double ValorMedicaoTemperatura) {
 		try {
-			String query = "INSERT INTO medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoTemperatura) VALUES ('"
-					+ IDMedicao + "', '" + DataHoraMedicao + "', '" + ValorMedicaoTemperatura + "');";
+			String query = "INSERT INTO medicoestemperatura (DataHoraMedicao,ValorMedicaoTemperatura) VALUES ('"
+					+ DataHoraMedicao + "', '" + ValorMedicaoTemperatura + "');";
+			System.out.println(query);
 
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "medicoestemperatura adiciona com sucesso!");
@@ -480,6 +483,12 @@ public class BancoDeDados {
 	}
 
 	// Listar(..) Sistema
+
+//	public Date formateDate(Date d) {
+//
+//		return date;
+//
+//	}
 
 	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
 		ArrayList<Utilizador> newList = new ArrayList<>();
