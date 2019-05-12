@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -12,54 +13,68 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.border.MatteBorder;
 
+import Login.FuncoesAjuda;
+import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
+import bancoDeDados.Cultura;
 
 import javax.swing.JList;
 
-public class investigadorCultura extends JFrame {
+public class investigadorCultura extends JanelaBase {
+	// Adicionado
+	private static ArrayList<Cultura> listaCul;
 
-	private JFrame frame;
-	private String userGranted;
-	public int index;
-	public static BancoDeDados bd;
+//	private JFrame frame;
+//	private String userGranted;
+//	public int index;
+//	public static BancoDeDados bd;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					investigadorCultura window1 = new investigadorCultura(bd);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-		});
-	}
-
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					investigadorCultura window1 = new investigadorCultura(bd);
+//					listaCul=bd.listaCultura();
+//					window1.initialize();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//
+//			}
+//		});
+//	}
 	public investigadorCultura(BancoDeDados bd) {
-		this.bd = bd;
-	}
-
-	public investigadorCultura() {
+		super(bd);
+		getContentPane().setLayout(null);
+		listaCul = bd.listaCultura();
 		initialize();
 	}
 
-	private void initialize() {
+//	public investigadorCultura() {
+//		initialize();
+//	}
+	@Override
+	protected void initialize() {
+		// Adicionado
+		super.initialize();
 
-		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.ORANGE);
-		frame.getContentPane().setFont(new Font("Monotype Corsiva", Font.BOLD, 16));
-		frame.setBounds(250, 250, 500, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		frame.setResizable(false);
-		frame.setVisible(true);
+//		frame = new JFrame();
+//		frame.getContentPane().setBackground(Color.ORANGE);
+//		frame.getContentPane().setFont(new Font("Monotype Corsiva", Font.BOLD, 16));
+//		frame.setBounds(250, 250, 500, 500);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.getContentPane().setLayout(null);
+//		frame.setResizable(false);
+//		frame.setVisible(true);
 
 		JLabel lblBomDiaAcademia = new JLabel("Controlo de Culturas");
 		lblBomDiaAcademia.setFont(new Font("Leelawadee", Font.BOLD, 26));
@@ -67,7 +82,8 @@ public class investigadorCultura extends JFrame {
 		frame.getContentPane().add(lblBomDiaAcademia);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/interfaceGraphic/iscte-iul_s.png")));
+//		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/interfaceGraphic/iscte-iul_s.png")));
+		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("iscte-iul_s.png")));
 		lblNewLabel.setBounds(26, -11, 229, 126);
 		frame.getContentPane().add(lblNewLabel);
 
@@ -89,19 +105,26 @@ public class investigadorCultura extends JFrame {
 		lblBemVindonome.setBounds(174, 59, 205, 23);
 		frame.getContentPane().add(lblBemVindonome);
 
-		JPanel panel_1 = new JPanel();
+		JScrollPane panel_1 = new JScrollPane();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_1.setBackground(Color.GRAY);
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		// Listar Utilizadores na lista da página
-		// Isto está a dar a null n sei pq
-		bd.listarUtilizador();
+		// Listar Utilizadores na lista da pï¿½gina
+		// Isto estï¿½ a dar a null n sei pq
+//		bd.listarUtilizador();
 
-		JList list = new JList(bd.listaUtilizadores);
-		list.setBounds(0, 0, 470, 209);
-		panel_1.add(list);
+		// Adicionado
+		Object[] columnNames = { "#", "Nome Cultura", "Descriï¿½ï¿½o Cultura", "Utilizador" };
+		Object[][] culturas = FuncoesAjuda.listaParaTabela(bd.listaCultura(), 4);
+		JTable table = new JTable(culturas, columnNames);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setDefaultEditor(Object.class, null);
+
+//		JList list = new JList(bd.listaUtilizadores);
+//		list.setBounds(0, 0, 470, 209);
+		panel_1.setViewportView(table);
 
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -134,17 +157,17 @@ public class investigadorCultura extends JFrame {
 //		}
 //	}
 
-	/**
-	 * @return
-	 */
-	public JFrame getFrame() {
-		return frame;
-	}
-
-	/**
-	 * @param frame
-	 */
-	public void setFrame(JFrame frame) {
-		this.frame = frame;
-	}
+//	/**
+//	 * @return
+//	 */
+//	public JFrame getFrame() {
+//		return frame;
+//	}
+//
+//	/**
+//	 * @param frame
+//	 */
+//	public void setFrame(JFrame frame) {
+//		this.frame = frame;
+//	}
 }
