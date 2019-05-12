@@ -1,30 +1,35 @@
 package MenuInvestigador;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.JPanel;
+import java.awt.FlowLayout;
+import javax.swing.border.MatteBorder;
 
 import Login.JanelaBase;
+import Login.Login;
 import bancoDeDados.BancoDeDados;
 
-public class InvestigadorCriarMedicoes extends JanelaBase {
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 
-	private JTextField textField_IDMedicaoLum;
+public class investigadorCriarVariaveisMedidas extends JanelaBase {
+	private JTextField textField_NomeCultura;
 	private JTextField textField_DescricaoCultura;
-	private JTextField textField_valorMedLum;
-	private JFormattedTextField formatText;
+	private JTextField textField_Utilizador_resp;
 
-	public InvestigadorCriarMedicoes(BancoDeDados bd) {
+	public investigadorCriarVariaveisMedidas(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
@@ -33,7 +38,7 @@ public class InvestigadorCriarMedicoes extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma Medicao de Luminosidade");
+		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma cultura");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
 		frame.getContentPane().add(lblInicieASesso);
@@ -42,7 +47,7 @@ public class InvestigadorCriarMedicoes extends JanelaBase {
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Criar Medicao de Luminosidade");
+		JLabel lblMenu = new JLabel("Criar Cultura");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
@@ -52,27 +57,20 @@ public class InvestigadorCriarMedicoes extends JanelaBase {
 		btnVoltar.setBounds(12, 427, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 
-//		JLabel lblNomeDaCultura = new JLabel("Nome da Cultura");
-//		lblNomeDaCultura.setFont(new Font("Tahoma", Font.PLAIN, 18));
-//		lblNomeDaCultura.setBounds(12, 187, 169, 16);
-//		frame.getContentPane().add(lblNomeDaCultura);
+		JLabel lblNomeDaCultura = new JLabel("Nome da Cultura");
+		lblNomeDaCultura.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNomeDaCultura.setBounds(12, 187, 169, 16);
+		frame.getContentPane().add(lblNomeDaCultura);
 
-		textField_IDMedicaoLum = new JTextField();
-		textField_IDMedicaoLum.setColumns(10);
-		textField_IDMedicaoLum.setBounds(221, 186, 216, 22);
-		frame.getContentPane().add(textField_IDMedicaoLum);
+		textField_NomeCultura = new JTextField();
+		textField_NomeCultura.setColumns(10);
+		textField_NomeCultura.setBounds(221, 186, 216, 22);
+		frame.getContentPane().add(textField_NomeCultura);
 
-//		JLabel lblDescrioDaCultura = new JLabel("Descri\u00E7\u00E3o da Medicao");
-//		lblDescrioDaCultura.setFont(new Font("Tahoma", Font.PLAIN, 18));
-//		lblDescrioDaCultura.setBounds(12, 239, 197, 16);
-//		frame.getContentPane().add(lblDescrioDaCultura);
-
-//		Date date = new Date();
-//		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-//		String dateString = formatter.format(date);
-//		formatText = new JFormattedTextField(formatter);
-//		formatText.setColumns(20);
-//		formatText.setText(dateString);
+		JLabel lblDescrioDaCultura = new JLabel("Descri\u00E7\u00E3o da Cultura");
+		lblDescrioDaCultura.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblDescrioDaCultura.setBounds(12, 239, 197, 16);
+		frame.getContentPane().add(lblDescrioDaCultura);
 
 		textField_DescricaoCultura = new JTextField();
 		textField_DescricaoCultura.setColumns(10);
@@ -84,10 +82,10 @@ public class InvestigadorCriarMedicoes extends JanelaBase {
 		lblUtilizadorResponsvel.setBounds(12, 291, 197, 16);
 		frame.getContentPane().add(lblUtilizadorResponsvel);
 
-		textField_valorMedLum = new JTextField();
-		textField_valorMedLum.setColumns(10);
-		textField_valorMedLum.setBounds(221, 290, 216, 22);
-		frame.getContentPane().add(textField_valorMedLum);
+		textField_Utilizador_resp = new JTextField();
+		textField_Utilizador_resp.setColumns(10);
+		textField_Utilizador_resp.setBounds(221, 290, 216, 22);
+		frame.getContentPane().add(textField_Utilizador_resp);
 
 		JButton buttonCriar = new JButton("Criar");
 		buttonCriar.setBounds(340, 339, 97, 25);
@@ -96,11 +94,8 @@ public class InvestigadorCriarMedicoes extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-					Date date = new Date();
-
-					bd.inserirMedicoes(1, 1, date, 50);
-					// textField_IDMedicaoLum.getText(), date, textField_valorMedLum.getText()
+					bd.inserirCultura(textField_NomeCultura.getText(), textField_DescricaoCultura.getText(),
+							textField_Utilizador_resp.getText());
 				} catch (Exception e2) {
 				}
 			}
@@ -110,7 +105,7 @@ public class InvestigadorCriarMedicoes extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorMedicoes iMed = new investigadorMedicoes(bd);
+				investigadorVariaveisMedidas ac = new investigadorVariaveisMedidas(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});

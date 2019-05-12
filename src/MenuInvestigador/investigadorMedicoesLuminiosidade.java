@@ -124,7 +124,7 @@ public class investigadorMedicoesLuminiosidade extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				InvestigadorCriarMedicaoLuminosidade icd = new InvestigadorCriarMedicaoLuminosidade(bd);
+				investigadorCriarMedicaoLuminosidade icd = new investigadorCriarMedicaoLuminosidade(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});

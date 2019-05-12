@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -187,9 +187,12 @@ public class BancoDeDados {
 			ArrayList<Medicoes> listMedicoes = new ArrayList<Medicoes>();
 			while (this.resultset.next()) {
 
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date date = dateFormat.parse(this.resultset.getString("DataHoraMedicao"));
-				System.out.println(date + "ola");
+				Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
+				Date date = new Date(timestamp.getTime());
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				sdf.format(date);
+				System.out.println(date + " finalmente");
+				System.out.println("sdf  = " + sdf);
 
 				Medicoes medicao = new Medicoes(Integer.parseInt(this.resultset.getString("IDMedicoes")),
 						Integer.parseInt(this.resultset.getString("IDCultura_fk")),
@@ -199,11 +202,6 @@ public class BancoDeDados {
 			}
 			return listMedicoes;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Falha a listar Medicoes");
-			return null;
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Falha a listar Medicoes");
 			return null;
@@ -303,6 +301,63 @@ public class BancoDeDados {
 
 	// Listar(..) VariaveisMedidas
 
+	public ArrayList<VariaveisMedidas> listaVariaveisMedidas() {
+		try {
+			String query = "SELECT c.IDCultura, c.NomeCultura, c.DescricaoCultura, c.IDUtilizador_fk, u.NomeUtilizador "
+					+ "FROM cultura c " + "INNER JOIN utilizador u ON u.IDUtilizador = c.IDUtilizador_fk;";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+
+			ArrayList<VariaveisMedidas> listVariaveisMedidas = new ArrayList<VariaveisMedidas>();
+			while (this.resultset.next()) {
+				VariaveisMedidas vm = new VariaveisMedidas(Integer.parseInt(this.resultset.getString("IDCultura_fk")),
+						Integer.parseInt(this.resultset.getString("IDVariavel_fk")),
+						Integer.parseInt(this.resultset.getString("LimiteSuperior")),
+						Integer.parseInt(this.resultset.getString("LimiteInferior")));
+				listVariaveisMedidas.add(vm);
+			}
+
+			return listVariaveisMedidas;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar VariaveisMedidas");
+			return null;
+		}
+	}
+
+	public void inserirVariaveisMedidas(int IDCultura_fk, int IDVariavel_fk, int LimiteSuperior, int LimiteInferior) {
+
+//		IDCultura_fk,IDVariavel_fk,LimiteSuperior,LimiteInferior,
+		try {
+			String query = "INSERT INTO VariaveisMedidas (IDCultura_fk,IDVariavel_fk,LimiteSuperior,LimiteInferior) VALUES ('"
+					+ IDCultura_fk + "', '" + IDVariavel_fk + "', '" + LimiteSuperior + "', '" + LimiteInferior + "');";
+
+			this.statement.executeUpdate(query);
+			JOptionPane.showMessageDialog(null, "VariaveisMedidas adiciona com sucesso!");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a inserir VariaveisMedidas");
+		}
+	}
+
+	public void actualizarVariaveisMedidas(int id, String nome, String descricao, String IDUtilizador_fk) {
+		try {
+			String query = "UPDATE Cultura set NomeCultura = '" + nome + "' , DescricaoCultura = '" + descricao
+					+ "', IDUtilizador_fk = '" + IDUtilizador_fk + "' WHERE IDCultura = " + id + ";";
+			this.statement.executeUpdate(query);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a actualizar VariaveisMedidas");
+		}
+	}
+
+	public void apagarVariaveisMedidas(int id) {
+		try {
+			String query = "DELETE FROM Cultura WHERE IDCultura = '" + id + "';";
+			this.statement.executeUpdate(query);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Falha a apagar VariaveisMedidas");
+		}
+	}
+
 	// Listar(..) MedicoesLuminiosidade
 
 	public ArrayList<MedicaoLuminosidade> listaMedicoesLuminosidade() {
@@ -314,9 +369,8 @@ public class BancoDeDados {
 			ArrayList<MedicaoLuminosidade> listMedicoesLumin = new ArrayList<>();
 			while (this.resultset.next()) {
 
-				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-				Date date = dateFormat.parse(this.resultset.getString("DataHoraMedicao"));
-
+				Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
+				Date date = new Date(timestamp.getTime());
 				MedicaoLuminosidade medLum = new MedicaoLuminosidade(
 						Integer.parseInt(this.resultset.getString("IDMedicao")), date,
 						Double.parseDouble(this.resultset.getString("ValorMedicaoLuminosidade")));
@@ -326,10 +380,6 @@ public class BancoDeDados {
 
 			return listMedicoesLumin;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Falha a listar medicoesluminosidade");
-			return null;
-		} catch (ParseException e) {
 			e.printStackTrace();
 			System.out.println("Falha a listar medicoesluminosidade");
 			return null;
@@ -380,9 +430,8 @@ public class BancoDeDados {
 			ArrayList<MedicaoTemperatura> listMedicoesTemp = new ArrayList<>();
 			while (this.resultset.next()) {
 
-				DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-				Date date = dateFormat.parse(this.resultset.getString("DataHoraMedicao"));
-
+				Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
+				Date date = new Date(timestamp.getTime());
 				MedicaoTemperatura medTemp = new MedicaoTemperatura(
 						Integer.parseInt(this.resultset.getString("IDMedicao")), date,
 						Double.parseDouble(this.resultset.getString("ValorMedicaoTemperatura")));
@@ -392,10 +441,6 @@ public class BancoDeDados {
 
 			return listMedicoesTemp;
 		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Falha a listar medicoestemperatura");
-			return null;
-		} catch (ParseException e) {
 			e.printStackTrace();
 			System.out.println("Falha a listar medicoestemperatura");
 			return null;

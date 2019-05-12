@@ -1,5 +1,7 @@
 package bancoDeDados;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MedicaoTemperatura implements ObjectBD {
@@ -47,6 +49,11 @@ public class MedicaoTemperatura implements ObjectBD {
 
 	public void setValorMedicaoTemperatura(double valorMedicaoTemperatura) {
 		ValorMedicaoTemperatura = valorMedicaoTemperatura;
+	}
+
+	public String getDataHoraMedicaoString() {
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return dateFormat.format(DataHoraMedicao);
 	}
 
 }

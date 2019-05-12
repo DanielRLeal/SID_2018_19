@@ -18,14 +18,14 @@ import javax.swing.text.DateFormatter;
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
 
-public class InvestigadorCriarMedicaoLuminosidade extends JanelaBase {
+public class investigadorCriarMedicaoLuminosidade extends JanelaBase {
 
 	private JTextField textField_IDMedicaoLum;
 	private JTextField textField_DescricaoCultura;
 	private JTextField textField_valorMedLum;
 	private JFormattedTextField formatText;
 
-	public InvestigadorCriarMedicaoLuminosidade(BancoDeDados bd) {
+	public investigadorCriarMedicaoLuminosidade(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
@@ -111,7 +111,7 @@ public class InvestigadorCriarMedicaoLuminosidade extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorMedicoesLuminiosidade iMedLum = new investigadorMedicoesLuminiosidade(bd);
+				investigadorMedicoesLuminosidade aMedLum = new investigadorMedicoesLuminosidade(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});

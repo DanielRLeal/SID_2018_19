@@ -113,7 +113,7 @@ public class menu_Investigador extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorMedicoesTemperatura mTemp = new investigadorMedicoesTemperatura(bd);
+				investigadorMedicoesTemp mTemp = new investigadorMedicoesTemp(bd);
 			}
 		});
 
