@@ -19,45 +19,47 @@ public class VerificarAlertas implements Runnable {
 	private BancoDeDados bd;
 	private final String emailRemetente = "es2.2019.iscte";
 	private final String emailPass = "es22019iscte";
+	
+    public VerificarAlertas(BancoDeDados bd) {
+    	this.bd = bd;
+    }
 
-	public VerificarAlertas(BancoDeDados bd) {
-		this.bd = bd;
-	}
-
-	public void run() {
-		while (true) {
-			try {
-				ArrayList<Alerta> alert = bd.verificarAlertas();
-				if (alert != null) {
-					for (Alerta alerta : alert) {
-						String mensagem = "Limite Ultrapassado " + alerta.getDescricao();
-						String assunto = "Alerta da variavel " + alerta.getNomeVariavel();
-
-						if (alerta.getEmailUtilizador() != null && !alerta.getEmailUtilizador().isEmpty()) {
-							// envia email para o utilizador, alerta destinado ao investigador
+    public void run() {
+        while(true){
+        	try {
+        		ArrayList<Alerta> alert = bd.verificarAlertas();
+        		if(alert != null){
+	        		for (Alerta alerta : alert) {
+	        			String mensagem = "Limite Ultrapassado " + alerta.getDescricao();
+	        			String assunto = "Alerta da variavel " + alerta.getNomeVariavel();
+	        			
+						if(alerta.getEmailUtilizador() != null && !alerta.getEmailUtilizador().isEmpty()){
+							//envia email para o utilizador, alerta destinado ao investigador
 							sendEmail(alerta.getEmailUtilizador(), assunto, mensagem);
-						} else {
-							// envia email para email generico, alerta do sensor
+						}else{
+							//envia email para email generico, alerta do sensor
 							sendEmail(emailRemetente, assunto, mensagem);
 						}
-
+						
 						JOptionPane.showMessageDialog(null, mensagem);
-
+						
 						bd.tornarAlertaVisto(alerta);
 					}
-				}
-
+        		}
+        		
 				Thread.sleep(60000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-	}
-
-	public void sendEmail(String emailDestinatario, String Assunto, String corpoEmail) {
+        }
+    }
+    
+    
+    public void sendEmail(String emailDestinatario, String Assunto, String corpoEmail) {
 		try {
 
+			Properties props = props();
 			String host = "smtp.gmail.com";
 			String user = emailRemetente;
 			String pass = emailPass;
@@ -66,14 +68,6 @@ public class VerificarAlertas implements Runnable {
 			String subject = Assunto;
 			String messageText = corpoEmail;
 			boolean sessionDebug = false;
-
-			Properties props = System.getProperties();
-
-			props.put("mail.smtp.starttls.enable", "true");
-			props.put("mail.smtp.host", host);
-			props.put("mail.smtp.port", "587");
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.starttls.required", "true");
 
 			java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 			Session mailSession = Session.getDefaultInstance(props, null);
@@ -95,5 +89,16 @@ public class VerificarAlertas implements Runnable {
 			System.out.println(ex);
 		}
 
+	}
+
+	private Properties props() {
+		String host = "smtp.gmail.com";
+		Properties props = System.getProperties();
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", host);
+		props.put("mail.smtp.port", "587");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.required", "true");
+		return props;
 	}
 }

@@ -28,7 +28,7 @@ public class BancoDeDados {
 	String BDname = "sid_bd_php.";
 	
 	public void conectar(String utilizador, String pass) {
-		String servidor = "jdbc:mysql://localhost:3306/";
+		String servidor = "jdbc:mysql://localhost:3306/sid_bd_php";
 		String driver = "com.mysql.jdbc.Driver";
 		try {
 			Class.forName(driver);
@@ -36,11 +36,16 @@ public class BancoDeDados {
 			this.statement = this.connection.createStatement();
 			getUtilizador(utilizador);
 			
-			VerificarAlertas vAlertas = new VerificarAlertas(this);
-			Thread t = new Thread(vAlertas);
-			t.start();
+			Thread t = t();
 		} catch (Exception e) {
 		}
+	}
+
+	private Thread t() {
+		VerificarAlertas vAlertas = new VerificarAlertas(this);
+		Thread t = new Thread(vAlertas);
+		t.start();
+		return t;
 	}
 
 	public boolean estaLigado() {
@@ -57,10 +62,6 @@ public class BancoDeDados {
 				utilizadorLogado = new Utilizador(0, "UserRoot", "root", "root@iscte-iul.pt", true);
 				return;
 			}
-//			if (utilizador.equals("pedroalmeida")) {
-//				utilizadorLogado = new Utilizador(1, "UserRoot", "root", "root@iscte-iul.pt", true);
-//				return;
-//			}
 
 			String query = "SELECT * FROM " + BDname + "utilizador WHERE IDUtilizador = " + utilizador;
 			this.resultset = this.statement.executeQuery(query);
@@ -82,12 +83,9 @@ public class BancoDeDados {
 			String query = "SELECT * FROM " + BDname + "utilizador";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
+			temp(temp);
 			while (this.resultset.next()) {
 
-				Utilizador user = new Utilizador(this.resultset.getInt("IDUtilizador"),
-						this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
-						this.resultset.getString("Email"), this.resultset.getBoolean("Activo"));
-				temp.add(user);
 				users = removeDuplicates(temp);
 
 			}
@@ -98,9 +96,18 @@ public class BancoDeDados {
 		return users;
 	}
 
+	private void temp(ArrayList<Utilizador> temp) throws java.sql.SQLException {
+		while (this.resultset.next()) {
+			Utilizador user = new Utilizador(this.resultset.getInt("IDUtilizador"),
+					this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
+					this.resultset.getString("Email"), this.resultset.getBoolean("Activo"));
+			temp.add(user);
+		}
+	}
+
 	public void inserirUtilizador(String nome, String password, String categoria, String email, boolean activo) {
 		try {
-			//Corre sem erros, mas não executa o SP...
+			//Corre sem erros, mas nï¿½o executa o SP...
 			/*String query = "{CALL " + BDname + "CriarUtilizador(?, ?, ?, ?, ?)}";
 			CallableStatement stmt = this.connection.prepareCall(query);
 			
@@ -124,7 +131,7 @@ public class BancoDeDados {
 
 	public void actualizarUtilizador(int id, String nome, String categoria, String email, boolean activo, String password) {
 		try {
-			//Corre sem erros, mas não executa o SP...
+			//Corre sem erros, mas nï¿½o executa o SP...
 			/*String query = "{CALL " + BDname + "EditarUtilizador(?, ?, ?, ?, ?, ?)}";
 			CallableStatement stmt = this.connection.prepareCall(query);
 			
@@ -148,7 +155,7 @@ public class BancoDeDados {
 
 	public void apagarUtilizador(int id, boolean bool) {
 		try {
-			//Corre sem erros, mas não executa o SP...
+			//Corre sem erros, mas nï¿½o executa o SP...
 			/*String query = "{CALL " + BDname + "ApagarUtilizador(?)}";
 			CallableStatement stmt = this.connection.prepareCall(query);
 			
@@ -165,12 +172,6 @@ public class BancoDeDados {
 		}
 	}
 
-	/**
-	 * 
-	 * faz o select e coloca num arraylist de culturas
-	 * 
-	 * @return arraylist com culturas
-	 */
 	public ArrayList<Cultura> listaCultura() {
 		try {
 			String query = "SELECT c.IDCultura, c.NomeCultura, c.DescricaoCultura, c.IDUtilizador_fk, u.NomeUtilizador "
@@ -182,7 +183,8 @@ public class BancoDeDados {
 			while (this.resultset.next()) {
 				Cultura cultura = new Cultura(this.resultset.getInt("IDCultura"),
 						this.resultset.getString("NomeCultura"), this.resultset.getString("DescricaoCultura"),
-						this.resultset.getInt("IDUtilizador_fk"), this.resultset.getString("NomeUtilizador"));
+						this.resultset.getInt("IDUtilizador_fk"),
+						this.resultset.getString("NomeUtilizador"));
 				listCulturas.add(cultura);
 			}
 			return listCulturas;
@@ -193,10 +195,6 @@ public class BancoDeDados {
 		}
 	}
 
-	/**
-	 * recebe nome, descriçao e IDUtilizador e cria uma cultura na db
-	 * 
-	 */
 	public void inserirCultura(String nome, String descricao, String IDUtilizador_fk) {
 		try {
 			String query = "INSERT INTO " + BDname + "Cultura (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES ('" + nome
@@ -219,12 +217,6 @@ public class BancoDeDados {
 		}
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * 
-	 *           apaga uma cultura da db com o id=id
-	 */
 	public void apagarCultura(int id) {
 		try {
 			String query = "DELETE FROM " + BDname + "Cultura WHERE IDCultura = '" + id + "';";
@@ -234,11 +226,7 @@ public class BancoDeDados {
 		}
 	}
 
-	/**
-	 * faz o select e coloca todas as medicoes na db num arraylist
-	 * 
-	 * @return lista de medicoes
-	 */
+	// Listar(..) Medicoes
 
 	public ArrayList<Medicoes> listaMedicoes() {
 		try {
@@ -257,8 +245,10 @@ public class BancoDeDados {
 				sdf.format(date);
 
 				Medicoes medicao = new Medicoes(this.resultset.getInt("IDMedicoes"),
-						this.resultset.getInt("IDCultura_fk"), this.resultset.getString("NomeCultura"),
-						this.resultset.getInt("IDVariavel_fk"), this.resultset.getString("NomeVariaveis"), date,
+						this.resultset.getInt("IDCultura_fk"),
+						this.resultset.getString("NomeCultura"),
+						this.resultset.getInt("IDVariavel_fk"), 
+						this.resultset.getString("NomeVariaveis"), date,
 						this.resultset.getDouble("valorMedicao"));
 				listMedicoes.add(medicao);
 			}
@@ -270,15 +260,7 @@ public class BancoDeDados {
 		}
 	}
 
-	/**
-	 * 
-	 * @param IDCultura_fk
-	 * @param iDVariavel_fk
-	 * @param dataHoraMedicao
-	 * @param ValorMedicao
-	 */
-	public void inserirMedicoes(String IDCultura_fk, String iDVariavel_fk, String dataHoraMedicao,
-			double ValorMedicao) {
+	public void inserirMedicoes(String IDCultura_fk, String iDVariavel_fk, String dataHoraMedicao, double ValorMedicao) {
 		try {
 			String query = "INSERT INTO " + BDname + "Medicoes (IDCultura_fk, IDVariavel_fk, DataHoraMedicao, ValorMedicao) VALUES ('"
 					+ IDCultura_fk + "', '" + iDVariavel_fk + "', '" + dataHoraMedicao + "', '" + ValorMedicao + "');";
@@ -290,13 +272,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void actualizarMedicoes(int IDMedicoes, int IDCultura_fk, int IDVariavel_fk, String dataHoraMedicao,
-			double ValorMedicao) {
+	public void actualizarMedicoes(int IDMedicoes, int IDCultura_fk, int IDVariavel_fk, String dataHoraMedicao, double ValorMedicao) {
 		try {
-
 			String query = "UPDATE " + BDname + "Medicoes set IDCultura_fk = " + IDCultura_fk + ", IDVariavel_fk = " + IDVariavel_fk + ", "
 					+ "DataHoraMedicao = " + dataHoraMedicao + ",ValorMedicao = " + ValorMedicao + " WHERE IDMedicoes = " + IDMedicoes + ";";
-
 			System.out.println(query);
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
@@ -324,7 +303,8 @@ public class BancoDeDados {
 			while (this.resultset.next()) {
 
 				Variaveis var = new Variaveis(this.resultset.getInt("IDVariaveis"),
-						this.resultset.getString("NomeVariaveis"), this.resultset.getInt("IDCultura_fk"),
+						this.resultset.getString("NomeVariaveis"),
+						this.resultset.getInt("IDCultura_fk"),
 						this.resultset.getString("NomeCultura"));
 				temp.add(var);
 			}
@@ -343,7 +323,7 @@ public class BancoDeDados {
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			// Cria Variaveis insere no programa enquanto nao fechado
-			// Mas não adiciona correctamente na GUI
+			// Mas nï¿½o adiciona correctamente na GUI
 			JOptionPane.showMessageDialog(null, "Falha a inserir Variaveis");
 		}
 	}
@@ -382,8 +362,10 @@ public class BancoDeDados {
 			ArrayList<VariaveisMedidas> listVariaveisMedidas = new ArrayList<VariaveisMedidas>();
 			while (this.resultset.next()) {
 				VariaveisMedidas vm = new VariaveisMedidas(this.resultset.getInt("IDCultura_fk"),
-						this.resultset.getString("NomeCultura"), this.resultset.getInt("IDVariavel_fk"),
-						this.resultset.getString("NomeVariaveis"), this.resultset.getDouble("LimiteSuperior"),
+						this.resultset.getString("NomeCultura"),
+						this.resultset.getInt("IDVariavel_fk"),
+						this.resultset.getString("NomeVariaveis"),
+						this.resultset.getDouble("LimiteSuperior"),
 						this.resultset.getDouble("LimiteInferior"));
 				listVariaveisMedidas.add(vm);
 			}
@@ -395,7 +377,7 @@ public class BancoDeDados {
 			return null;
 		}
 	}
-
+	
 	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, double limSuperior,
 			double limInferior) {
 
@@ -424,7 +406,6 @@ public class BancoDeDados {
 	public void apagarVariaveisMedidas(int idCultura, int idVariavel) {
 		try {
 			String query = "DELETE FROM " + BDname + "variaveismedidas WHERE IDCultura_fk = '" + idCultura + "' AND IDVariavel_fk = '" + idVariavel + "';";
-
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar VariaveisMedidas");
@@ -442,11 +423,7 @@ public class BancoDeDados {
 			ArrayList<MedicaoLuminosidade> listMedicoesLumin = new ArrayList<>();
 			while (this.resultset.next()) {
 
-				Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
-				Date date = new Date(timestamp.getTime());
-				MedicaoLuminosidade medLum = new MedicaoLuminosidade(this.resultset.getInt("IDMedicao"), date,
-						this.resultset.getDouble("ValorMedicaoLuminosidade"));
-
+				MedicaoLuminosidade medLum = medLum();
 				listMedicoesLumin.add(medLum);
 			}
 
@@ -456,6 +433,14 @@ public class BancoDeDados {
 			System.out.println("Falha a listar medicoesluminosidade");
 			return null;
 		}
+	}
+
+	private MedicaoLuminosidade medLum() throws java.sql.SQLException {
+		Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
+		Date date = new Date(timestamp.getTime());
+		MedicaoLuminosidade medLum = new MedicaoLuminosidade(this.resultset.getInt("IDMedicao"), date,
+				this.resultset.getDouble("ValorMedicaoLuminosidade"));
+		return medLum;
 	}
 
 	public void inserirMedicoesLuminosidade(String dataHoraMedicao, double ValorMedicaoLuminosidade) {
@@ -502,11 +487,7 @@ public class BancoDeDados {
 			ArrayList<MedicaoTemperatura> listMedicoesTemp = new ArrayList<>();
 			while (this.resultset.next()) {
 
-				Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
-				Date date = new Date(timestamp.getTime());
-				MedicaoTemperatura medTemp = new MedicaoTemperatura(this.resultset.getInt("IDMedicao"), date,
-						this.resultset.getDouble("ValorMedicaoTemperatura"));
-
+				MedicaoTemperatura medTemp = medTemp();
 				listMedicoesTemp.add(medTemp);
 			}
 
@@ -516,6 +497,14 @@ public class BancoDeDados {
 			System.out.println("Falha a listar medicoestemperatura");
 			return null;
 		}
+	}
+
+	private MedicaoTemperatura medTemp() throws java.sql.SQLException {
+		Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
+		Date date = new Date(timestamp.getTime());
+		MedicaoTemperatura medTemp = new MedicaoTemperatura(this.resultset.getInt("IDMedicao"), date,
+				this.resultset.getDouble("ValorMedicaoTemperatura"));
+		return medTemp;
 	}
 
 	public void inserirMedicoesTemperatura(String dataHoraMedicao, double ValorMedicaoTemperatura) {
@@ -603,7 +592,8 @@ public class BancoDeDados {
 			while (this.resultset.next()) {
 
 				Utilizador_Log user = new Utilizador_Log(this.resultset.getInt("IDLog"),
-						this.resultset.getInt("IDLogUtilizador"), this.resultset.getInt("IDUtilizador"),
+						this.resultset.getInt("IDLogUtilizador"),
+						this.resultset.getInt("IDUtilizador"),
 						this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
 						this.resultset.getString("Email"), this.resultset.getBoolean("Activo"),
 						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
@@ -624,12 +614,13 @@ public class BancoDeDados {
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
-				Alertas_Log user = new Alertas_Log(this.resultset.getInt("IDLog"), this.resultset.getInt("IDAlerta"),
-						this.resultset.getInt("IDUtilizador"), this.resultset.getString("DataHora"),
-						this.resultset.getString("NomeVariavel"), this.resultset.getDouble("LimiteInferior"),
-						this.resultset.getDouble("LimiteSuperior"), this.resultset.getDouble("ValorMedicao"),
-						this.resultset.getString("Descricao"), this.resultset.getBoolean("Visto"),
-						this.resultset.getString("Data"));
+				Alertas_Log user = new Alertas_Log(this.resultset.getInt("IDLog"),
+						this.resultset.getInt("IDAlerta"),
+						this.resultset.getInt("IDUtilizador"),
+						this.resultset.getString("DataHora"), this.resultset.getString("NomeVariavel"),
+						this.resultset.getDouble("LimiteInferior"), this.resultset.getDouble("LimiteSuperior"),
+						this.resultset.getDouble("ValorMedicao"), this.resultset.getString("Descricao"),
+						this.resultset.getBoolean("Visto"), this.resultset.getString("Data"));
 				temp.add(user);
 			}
 		} catch (SQLException e) {
@@ -649,8 +640,10 @@ public class BancoDeDados {
 
 				// passar para double ValorMEDICAO
 				Medicoes_Log user = new Medicoes_Log(this.resultset.getInt("IDLog"),
-						this.resultset.getInt("IDLogUtilizador"), this.resultset.getInt("IDMedicoes"),
-						this.resultset.getInt("IDCultura"), this.resultset.getInt("IDVariavel"),
+						this.resultset.getInt("IDLogUtilizador"),
+						this.resultset.getInt("IDMedicoes"),
+						this.resultset.getInt("IDCultura"),
+						this.resultset.getInt("IDVariavel"),
 						this.resultset.getString("DataHoraMedicao"), this.resultset.getDouble("ValorMedicao"),
 						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
 				temp.add(user);
@@ -671,10 +664,11 @@ public class BancoDeDados {
 			while (this.resultset.next()) {
 
 				Cultura_Log user = new Cultura_Log(this.resultset.getInt("IDLog"),
-						this.resultset.getInt("IDLogUtilizador"), this.resultset.getInt("IDCultura"),
+						this.resultset.getInt("IDLogUtilizador"),
+						this.resultset.getInt("IDCultura"),
 						this.resultset.getString("NomeCultura"), this.resultset.getString("DescricaoCultura"),
-						this.resultset.getInt("IDUtilizador"), this.resultset.getString("Operacao"),
-						this.resultset.getString("Data"));
+						this.resultset.getInt("IDUtilizador"),
+						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
 				temp.add(user);
 			}
 		} catch (SQLException e) {
@@ -692,10 +686,14 @@ public class BancoDeDados {
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
-				VariaveisMedidas_Log user = new VariaveisMedidas_Log(this.resultset.getInt("IDLog"),
-						this.resultset.getInt("IDLogUtilizador"), this.resultset.getInt("IDCultura"),
-						this.resultset.getInt("IDVariavel"), this.resultset.getDouble("LimiteSuperior"),
-						this.resultset.getDouble("LimiteInferior"), this.resultset.getString("Operacao"),
+				VariaveisMedidas_Log user = new VariaveisMedidas_Log(
+						this.resultset.getInt("IDLog"),
+						this.resultset.getInt("IDLogUtilizador"),
+						this.resultset.getInt("IDCultura"),
+						this.resultset.getInt("IDVariavel"),
+						this.resultset.getDouble("LimiteSuperior"),
+						this.resultset.getDouble("LimiteInferior"),
+						this.resultset.getString("Operacao"), 
 						this.resultset.getString("Data"));
 				temp.add(user);
 			}
@@ -715,9 +713,12 @@ public class BancoDeDados {
 			while (this.resultset.next()) {
 
 				Variaveis_Log user = new Variaveis_Log(this.resultset.getInt("IDLog"),
-						this.resultset.getInt("IDLogUtilizador"), this.resultset.getInt("IDVariaveis"),
-						this.resultset.getString("NomeVariaveis"), this.resultset.getInt("IDCultura"),
-						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
+						this.resultset.getInt("IDLogUtilizador"),
+						this.resultset.getInt("IDVariaveis"),
+						this.resultset.getString("NomeVariaveis"),
+						this.resultset.getInt("IDCultura"),
+						this.resultset.getString("Operacao"),
+						this.resultset.getString("Data"));
 				temp.add(user);
 			}
 		} catch (SQLException e) {
@@ -726,12 +727,7 @@ public class BancoDeDados {
 		}
 		return temp;
 	}
-
-	/**
-	 * Faz o select de alertas e coloca num array
-	 * 
-	 * @return ArrayList de Alertas
-	 */
+	
 	public ArrayList<Alerta> verificarAlertas() {
 		ArrayList<Alerta> temp = new ArrayList<>();
 		try {
@@ -748,12 +744,17 @@ public class BancoDeDados {
 				Date date = new Date(timestamp.getTime());
 				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 				sdf.format(date);
-
+				
 				int IDUtilizador = IDUtilizador();
-				Alerta alerta = new Alerta(Integer.parseInt(this.resultset.getString("IDAlerta")), IDUtilizador,
-						this.resultset.getString("Email"), date, this.resultset.getString("NomeVariavel"),
-						this.resultset.getDouble("LimiteInferior"), this.resultset.getDouble("LimiteSuperior"),
-						this.resultset.getDouble("ValorMedicao"), this.resultset.getString("Descricao"),
+				Alerta alerta = new Alerta(Integer.parseInt(this.resultset.getString("IDAlerta")),
+						IDUtilizador,
+						this.resultset.getString("Email"),
+						date,
+						this.resultset.getString("NomeVariavel"),
+						this.resultset.getDouble("LimiteInferior"),
+						this.resultset.getDouble("LimiteSuperior"),
+						this.resultset.getDouble("ValorMedicao"),
+						this.resultset.getString("Descricao"),
 						this.resultset.getBoolean("Visto"));
 				temp.add(alerta);
 			}
@@ -764,23 +765,13 @@ public class BancoDeDados {
 		return temp;
 	}
 
-	/**
-	 * 
-	 * @return inteiro com o ID do utilizador
-	 * @throws java.sql.SQLException
-	 */
 	private int IDUtilizador() throws java.sql.SQLException {
 		int IDUtilizador = 0;
 		if (this.resultset.findColumn("IDUtilizador") > 0)
 			IDUtilizador = this.resultset.getInt("IDUtilizador");
 		return IDUtilizador;
 	}
-
-	/**
-	 * altera o alerta para lido/visto
-	 * 
-	 * @param alerta
-	 */
+	
 	public void tornarAlertaVisto(Alerta alerta) {
 		try {
 			String query = "UPDATE " + BDname + "alertas SET Visto = 1 WHERE IDAlerta = " + alerta.getIDAlerta() + ";";

@@ -39,35 +39,17 @@ public class ListMedicoes extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JLabel lblInicieASesso = new JLabel("Consulta de Medicoes");
-		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblInicieASesso.setBounds(186, 157, 196, 16);
+		JLabel lblInicieASesso = lblInicieASesso();
 		frame.getContentPane().add(lblInicieASesso);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 107, 494, 37);
+		JPanel panel = panel();
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Medições");
-		panel.add(lblMenu);
-		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
-
-		JScrollPane panel_1 = new JScrollPane();
-		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
-		panel_1.setBackground(Color.GRAY);
-		panel_1.setBounds(12, 183, 470, 209);
+		JScrollPane panel_1 = panel_1();
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = { "#", "Cultura", " Variável", "Data Hora Medição", "Valor Medição" };
-
-		Object[][] Medicoes = FuncoesAjuda.listaParaTabela(medicoes, 5);
-
-		JTable table = new JTable(Medicoes, columnNames);
+		JTable table = table();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setDefaultEditor(Object.class, null);
-
-		panel_1.setViewportView(table);
-
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnVoltar.setBackground(new Color(192, 192, 192));
@@ -224,5 +206,39 @@ public class ListMedicoes extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
+	}
+
+	private JScrollPane panel_1() {
+		JScrollPane panel_1 = new JScrollPane();
+		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
+		panel_1.setBackground(Color.GRAY);
+		panel_1.setBounds(12, 183, 470, 209);
+		JTable table = table();
+		panel_1.setViewportView(table);
+		return panel_1;
+	}
+
+	private JLabel lblInicieASesso() {
+		JLabel lblInicieASesso = new JLabel("Consulta de Medicoes");
+		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblInicieASesso.setBounds(186, 157, 196, 16);
+		return lblInicieASesso;
+	}
+
+	private JTable table() {
+		Object[] columnNames = { "#", "Cultura", " Variï¿½vel", "Data Hora Mediï¿½ï¿½o", "Valor Mediï¿½ï¿½o" };
+		Object[][] Medicoes = FuncoesAjuda.listaParaTabela(medicoes, 5);
+		JTable table = new JTable(Medicoes, columnNames);
+		table.setDefaultEditor(Object.class, null);
+		return table;
+	}
+
+	private JPanel panel() {
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 107, 494, 37);
+		JLabel lblMenu = new JLabel("Mediï¿½ï¿½es");
+		panel.add(lblMenu);
+		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
+		return panel;
 	}
 }

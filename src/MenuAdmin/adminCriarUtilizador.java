@@ -39,18 +39,11 @@ public class adminCriarUtilizador extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de um utilizador");
-		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblInicieASesso.setBounds(186, 157, 196, 16);
+		JLabel lblInicieASesso = lblInicieASesso();
 		frame.getContentPane().add(lblInicieASesso);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 107, 494, 37);
+		JPanel panel = panel();
 		frame.getContentPane().add(panel);
-
-		JLabel lblMenu = new JLabel("Criar Utilizador");
-		panel.add(lblMenu);
-		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -58,44 +51,25 @@ public class adminCriarUtilizador extends JanelaBase {
 		btnVoltar.setBounds(12, 427, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 
-		textField_TipoDeUti = new JTextField();
-		textField_TipoDeUti.setBounds(194, 297, 216, 22);
+		textField_TipoDeUti();
 		frame.getContentPane().add(textField_TipoDeUti);
-		textField_TipoDeUti.setColumns(10);
-
-		textField_password = new JTextField();
-		textField_password.setBounds(194, 245, 216, 22);
+		textField_password();
 		frame.getContentPane().add(textField_password);
-		textField_password.setColumns(10);
-
-		textField_nome = new JTextField();
-		textField_nome.setBounds(194, 193, 216, 22);
+		textField_nome();
 		frame.getContentPane().add(textField_nome);
-		textField_nome.setColumns(10);
-
-		JLabel lblNome = new JLabel("Nome ");
-		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNome.setBounds(26, 194, 56, 16);
+		JLabel lblNome = lblNome();
 		frame.getContentPane().add(lblNome);
 
-		JLabel lblTipoDeUtilizador = new JLabel("Tipo de Utilizador");
-		lblTipoDeUtilizador.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblTipoDeUtilizador.setBounds(26, 298, 157, 16);
+		JLabel lblTipoDeUtilizador = lblTipoDeUtilizador();
 		frame.getContentPane().add(lblTipoDeUtilizador);
 
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblPassword.setBounds(26, 246, 90, 16);
+		JLabel lblPassword = lblPassword();
 		frame.getContentPane().add(lblPassword);
 
-		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblEmail.setBounds(26, 348, 157, 16);
+		JLabel lblEmail = lblEmail();
 		frame.getContentPane().add(lblEmail);
 
-		textField_Email = new JTextField();
-		textField_Email.setColumns(10);
-		textField_Email.setBounds(194, 347, 216, 22);
+		textField_Email();
 		frame.getContentPane().add(textField_Email);
 		btnVoltar.addActionListener(new ActionListener() {
 			@Override
@@ -129,5 +103,73 @@ public class adminCriarUtilizador extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
+	}
+
+	private void textField_password() {
+		textField_password = new JTextField();
+		textField_password.setBounds(194, 245, 216, 22);
+		textField_password.setColumns(10);
+	}
+
+	private void textField_nome() {
+		textField_nome = new JTextField();
+		textField_nome.setBounds(194, 193, 216, 22);
+		textField_nome.setColumns(10);
+	}
+
+	private void textField_TipoDeUti() {
+		textField_TipoDeUti = new JTextField();
+		textField_TipoDeUti.setBounds(194, 297, 216, 22);
+		textField_TipoDeUti.setColumns(10);
+	}
+
+	private void textField_Email() {
+		textField_Email = new JTextField();
+		textField_Email.setColumns(10);
+		textField_Email.setBounds(194, 347, 216, 22);
+	}
+
+	private JLabel lblTipoDeUtilizador() {
+		JLabel lblTipoDeUtilizador = new JLabel("Tipo de Utilizador");
+		lblTipoDeUtilizador.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTipoDeUtilizador.setBounds(26, 298, 157, 16);
+		return lblTipoDeUtilizador;
+	}
+
+	private JLabel lblPassword() {
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblPassword.setBounds(26, 246, 90, 16);
+		return lblPassword;
+	}
+
+	private JLabel lblNome() {
+		JLabel lblNome = new JLabel("Nome ");
+		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNome.setBounds(26, 194, 56, 16);
+		return lblNome;
+	}
+
+	private JLabel lblInicieASesso() {
+		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de um utilizador");
+		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblInicieASesso.setBounds(186, 157, 196, 16);
+		return lblInicieASesso;
+	}
+
+	private JLabel lblEmail() {
+		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblEmail.setBounds(26, 348, 157, 16);
+		return lblEmail;
+	}
+
+	private JPanel panel() {
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 107, 494, 37);
+		JLabel lblMenu = new JLabel("Criar Utilizador");
+		panel.add(lblMenu);
+		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
+		return panel;
 	}
 }

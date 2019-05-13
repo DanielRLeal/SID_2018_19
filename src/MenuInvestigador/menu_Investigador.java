@@ -37,61 +37,8 @@ public class menu_Investigador extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
-		panel_1.setBackground(Color.LIGHT_GRAY);
-		panel_1.setBounds(0, 215, 494, 86);
+		JPanel panel_1 = panel_1();
 		frame.getContentPane().add(panel_1);
-		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-
-		JButton btnVariaveis = new JButton("Vari\u00E1veis");
-		btnVariaveis.setBackground(Color.WHITE);
-		btnVariaveis.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panel_1.add(btnVariaveis);
-		btnVariaveis.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ListVariaveis iVar = new ListVariaveis(bd);
-				frame.setVisible(false);
-			}
-		});
-
-		JButton btnCultura = new JButton("Cultura");
-		btnCultura.setBackground(Color.WHITE);
-		btnCultura.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		panel_1.add(btnCultura);
-		btnCultura.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				ListCulturas iCul = new ListCulturas(bd);
-			}
-		});
-
-		JButton btnMedicoes = new JButton("Medi\u00E7\u00F5es");
-		btnMedicoes.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnMedicoes.setBackground(Color.WHITE);
-		panel_1.add(btnMedicoes);
-		btnMedicoes.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				ListMedicoes iMedi = new ListMedicoes(bd);
-			}
-		});
-
-		JButton btnVariveisMedidas = new JButton("Vari\u00E1veis Medidas");
-		btnVariveisMedidas.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnVariveisMedidas.setBackground(Color.WHITE);
-		panel_1.add(btnVariveisMedidas);
-		btnVariveisMedidas.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				ListVariaveisMedidas iVM = new ListVariaveisMedidas(bd);
-			}
-		});
-
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_2.setBackground(Color.GRAY);
@@ -157,5 +104,58 @@ public class menu_Investigador extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
+	}
+
+	private JPanel panel_1() {
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
+		panel_1.setBackground(Color.LIGHT_GRAY);
+		panel_1.setBounds(0, 215, 494, 86);
+		panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JButton btnVariaveis = new JButton("Vari\u00E1veis");
+		btnVariaveis.setBackground(Color.WHITE);
+		btnVariaveis.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		panel_1.add(btnVariaveis);
+		btnVariaveis.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ListVariaveis iVar = new ListVariaveis(bd);
+				frame.setVisible(false);
+			}
+		});
+		JButton btnCultura = new JButton("Cultura");
+		btnCultura.setBackground(Color.WHITE);
+		btnCultura.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		panel_1.add(btnCultura);
+		btnCultura.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				ListCulturas iCul = new ListCulturas(bd);
+			}
+		});
+		JButton btnMedicoes = new JButton("Medi\u00E7\u00F5es");
+		btnMedicoes.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnMedicoes.setBackground(Color.WHITE);
+		panel_1.add(btnMedicoes);
+		btnMedicoes.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				ListMedicoes iMedi = new ListMedicoes(bd);
+			}
+		});
+		JButton btnVariveisMedidas = new JButton("Vari\u00E1veis Medidas");
+		btnVariveisMedidas.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnVariveisMedidas.setBackground(Color.WHITE);
+		panel_1.add(btnVariveisMedidas);
+		btnVariveisMedidas.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				ListVariaveisMedidas iVM = new ListVariaveisMedidas(bd);
+			}
+		});
+		return panel_1;
 	}
 }

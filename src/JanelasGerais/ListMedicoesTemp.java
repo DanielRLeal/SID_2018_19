@@ -40,18 +40,11 @@ public class ListMedicoesTemp extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
-		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblInicieASesso.setBounds(186, 157, 196, 16);
+		JLabel lblInicieASesso = lblInicieASesso();
 		frame.getContentPane().add(lblInicieASesso);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 107, 494, 37);
+		JPanel panel = panel();
 		frame.getContentPane().add(panel);
-
-		JLabel lblMenu = new JLabel("MedicaoTemperaturas");
-		panel.add(lblMenu);
-		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
 		JScrollPane panel_1 = new JScrollPane();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
@@ -59,14 +52,8 @@ public class ListMedicoesTemp extends JanelaBase {
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		Object[] coTempnNames = { "#", "DataHoraMedicao", "ValorMedicaoTemperatura" };
-
-		Object[][] MedicaoTemperaturas = FuncoesAjuda.listaParaTabela(bd.listaMedicoesTemperatura(), 3);
-
-		JTable table = new JTable(MedicaoTemperaturas, coTempnNames);
+		JTable table = table();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setDefaultEditor(Object.class, null);
-
 		panel_1.setViewportView(table);
 
 		JButton btnVoltar = new JButton("Voltar");
@@ -127,6 +114,30 @@ public class ListMedicoesTemp extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
+	}
+
+	private JLabel lblInicieASesso() {
+		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
+		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblInicieASesso.setBounds(186, 157, 196, 16);
+		return lblInicieASesso;
+	}
+
+	private JTable table() {
+		Object[] coTempnNames = { "#", "DataHoraMedicao", "ValorMedicaoTemperatura" };
+		Object[][] MedicaoTemperaturas = FuncoesAjuda.listaParaTabela(bd.listaMedicoesTemperatura(), 3);
+		JTable table = new JTable(MedicaoTemperaturas, coTempnNames);
+		table.setDefaultEditor(Object.class, null);
+		return table;
+	}
+
+	private JPanel panel() {
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 107, 494, 37);
+		JLabel lblMenu = new JLabel("MedicaoTemperaturas");
+		panel.add(lblMenu);
+		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
+		return panel;
 	}
 
 }

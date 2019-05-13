@@ -26,13 +26,17 @@ public class menu_Admin_Logs extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
+		JPanel panel_1 = panel_1();
+		frame.getContentPane().add(panel_1);
+
+	}
+
+	private JPanel panel_1() {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_1.setBackground(Color.GRAY);
 		panel_1.setBounds(86, 215, 324, 163);
-		frame.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
-
 		JButton btnUtilizador = new JButton("Log Utilizador");
 		btnUtilizador.setBounds(165, 11, 161, 23);
 		btnUtilizador.setBackground(Color.WHITE);
@@ -46,7 +50,6 @@ public class menu_Admin_Logs extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-
 		JButton btnLogCultura = new JButton("Log Cultura");
 		btnLogCultura.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnLogCultura.setBackground(Color.WHITE);
@@ -72,7 +75,6 @@ public class menu_Admin_Logs extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-
 		JButton btnLogVariveis = new JButton("Log Vari\u00E1veis");
 		btnLogVariveis.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnLogVariveis.setBackground(Color.WHITE);
@@ -85,8 +87,7 @@ public class menu_Admin_Logs extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-
-		JButton btnLogVariveisMedidas = new JButton("Log Variáveis Medidas");
+		JButton btnLogVariveisMedidas = new JButton("Log Variï¿½veis Medidas");
 		btnLogVariveisMedidas.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnLogVariveisMedidas.setBackground(Color.WHITE);
 		btnLogVariveisMedidas.setBounds(1, 11, 161, 23);
@@ -98,7 +99,6 @@ public class menu_Admin_Logs extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-
 		JButton btnLogAlertas = new JButton("Log Alertas");
 		btnLogAlertas.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnLogAlertas.setBackground(Color.WHITE);
@@ -111,7 +111,6 @@ public class menu_Admin_Logs extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-		
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnVoltar.setBackground(Color.WHITE);
@@ -125,7 +124,7 @@ public class menu_Admin_Logs extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-
+		return panel_1;
 	}
 
 }

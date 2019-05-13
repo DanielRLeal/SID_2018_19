@@ -38,26 +38,41 @@ public class FuncoesAjuda {
 		frame.setResizable(false);
 		frame.setVisible(true);
 
-		JLabel lblTitulo = new JLabel("Controlo de Culturas");
-		lblTitulo.setFont(new Font("Leelawadee", Font.BOLD, 26));
-		lblTitulo.setBounds(131, 12, 306, 37);
+		JLabel lblTitulo = lblTitulo();
 		frame.getContentPane().add(lblTitulo);
 
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/Login/iscte-iul_s.png")));
-		lblNewLabel.setBounds(26, -11, 229, 126);
+		JLabel lblNewLabel = lblNewLabel();
 		frame.getContentPane().add(lblNewLabel);
 		
 	
 		
 		if (UserName != null && !UserName.equals("")) {
-			JLabel lblBemVindonome = new JLabel("Bem Vindo: " + UserName);
-			lblBemVindonome.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblBemVindonome.setBounds(174, 59, 205, 23);
+			JLabel lblBemVindonome = lblBemVindonome(UserName);
 			frame.getContentPane().add(lblBemVindonome);
 		}
 
 		return frame;
+	}
+
+	private static JLabel lblBemVindonome(String UserName) {
+		JLabel lblBemVindonome = new JLabel("Bem Vindo: " + UserName);
+		lblBemVindonome.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblBemVindonome.setBounds(174, 59, 205, 23);
+		return lblBemVindonome;
+	}
+
+	private static JLabel lblTitulo() {
+		JLabel lblTitulo = new JLabel("Controlo de Culturas");
+		lblTitulo.setFont(new Font("Leelawadee", Font.BOLD, 26));
+		lblTitulo.setBounds(131, 12, 306, 37);
+		return lblTitulo;
+	}
+
+	private static JLabel lblNewLabel() {
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(Login.class.getResource("/Login/iscte-iul_s.png")));
+		lblNewLabel.setBounds(26, -11, 229, 126);
+		return lblNewLabel;
 	}
 
 	public static JFrame getFrame() {
@@ -72,20 +87,29 @@ public class FuncoesAjuda {
 	public static JFrame CriarJanelaMenu(String UserName) {
 		JFrame frame = CriarJanelaContent(UserName);
 
+		JLabel lblInicieASesso = lblInicieASesso();
+		frame.getContentPane().add(lblInicieASesso);
+
+		JPanel panel = panel();
+		frame.getContentPane().add(panel);
+
+		return frame;
+	}
+
+	private static JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Escolha uma op\u00E7\u00E3o");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(196, 154, 196, 16);
-		frame.getContentPane().add(lblInicieASesso);
+		return lblInicieASesso;
+	}
 
+	private static JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);
-		frame.getContentPane().add(panel);
-
 		JLabel lblMenu = new JLabel("Menu");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
-
-		return frame;
+		return panel;
 	}
 
 	public static Object[][] listaParaTabela(ArrayList<? extends ObjectBD> listObject, int nrPorpriedades) {

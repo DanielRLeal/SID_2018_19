@@ -53,35 +53,17 @@ public class ListCulturas extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
-		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblInicieASesso.setBounds(186, 157, 196, 16);
+		JLabel lblInicieASesso = lblInicieASesso();
 		frame.getContentPane().add(lblInicieASesso);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 107, 494, 37);
+		JPanel panel = panel();
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Culturas");
-		panel.add(lblMenu);
-		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
-
-		JScrollPane panel_1 = new JScrollPane();
-		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
-		panel_1.setBackground(Color.GRAY);
-		panel_1.setBounds(12, 183, 470, 209);
+		JScrollPane panel_1 = panel_1();
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = { "#", "Nome Cultura", "Descrição Cultura", "Utilizador" };
-
-		Object[][] culturas = FuncoesAjuda.listaParaTabela(listCulturas, 4);
-
-		JTable table = new JTable(culturas, columnNames);
+		JTable table = table();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setDefaultEditor(Object.class, null);
-
-		panel_1.setViewportView(table);
-
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnVoltar.setBackground(new Color(192, 192, 192));
@@ -124,7 +106,7 @@ public class ListCulturas extends JanelaBase {
 				lblNome.setBounds(26, 450, 110, 16);
 				frame.getContentPane().add(lblNome);
 
-				JLabel Descr = new JLabel("Descrição");
+				JLabel Descr = new JLabel("Descriï¿½ï¿½o");
 				Descr.setFont(new Font("Tahoma", Font.PLAIN, 18));
 				Descr.setBounds(191, 450, 110, 16);
 				frame.getContentPane().add(Descr);
@@ -212,5 +194,39 @@ public class ListCulturas extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
+	}
+
+	private JScrollPane panel_1() {
+		JScrollPane panel_1 = new JScrollPane();
+		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
+		panel_1.setBackground(Color.GRAY);
+		panel_1.setBounds(12, 183, 470, 209);
+		JTable table = table();
+		panel_1.setViewportView(table);
+		return panel_1;
+	}
+
+	private JLabel lblInicieASesso() {
+		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
+		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		lblInicieASesso.setBounds(186, 157, 196, 16);
+		return lblInicieASesso;
+	}
+
+	private JTable table() {
+		Object[] columnNames = { "#", "Nome Cultura", "Descriï¿½ï¿½o Cultura", "Utilizador" };
+		Object[][] culturas = FuncoesAjuda.listaParaTabela(listCulturas, 4);
+		JTable table = new JTable(culturas, columnNames);
+		table.setDefaultEditor(Object.class, null);
+		return table;
+	}
+
+	private JPanel panel() {
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 107, 494, 37);
+		JLabel lblMenu = new JLabel("Culturas");
+		panel.add(lblMenu);
+		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
+		return panel;
 	}
 }
