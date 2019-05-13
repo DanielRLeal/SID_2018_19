@@ -2,6 +2,8 @@ package Login;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -12,6 +14,8 @@ import javax.swing.JPanel;
 
 import bancoDeDados.ObjectBD;
 import javax.swing.JTextField;
+
+import MenuAdmin.menu_Admin;
 
 public class FuncoesAjuda {
 	/**
@@ -80,12 +84,6 @@ public class FuncoesAjuda {
 		JLabel lblMenu = new JLabel("Menu");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
-
-		JButton btnVoltar = new JButton("Voltar");
-		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnVoltar.setBackground(new Color(192, 192, 192));
-		btnVoltar.setBounds(10, 427, 97, 25);
-		frame.getContentPane().add(btnVoltar);
 
 		return frame;
 	}
