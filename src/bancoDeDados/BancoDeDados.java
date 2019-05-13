@@ -99,7 +99,7 @@ public class BancoDeDados {
 	public void actualizarUtilizador(int id, String nome, String categoria, String email, boolean activo) {
 		try {
 			String query = "UPDATE Utilizador set IDUtilizador = '" + id + "', NomeUtilizador = '" + nome
-					+ "' , CategoriaProfissional = '" + categoria + "',Email = '" + email + "', Activo = '" + activo
+					+ "', CategoriaProfissional = '" + categoria + "',Email = " + email + ", Activo = '" + activo
 					+ "' WHERE IDUtilizador = " + id + ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
@@ -133,7 +133,6 @@ public class BancoDeDados {
 						this.resultset.getString("NomeUtilizador"));
 				listCulturas.add(cultura);
 			}
-
 			return listCulturas;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -324,12 +323,15 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, double LimSuperior,
-			double LimInferior) {
+//	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, double LimSuperior,
+//			double LimInferior) {
+
+	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, double limSuperior,
+			double limInferior) {
 
 		try {
 			String query = "INSERT INTO VariaveisMedidas (IDCultura_fk,IDVariavel_fk,LimiteSuperior,LimiteInferior) VALUES ('"
-					+ iDCultura_fk + "', '" + iDVariavel_fk + "', '" + LimSuperior + "', '" + LimInferior + "');";
+					+ iDCultura_fk + "', '" + iDVariavel_fk + "', '" + limSuperior + "', '" + limInferior + "');";
 			System.out.println(query);
 
 			this.statement.executeUpdate(query);

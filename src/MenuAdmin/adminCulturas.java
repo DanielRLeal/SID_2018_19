@@ -33,10 +33,14 @@ import bancoDeDados.Cultura;
 import bancoDeDados.Utilizador;
 
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 public class adminCulturas extends JanelaBase {
 
 	private ArrayList<Cultura> culturas2;
+	private static JTextField Nome;
+	private static JTextField DescricaoCultura;
+	private static JTextField Email;
 
 	public adminCulturas(BancoDeDados bd) {
 		super(bd);
@@ -91,6 +95,95 @@ public class adminCulturas extends JanelaBase {
 		btnCriarCultura.setBackground(new Color(240, 230, 140));
 
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FuncoesAjuda.getFrame().setBounds(250, 250, 500, 570);
+				Nome = new JTextField();
+				Nome.setBounds(26, 470, 116, 22);
+				frame.getContentPane().add(Nome);
+				Nome.setColumns(10);
+
+				DescricaoCultura = new JTextField();
+				DescricaoCultura.setColumns(10);
+				DescricaoCultura.setBounds(191, 470, 116, 22);
+				frame.getContentPane().add(DescricaoCultura);
+
+				Email = new JTextField();
+				Email.setColumns(10);
+				Email.setBounds(372, 470, 116, 22);
+				frame.getContentPane().add(Email);
+
+				JLabel lblNome = new JLabel("Nome");
+				lblNome.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				lblNome.setBounds(26, 450, 110, 16);
+				frame.getContentPane().add(lblNome);
+
+				JLabel CatProf = new JLabel("Descrição");
+				CatProf.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				CatProf.setBounds(191, 450, 110, 16);
+				frame.getContentPane().add(CatProf);
+
+				JLabel leamail = new JLabel("Utilizador");
+				leamail.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				leamail.setBounds(372, 450, 110, 16);
+				frame.getContentPane().add(leamail);
+
+				JButton btnOkEdit = new JButton("Ok");
+				btnOkEdit.setBounds(372, 500, 116, 22);
+				btnOkEdit.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				btnOkEdit.setBackground(new Color(192, 192, 192));
+				frame.getContentPane().add(btnOkEdit);
+
+				System.out.println(table.getSelectedRow() + 1);
+				System.out.println(table.getModel().getValueAt(table.getSelectedRow(), 2));
+				btnOkEdit.addActionListener(new ActionListener() {
+					// o table.getselectedrow() + 1 : funciona bem para tabelas q nunca se apagam
+					// linhas - ID é certo.
+					// arranjar outra soluçao
+					public void actionPerformed(ActionEvent e) {
+//						if (DescricaoCultura.getText().isEmpty() && Nome.getText().isEmpty()
+//								&& Email.getText().isEmpty()) {
+//							JOptionPane.showMessageDialog(null, "Precisa inserir dados para editar!");
+//							return;
+//						}
+						int i = table.getSelectedRow();
+//						// Onde está null substituir pelo get da celula que não vai ser alterada.
+//						// btw isto vai necessitar de um codesmellzinho e melhorias
+//						if (DescricaoCultura.getText().isEmpty()) {
+//							bd.actualizarUtilizador(i + 1, Nome.toString(),
+//									table.getModel().getValueAt(i, 2).toString(), Email.toString(), true);
+//						}
+//						if (Nome.getText().isEmpty() && Email.getText().isEmpty()) {
+//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
+//									table.getModel().getValueAt(i, 1).toString(), DescricaoCultura.toString(),
+//									table.getModel().getValueAt(i, 3).toString(), true);
+//						}
+//						if (Nome.getText().isEmpty() && DescricaoCultura.getText().isEmpty()) {
+//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
+//									table.getModel().getValueAt(i, 1).toString(),
+//									table.getModel().getValueAt(i, 2).toString(), Email.toString(), true);
+//						}
+//						if (DescricaoCultura.getText().isEmpty() && Email.getText().isEmpty()) {
+//							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
+//									table.getModel().getValueAt(i, 2).toString(),
+//									table.getModel().getValueAt(i, 3).toString(), true);
+//						}
+//						if (Nome.getText().isEmpty()) {
+//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
+//									table.getModel().getValueAt(i, 1).toString(), DescricaoCultura.toString(),
+//									Email.toString(), true);
+//						}
+//						if (Email.getText().isEmpty()) {
+//							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
+//									DescricaoCultura.toString(), table.getModel().getValueAt(i, 3).toString(), true);
+//						}
+						bd.actualizarCulura(i + 1, table.getModel().getValueAt(i, 1).toString(),
+								table.getModel().getValueAt(i, 2).toString(),
+								table.getModel().getValueAt(i, 3).toString());
+					}
+				});
+			}
+		});
 		JButton btnEliminar = new JButton("Eliminar");
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
