@@ -176,7 +176,9 @@ public class BancoDeDados {
 
 	public ArrayList<Medicoes> listaMedicoes() {
 		try {
-			String query = "SELECT * FROM Medicoes";
+			String query = "SELECT m.*, c.NomeCultura, v.NomeVariaveis FROM Medicoes m "
+					+ "INNER JOIN Cultura c ON m.IDCultura_fk = c.IDCultura "
+					+ "INNER JOIN Variaveis v ON m.IDVariavel_fk = v.IDVariaveis";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
@@ -187,12 +189,12 @@ public class BancoDeDados {
 				Date date = new Date(timestamp.getTime());
 				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 				sdf.format(date);
-				System.out.println(date + " finalmente");
-				System.out.println("sdf  = " + sdf);
 
 				Medicoes medicao = new Medicoes(Integer.parseInt(this.resultset.getString("IDMedicoes")),
 						Integer.parseInt(this.resultset.getString("IDCultura_fk")),
-						Integer.parseInt(this.resultset.getString("IDVariavel_fk")), date,
+						this.resultset.getString("NomeCultura"),
+						Integer.parseInt(this.resultset.getString("IDVariavel_fk")), 
+						this.resultset.getString("NomeVariaveis"), date,
 						Double.parseDouble(this.resultset.getString("valorMedicao")));
 				listMedicoes.add(medicao);
 			}
@@ -204,11 +206,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirMedicoes(String IDCultura_fk, String iDVariavel_fk, String DataHoraMedicao,
-			double ValorMedicao) {
+	public void inserirMedicoes(String IDCultura_fk, String iDVariavel_fk, String dataHoraMedicao, double ValorMedicao) {
 		try {
 			String query = "INSERT INTO Medicoes (IDCultura_fk, IDVariavel_fk, DataHoraMedicao, ValorMedicao) VALUES ('"
-					+ IDCultura_fk + "', '" + iDVariavel_fk + "', '" + DataHoraMedicao + "', '" + ValorMedicao + "');";
+					+ IDCultura_fk + "', '" + iDVariavel_fk + "', '" + dataHoraMedicao + "', '" + ValorMedicao + "');";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "Medicoes adiciona com sucesso!");
@@ -217,12 +218,11 @@ public class BancoDeDados {
 		}
 	}
 
-	public void actualizarMedicoes(int IDMedicoes, int IDCultura_fk, int IDVariavel_fk, Date DataHoraMedicao,
-			int ValorMedicao) {
+	public void actualizarMedicoes(int IDMedicoes, int IDCultura_fk, int IDVariavel_fk, String dataHoraMedicao, double ValorMedicao) {
 		try {
-			String query = "UPDATE Medicoes set IDCultura_fk = '" + IDCultura_fk + "' , DataHoraMedicao = '"
-					+ DataHoraMedicao + "', valorMedicao = '" + ValorMedicao + "' WHERE IDMedicoes = " + IDMedicoes
-					+ ";";
+			String query = "UPDATE Medicoes set IDCultura_fk = " + IDCultura_fk + ", IDVariavel_fk = " + IDVariavel_fk + ", "
+					+ "DataHoraMedicao = " + dataHoraMedicao + ",ValorMedicao = " + ValorMedicao + " WHERE IDMedicoes = " + IDMedicoes + ";";
+			System.out.println(query);
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a actualizar Medicoes");

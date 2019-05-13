@@ -41,13 +41,6 @@ public class adminUtilizadores extends JanelaBase {
 
 	public adminUtilizadores(BancoDeDados bd) {
 		super(bd);
-		/*
-		 * users = removeDuplicates(bd.listarUtilizador()); for (Utilizador u : users) {
-		 * System.out.println(u.getNomeUtilizador()); } if (dlm.isEmpty()) { for
-		 * (Utilizador u : users) {
-		 * 
-		 * dlm.addElement(u.getNomeUtilizador()); } }
-		 */
 		initialize();
 	}
 

@@ -58,7 +58,7 @@ public class Login extends JanelaBase {
 					// utilizador root
 					else if (bd.utilizadorLogado.ID == 0) {
 						menu_Admin mAdmin = new menu_Admin(bd);
-						menu_Investigador mInvestigador = new menu_Investigador(bd);
+						//menu_Investigador mInvestigador = new menu_Investigador(bd);
 						frame.setVisible(false);
 						//JOptionPane.showMessageDialog(null, "Bem Vindo, Rooteiro!");
 					}

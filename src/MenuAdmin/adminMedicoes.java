@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -23,8 +24,8 @@ import bancoDeDados.Medicoes;
 
 public class adminMedicoes extends JanelaBase {
 
-	private ArrayList<Medicoes> medicoes;
-
+	private ArrayList<Medicoes> medicoes = new ArrayList<>();
+	
 	public adminMedicoes(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
@@ -45,7 +46,7 @@ public class adminMedicoes extends JanelaBase {
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Medicoess");
+		JLabel lblMenu = new JLabel("Medições");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
@@ -55,9 +56,9 @@ public class adminMedicoes extends JanelaBase {
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = { "#", "IDCultura_fk", " IDVariavel_fk", "DataHoraMedicao", "ValorMedicao" };
+		Object[] columnNames = { "#", "Cultura", " Variável", "Data Hora Medição", "Valor Medição" };
 
-		Object[][] Medicoes = FuncoesAjuda.listaParaTabela(bd.listaMedicoes(), 5);
+		Object[][] Medicoes = FuncoesAjuda.listaParaTabela(medicoes, 5);
 
 		JTable table = new JTable(Medicoes, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -78,10 +79,100 @@ public class adminMedicoes extends JanelaBase {
 		btnCriarMedicoes.setBackground(new Color(240, 230, 140));
 
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int index = table.getSelectedRow();
+				Medicoes m = medicoes.get(index);
+				
+				FuncoesAjuda.getFrame().setBounds(250, 250, 500, 600);
+				JTextField idMedicao = new JTextField();
+				idMedicao.setBounds(26, 470, 116, 22);
+				frame.getContentPane().add(idMedicao);
+				idMedicao.setEnabled(false);
+				idMedicao.setText(Integer.toString(m.getIDMedicoes()));
+				idMedicao.setColumns(10);
+
+				JTextField IDCultura = new JTextField();
+				IDCultura.setColumns(10);
+				IDCultura.setBounds(191, 470, 116, 22);
+				IDCultura.setText(Integer.toString(m.getIDCultura_fk()));
+				frame.getContentPane().add(IDCultura);
+
+				JTextField ValorMedicao = new JTextField();
+				ValorMedicao.setColumns(10);
+				ValorMedicao.setBounds(372, 470, 116, 22);
+				ValorMedicao.setText(Double.toString(m.getValorMedicao()));
+				frame.getContentPane().add(ValorMedicao);
+				
+				JTextField dataHora = new JTextField();
+				dataHora.setColumns(10);
+				dataHora.setBounds(26, 520, 116, 22);
+				dataHora.setText(m.getDataHoraMedicaoString());
+				frame.getContentPane().add(dataHora);
+				
+				JTextField IDVariavel = new JTextField();
+				IDVariavel.setColumns(10);
+				IDVariavel.setBounds(191, 520, 116, 22);
+				IDVariavel.setText(Integer.toString(m.getIDVariavel_fk()));
+				frame.getContentPane().add(IDVariavel);
+
+				JLabel lblIDMedicao = new JLabel("IDMedicao");
+				lblIDMedicao.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				lblIDMedicao.setBounds(26, 450, 110, 16);
+				frame.getContentPane().add(lblIDMedicao);
+
+				JLabel lblCultura = new JLabel("IDCultura");
+				lblCultura.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				lblCultura.setBounds(191, 450, 110, 16);
+				frame.getContentPane().add(lblCultura);
+
+				JLabel lblValorMedicao = new JLabel("ValorMedicao");
+				lblValorMedicao.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				lblValorMedicao.setBounds(372, 450, 110, 16);
+				frame.getContentPane().add(lblValorMedicao);
+				
+				JLabel lblDataHora = new JLabel("Data Hora");
+				lblDataHora.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				lblDataHora.setBounds(29, 500, 110, 16);
+				frame.getContentPane().add(lblDataHora);
+				
+				JLabel lblIDVariavel = new JLabel("IDVariavel");
+				lblIDVariavel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				lblIDVariavel.setBounds(191, 500, 110, 16);
+				frame.getContentPane().add(lblIDVariavel);
+
+				JButton btnOkEdit = new JButton("Ok");
+				btnOkEdit.setBounds(372, 520, 116, 22);
+				btnOkEdit.setFont(new Font("Tahoma", Font.PLAIN, 16));
+				btnOkEdit.setBackground(new Color(192, 192, 192));
+				frame.getContentPane().add(btnOkEdit);
+
+				btnOkEdit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try{
+						if(IDCultura.getText().isEmpty() || IDVariavel.getText().isEmpty() || dataHora.getText().isEmpty() || ValorMedicao.getText().isEmpty()){
+							return;
+						}
+						
+						bd.actualizarMedicoes(m.getIDMedicoes(), 
+								Integer.parseInt(IDCultura.getText()),
+								Integer.parseInt(IDVariavel.getText()),
+								dataHora.getText(),
+								Double.parseDouble(ValorMedicao.getText()));
+						
+						frame.setVisible(false);
+						adminMedicoes am = new adminMedicoes(bd);
+						frame.getDefaultCloseOperation();
+						} catch(NumberFormatException e1) {
+					        return; 
+					    }
+					}
+				});
+			}
+		});
 		JButton btnEliminar = new JButton("Eliminar");
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				btnEditar.setBounds(150, 416, 75, 23);
@@ -97,20 +188,20 @@ public class adminMedicoes extends JanelaBase {
 		});
 
 		btnEliminar.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
 				Medicoes m = medicoes.get(index);
-
-				System.out.println("Vou apagar a Medicoes no index: " + index + "\n" + "Medicoes com ID= "
-						+ m.getIDMedicoes() + "\n");
+				
+				System.out.println("Vou apagar a Medicoes no index: " + index + "\n" + "Medicoes com ID= " + m.getIDMedicoes() + "\n");
 				bd.apagarMedicoes(m.getIDMedicoes());
-
+				
+				frame.setVisible(false);
+				adminMedicoes am = new adminMedicoes(bd);
+				frame.getDefaultCloseOperation();
 			}
 		});
 		btnCriarMedicoes.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);

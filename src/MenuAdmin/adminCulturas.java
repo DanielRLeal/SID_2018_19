@@ -37,7 +37,6 @@ import javax.swing.JOptionPane;
 
 public class adminCulturas extends JanelaBase {
 
-	private ArrayList<Cultura> culturas2;
 	private static JTextField Nome;
 	private static JTextField DescricaoCultura;
 	private static JTextField Email;
@@ -45,7 +44,6 @@ public class adminCulturas extends JanelaBase {
 	public adminCulturas(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
-		culturas2 = bd.listaCultura();
 		initialize();
 	}
 
@@ -206,12 +204,12 @@ public class adminCulturas extends JanelaBase {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int index = table.getSelectedRow();
-				Cultura c = culturas2.get(index);
+				int column = 0;
+				int row = table.getSelectedRow();
+				int id = (int) table.getModel().getValueAt(row, column);
 
-				System.out.println(
-						"Vou apagar a cultura no index: " + index + "\n" + "Cultura com ID= " + c.getID() + "\n");
-				bd.apagarCultura(c.getID());
+				System.out.println("Vou apagar a Cultura com ID= " + id + "\n");
+				bd.apagarCultura(id);
 				// falta fazer com que a window atualize a table
 
 			}
