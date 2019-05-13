@@ -91,9 +91,7 @@ public class BancoDeDados {
 			System.out.println(query);
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
-			// Cria utilizador insere no programa enquanto nao fechado
-			// Mas não adiciona correctamente na GUI
-			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador - mas ");
+			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador");
 		}
 	}
 
