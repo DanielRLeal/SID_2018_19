@@ -115,6 +115,12 @@ public class adminCriarUtilizador extends JanelaBase {
 						|| textField_TipoDeUti.getText() == null || textField_Email.getText() == null) {
 //					JOptionPane.showConfirmDialog(null, "Faltam dados");
 				}
+				if (!textField_TipoDeUti.getText().equals("Investigador")
+						&& !textField_TipoDeUti.getText().equals("Auditor")
+						&& !textField_TipoDeUti.getText().equals("Admin")) {
+					JOptionPane.showMessageDialog(null, "Categoria Profissional inexistente!");
+					return;
+				}
 				bd.inserirUtilizador(textField_nome.getText(), textField_password.getText(),
 						textField_TipoDeUti.getText(), textField_Email.getText(), true);
 				adminUtilizadores mA = new adminUtilizadores(bd);

@@ -28,7 +28,6 @@ public class VerificarAlertas implements Runnable {
         while(true){
         	try {
         		ArrayList<Alerta> alert = bd.verificarAlertas();
-        		JOptionPane.showMessageDialog(null, "ola");
         		if(alert != null){
 	        		for (Alerta alerta : alert) {
 	        			String mensagem = "Limite Ultrapassado " + alerta.getDescricao();

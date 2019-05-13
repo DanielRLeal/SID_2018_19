@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
@@ -27,20 +28,19 @@ import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
+import bancoDeDados.Medicoes;
 import bancoDeDados.Utilizador;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 public class adminUtilizadores extends JanelaBase {
-	private static JTextField Nome;
-	private static JTextField CategoriaProfissional;
-	private static JTextField Email;
-	// ArrayList<Utilizador> users;
+	ArrayList<Utilizador> users;
 	// DefaultListModel<String> dlm = new DefaultListModel<>();
 
 	public adminUtilizadores(BancoDeDados bd) {
 		super(bd);
+		users = bd.listarUtilizador();
 		initialize();
 	}
 
@@ -69,7 +69,7 @@ public class adminUtilizadores extends JanelaBase {
 
 		Object[] columnNames = { "#", "Nome Utilizador", "Categoria Profissional", "Email", "Activo" };
 
-		Object[][] culturas = FuncoesAjuda.listaParaTabela(bd.listarUtilizador(), 5);
+		Object[][] culturas = FuncoesAjuda.listaParaTabela(users, 5);
 
 		JTable table = new JTable(culturas, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -99,21 +99,32 @@ public class adminUtilizadores extends JanelaBase {
 		// copiar para o resto das tabelas com edição
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				FuncoesAjuda.getFrame().setBounds(250, 250, 500, 570);
-				Nome = new JTextField();
+				int index = table.getSelectedRow();
+				Utilizador u = users.get(index);
+				
+				FuncoesAjuda.getFrame().setBounds(250, 250, 500, 600);
+				JTextField Nome = new JTextField();
 				Nome.setBounds(26, 470, 116, 22);
+				Nome.setText(u.NomeUtilizador);
 				frame.getContentPane().add(Nome);
 				Nome.setColumns(10);
 
-				CategoriaProfissional = new JTextField();
+				JTextField CategoriaProfissional = new JTextField();
 				CategoriaProfissional.setColumns(10);
 				CategoriaProfissional.setBounds(191, 470, 116, 22);
+				CategoriaProfissional.setText(u.CategoriaProfissional);
 				frame.getContentPane().add(CategoriaProfissional);
 
-				Email = new JTextField();
+				JTextField Email = new JTextField();
 				Email.setColumns(10);
 				Email.setBounds(372, 470, 116, 22);
+				Email.setText(u.Email);
 				frame.getContentPane().add(Email);
+				
+				JCheckBox Ativo = new JCheckBox();
+				Ativo.setBounds(26, 520, 116, 22);
+				Ativo.setSelected(u.Ativo);
+				frame.getContentPane().add(Ativo);
 
 				JLabel lblNome = new JLabel("Nome");
 				lblNome.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -130,105 +141,31 @@ public class adminUtilizadores extends JanelaBase {
 				leamail.setBounds(372, 450, 110, 16);
 				frame.getContentPane().add(leamail);
 
+				JLabel lblAtivo = new JLabel("Ativo");
+				lblAtivo.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				lblAtivo.setBounds(26, 500, 110, 16);
+				frame.getContentPane().add(lblAtivo);
+				
 				JButton btnOkEdit = new JButton("Ok");
-				btnOkEdit.setBounds(372, 500, 116, 22);
+				btnOkEdit.setBounds(372, 520, 116, 22);
 				btnOkEdit.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				btnOkEdit.setBackground(new Color(192, 192, 192));
 				frame.getContentPane().add(btnOkEdit);
 
-				System.out.println(table.getSelectedRow() + 1);
-				System.out.println(table.getModel().getValueAt(table.getSelectedRow(), 2));
 				btnOkEdit.addActionListener(new ActionListener() {
-					// o table.getselectedrow() + 1 : funciona bem para tabelas q nunca se apagam
-					// linhas - ID é certo.
-					// arranjar outra soluçao
 					public void actionPerformed(ActionEvent e) {
-
-						if (CategoriaProfissional.getText() != "Investigador"
-								|| CategoriaProfissional.getText() != "Auditor"
-								|| CategoriaProfissional.getText() != "Admin") {
+						if (!CategoriaProfissional.getText().equals("Investigador")
+								&& !CategoriaProfissional.getText().equals("Auditor")
+								&& !CategoriaProfissional.getText().equals("Admin")) {
 							JOptionPane.showMessageDialog(null, "Categoria Profissional inexistente!");
+							return;
 						}
-
-						// Onde está null substituir pelo get da celula que não vai ser alterada.
-						// btw isto vai necessitar de um codesmellzinho e melhorias
-						if (CategoriaProfissional.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(), null, Email.toString(),
-									true);
-						}
-
-						if (Nome.getText().isEmpty() && Email.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
-									CategoriaProfissional.toString(), Email.toString(), true);
-						}
-						if (Nome.getText().isEmpty() && CategoriaProfissional.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, null, null, Email.toString(), true);
-						}
-						if (CategoriaProfissional.getText().isEmpty() && Email.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(), null, null, true);
-						}
-						if (Nome.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, null, CategoriaProfissional.toString(),
-									Email.toString(), true);
-						}
-						if (Email.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
-									CategoriaProfissional.toString(), null, true);
-						}
-
-						if (CategoriaProfissional.getText().isEmpty() && Nome.getText().isEmpty()
-								&& Email.getText().isEmpty()) {
-							JOptionPane.showMessageDialog(null, "Precisa inserir dados para editar!");
-						}
-						bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
-								CategoriaProfissional.toString(), Email.toString(), true);
-
-//						if (CategoriaProfissional.getText().isEmpty() && Nome.getText().isEmpty()
-//								&& Email.getText().isEmpty()) {
-//							JOptionPane.showMessageDialog(null, "Precisa inserir dados para editar!");
-//							return;
-//						}
-//						if (CategoriaProfissional.getText() != "Investigador"
-//								|| CategoriaProfissional.getText() != "Auditor"
-//								|| CategoriaProfissional.getText() != "Admin") {
-//							JOptionPane.showMessageDialog(null, "Categoria Profissional inexistente!");
-//						}
-						int i = table.getSelectedRow();
-//						// Onde está null substituir pelo get da celula que não vai ser alterada.
-//						// btw isto vai necessitar de um codesmellzinho e melhorias
-//						if (CategoriaProfissional.getText().isEmpty()) {
-//							bd.actualizarUtilizador(i + 1, Nome.toString(),
-//									table.getModel().getValueAt(i, 2).toString(), Email.toString(), true);
-//						}
-//						if (Nome.getText().isEmpty() && Email.getText().isEmpty()) {
-//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
-//									table.getModel().getValueAt(i, 1).toString(), CategoriaProfissional.toString(),
-//									table.getModel().getValueAt(i, 3).toString(), true);
-//						}
-//						if (Nome.getText().isEmpty() && CategoriaProfissional.getText().isEmpty()) {
-//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
-//									table.getModel().getValueAt(i, 1).toString(),
-//									table.getModel().getValueAt(i, 2).toString(), Email.toString(), true);
-//						}
-//						if (CategoriaProfissional.getText().isEmpty() && Email.getText().isEmpty()) {
-//							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
-//									table.getModel().getValueAt(i, 2).toString(),
-//									table.getModel().getValueAt(i, 3).toString(), true);
-//						}
-//						if (Nome.getText().isEmpty()) {
-//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
-//									table.getModel().getValueAt(i, 1).toString(), CategoriaProfissional.toString(),
-//									Email.toString(), true);
-//						}
-//						if (Email.getText().isEmpty()) {
-//							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
-//									CategoriaProfissional.toString(), table.getModel().getValueAt(i, 3).toString(),
-//									true);
-//						}
-						bd.actualizarUtilizador(i + 1, table.getModel().getValueAt(i, 1).toString(),
-								table.getModel().getValueAt(i, 2).toString(),
-								table.getModel().getValueAt(i, 3).toString(), true);
-
+						
+						bd.actualizarUtilizador(u.getID(), Nome.getText(), CategoriaProfissional.getText(), Email.getText(), Ativo.isSelected());
+						
+						frame.setVisible(false);
+						adminCriarUtilizador aCriarUti = new adminCriarUtilizador(bd);
+						frame.setVisible(false);
 					}
 				});
 			}
@@ -236,12 +173,14 @@ public class adminUtilizadores extends JanelaBase {
 
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int column = 0;
-				int row = table.getSelectedRow();
-				int id = (int) table.getModel().getValueAt(row, column);
-				System.out.println("Vou apagar o Utilizador com ID= " + id + "\n");
-				bd.apagarUtilizador(id, false);
-
+				int index = table.getSelectedRow();
+				Utilizador u = users.get(index);
+				System.out.println("Vou apagar o Utilizador com ID= " + u.getID() + "\n");
+				bd.apagarUtilizador(u.getID(), false);
+				
+				frame.setVisible(false);
+				adminCriarUtilizador aCriarUti = new adminCriarUtilizador(bd);
+				frame.setVisible(false);
 			}
 		});
 
@@ -253,6 +192,7 @@ public class adminUtilizadores extends JanelaBase {
 		button_1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
 				adminCriarUtilizador aCriarUti = new adminCriarUtilizador(bd);
 				frame.setVisible(false);
 			}
@@ -272,15 +212,4 @@ public class adminUtilizadores extends JanelaBase {
 			}
 		});
 	}
-
-	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
-		ArrayList<Utilizador> newList = new ArrayList<>();
-		for (Utilizador element : list) {
-			if (!newList.contains(element)) {
-				newList.add(element);
-			}
-		}
-		return newList;
-	}
-
 }
