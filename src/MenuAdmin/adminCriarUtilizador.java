@@ -110,24 +110,17 @@ public class adminCriarUtilizador extends JanelaBase {
 		btnCriar.setBounds(313, 382, 97, 25);
 		frame.getContentPane().add(btnCriar);
 		btnCriar.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (textField_nome.getText() == null || textField_password.getText() == null
 						|| textField_TipoDeUti.getText() == null || textField_Email.getText() == null) {
-					JOptionPane.showConfirmDialog(null, "Faltam dados");
-				} else {
-					bd.inserirUtilizador(textField_nome.getText(), textField_password.getText(),
-							textField_TipoDeUti.getText(), textField_Email.getText(), true);
-					frame.setVisible(false);
-
-					adminUtilizadores mA = new adminUtilizadores(bd);
-					mA.setVisible(true);
-
+//					JOptionPane.showConfirmDialog(null, "Faltam dados");
 				}
-
+				bd.inserirUtilizador(textField_nome.getText(), textField_password.getText(),
+						textField_TipoDeUti.getText(), textField_Email.getText(), true);
+				adminUtilizadores mA = new adminUtilizadores(bd);
+				mA.setVisible(true);
+				frame.getDefaultCloseOperation();
 			}
 		});
-		;
-
 	}
 }

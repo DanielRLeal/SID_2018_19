@@ -17,6 +17,7 @@ import javax.swing.border.MatteBorder;
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import Login.Login;
+import MenuAdmin.menu_Admin;
 import bancoDeDados.BancoDeDados;
 
 public class menu_Investigador extends JanelaBase {
@@ -134,6 +135,19 @@ public class menu_Investigador extends JanelaBase {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				investigadorSistema sis = new investigadorSistema(bd);
+			}
+		});
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnVoltar.setBackground(new Color(192, 192, 192));
+		btnVoltar.setBounds(12, 416, 97, 25);
+		frame.getContentPane().add(btnVoltar);
+		btnVoltar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				Login mA = new Login();
+				frame.getDefaultCloseOperation();
 			}
 		});
 	}
