@@ -243,14 +243,15 @@ public class BancoDeDados {
 	public ArrayList<Variaveis> listarVariaveis() {
 		ArrayList<Variaveis> temp = new ArrayList<>();
 		try {
-			String query = "SELECT * FROM variaveis";
+			String query = "SELECT v.*, c.NomeCultura FROM variaveis v INNER JOIN cultura c ON v.IDCultura_fk = c.IDCultura;";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
 				Variaveis var = new Variaveis(Integer.parseInt(this.resultset.getString("IDVariaveis")),
 						this.resultset.getString("NomeVariaveis"),
-						Integer.parseInt(this.resultset.getString("IDCultura_fk")));
+						Integer.parseInt(this.resultset.getString("IDCultura_fk")),
+						this.resultset.getString("NomeCultura"));
 				temp.add(var);
 			}
 		} catch (SQLException e) {
@@ -286,10 +287,9 @@ public class BancoDeDados {
 
 	public void apagarVariaveis(int id) {
 		try {
-			String query = "DELETE FROM Medicoes WHERE IDMedicoes = '" + id + "';";
-			System.out.println(query + "\n" + "Vou apagar Variaveis com id " + id);
+			String query = "DELETE FROM variaveis WHERE IDVariaveis = " + id + ";";
 			this.statement.executeUpdate(query);
-
+			JOptionPane.showMessageDialog(null, "Variavel apagada com sucesso!");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar Variaveis");
 		}
@@ -299,16 +299,18 @@ public class BancoDeDados {
 
 	public ArrayList<VariaveisMedidas> listaVariaveisMedidas() {
 		try {
-			String query2 = "SELECT c.IDCultura, c.NomeCultura, c.DescricaoCultura, c.IDUtilizador_fk, u.NomeUtilizador "
-					+ "FROM cultura c " + "INNER JOIN utilizador u ON u.IDUtilizador = c.IDUtilizador_fk;";
-			String query = "SELECT * from variaveismedidas";
+			String query = "SELECT vm.*, c.NomeCultura, v.NomeVariaveis FROM variaveismedidas vm "
+					+ "INNER JOIN cultura c ON vm.IDCultura_fk = c.IDCultura "
+					+ "INNER JOIN variaveis v ON vm.IDVariavel_fk = v.IDVariaveis;";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
 			ArrayList<VariaveisMedidas> listVariaveisMedidas = new ArrayList<VariaveisMedidas>();
 			while (this.resultset.next()) {
 				VariaveisMedidas vm = new VariaveisMedidas(Integer.parseInt(this.resultset.getString("IDCultura_fk")),
+						this.resultset.getString("NomeCultura"),
 						Integer.parseInt(this.resultset.getString("IDVariavel_fk")),
+						this.resultset.getString("NomeVariaveis"),
 						Double.parseDouble(this.resultset.getString("LimiteSuperior")),
 						Double.parseDouble(this.resultset.getString("LimiteInferior")));
 				listVariaveisMedidas.add(vm);
@@ -321,10 +323,7 @@ public class BancoDeDados {
 			return null;
 		}
 	}
-
-//	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, double LimSuperior,
-//			double LimInferior) {
-
+	
 	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, double limSuperior,
 			double limInferior) {
 
@@ -350,9 +349,9 @@ public class BancoDeDados {
 		}
 	}
 
-	public void apagarVariaveisMedidas(int id) {
+	public void apagarVariaveisMedidas(int idCultura, int idVariavel) {
 		try {
-			String query = "DELETE FROM Cultura WHERE IDCultura = '" + id + "';";
+			String query = "DELETE FROM variaveismedidas WHERE IDCultura_fk = '" + idCultura + "' AND IDVariavel_fk = '" + idVariavel + "';";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar VariaveisMedidas");

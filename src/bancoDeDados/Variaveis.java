@@ -4,16 +4,18 @@ public class Variaveis implements ObjectBD {
 	private int IDVariaveis;
 	private String NomeVariaveis;
 	private int IDCultura_fk;
+	private String NomeCultura;
 
-	public Variaveis(int IDVariaveis, String NomeVariaveis, int IDCultura_fk) {
+	public Variaveis(int IDVariaveis, String NomeVariaveis, int IDCultura_fk, String NomeCultura) {
 		this.IDVariaveis = IDVariaveis;
 		this.NomeVariaveis = NomeVariaveis;
 		this.IDCultura_fk = IDCultura_fk;
+		this.NomeCultura = NomeCultura;
 	}
 
 	@Override
 	public Object[] toObjectArray() {
-		return new Object[] { this.IDVariaveis, this.NomeVariaveis, this.IDCultura_fk };
+		return new Object[] { this.IDVariaveis, this.NomeVariaveis, this.NomeCultura };
 	}
 
 	public int getIDVariaveis() {

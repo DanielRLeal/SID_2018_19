@@ -59,9 +59,9 @@ public class ListVariaveis extends JanelaBase {
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = { "#", "NomeVariaveis", "IDCultura_fk" };
+		Object[] columnNames = { "#", "Nome Variaveis", "Nome Cultura" };
 
-		Object[][] Vars = FuncoesAjuda.listaParaTabela(bd.listarVariaveis(), 3);
+		Object[][] Vars = FuncoesAjuda.listaParaTabela(variaveis, 3);
 
 		JTable table = new JTable(Vars, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -110,14 +110,15 @@ public class ListVariaveis extends JanelaBase {
 					int index = table.getSelectedRow();
 					Variaveis v = variaveis.get(index);
 	
-					System.out.println("Vou apagar a Variavel no index: " + index + "\n" + "Variavel com ID= "
-							+ v.getIDVariaveis() + "\n");
+					System.out.println("Vou apagar a Variavel no index: " + index + "\n" + "Variavel com ID = " + v.getIDVariaveis() + "\n");
 					bd.apagarVariaveis(v.getIDVariaveis());
-	
+					
+					frame.setVisible(false);
+					ListVariaveis acd = new ListVariaveis(bd);
+					frame.getDefaultCloseOperation();
 				}
 			});
 			btnCriarVariaveis.addActionListener(new ActionListener() {
-	
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					frame.setVisible(false);

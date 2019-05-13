@@ -61,7 +61,7 @@ public class ListVariaveisMedidas extends JanelaBase {
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("VariaveisMedidass");
+		JLabel lblMenu = new JLabel("VariaveisMedidas");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
@@ -122,9 +122,11 @@ public class ListVariaveisMedidas extends JanelaBase {
 					int index = table.getSelectedRow();
 					VariaveisMedidas c = VariaveisMedidass2.get(index);
 	
-					bd.apagarVariaveisMedidas(c.getIDCultura_fk());
-					// falta fazer com que a window atualize a table
-	
+					bd.apagarVariaveisMedidas(c.getIDCultura_fk(), c.getIDVariavel_fk());
+					
+					frame.setVisible(false);
+					ListVariaveisMedidas lvm = new ListVariaveisMedidas(bd);
+					frame.getDefaultCloseOperation();
 				}
 			});
 			btnCriarVariaveisMedidas.addActionListener(new ActionListener() {

@@ -212,8 +212,10 @@ public class ListCulturas extends JanelaBase {
 
 				System.out.println("Vou apagar a Cultura com ID= " + id + "\n");
 				bd.apagarCultura(id);
-				// falta fazer com que a window atualize a table
 
+				frame.setVisible(false);
+				ListCulturas ac = new ListCulturas(bd);
+				frame.getDefaultCloseOperation();
 			}
 		});
 		btnCriarCultura.addActionListener(new ActionListener() {

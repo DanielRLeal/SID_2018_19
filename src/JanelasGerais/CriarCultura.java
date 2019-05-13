@@ -96,6 +96,10 @@ public class CriarCultura extends JanelaBase {
 				try {
 					bd.inserirCultura(textField_NomeCultura.getText(), textField_DescricaoCultura.getText(),
 							textField_Utilizador_resp.getText());
+					
+					frame.setVisible(false);
+					ListCulturas ac = new ListCulturas(bd);
+					frame.getDefaultCloseOperation();
 				} catch (Exception e2) {
 				}
 			}

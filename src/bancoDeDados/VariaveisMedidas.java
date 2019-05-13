@@ -2,7 +2,9 @@ package bancoDeDados;
 
 public class VariaveisMedidas implements ObjectBD {
 	private int IDCultura_fk;
+	private String NomeCultura;
 	private int IDVariavel_fk;
+	private String NomeVariavel;
 	private double LimiteSuperior;
 	private double LimiteInferior;
 
@@ -13,9 +15,11 @@ public class VariaveisMedidas implements ObjectBD {
 	 * @param email
 	 * @param ativo
 	 */
-	public VariaveisMedidas(int IDCultura_fk, int IDVariavel_fk, double d, double e) {
+	public VariaveisMedidas(int IDCultura_fk, String NomeCultura, int IDVariavel_fk, String NomeVariavel, double d, double e) {
 		this.IDCultura_fk = IDCultura_fk;
+		this.NomeCultura = NomeCultura;
 		this.IDVariavel_fk = IDVariavel_fk;
+		this.NomeVariavel = NomeVariavel;
 		this.LimiteSuperior = d;
 		this.LimiteInferior = e;
 	}
@@ -54,7 +58,7 @@ public class VariaveisMedidas implements ObjectBD {
 
 	@Override
 	public Object[] toObjectArray() {
-		return new Object[] { this.IDCultura_fk, this.IDVariavel_fk, this.LimiteInferior, this.LimiteSuperior };
+		return new Object[] { this.NomeCultura, this.NomeVariavel, this.LimiteInferior, this.LimiteSuperior };
 	}
 
 }
