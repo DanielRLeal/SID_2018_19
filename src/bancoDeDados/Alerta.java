@@ -39,6 +39,10 @@ public class Alerta implements ObjectBD {
 		Visto = visto;
 	}
 
+	public int getIDAlerta(){
+		return this.IDAlerta;
+	}
+	
 	public String getEmailUtilizador(){
 		return this.EmailUtilizador;
 	}

@@ -651,7 +651,6 @@ public class BancoDeDados {
 					+ "WHERE a.Visto = 0 "
 					//+ "AND a.DataHora > DATE_SUB(NOW(), INTERVAL 1 MINUTE) "
 					+ "AND (a.IDUtilizador IS NULL OR a.IDUtilizador = " + this.utilizadorLogado.ID + ");";
-			System.out.println(query);
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
@@ -679,8 +678,19 @@ public class BancoDeDados {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("Falha a listar Variaveis_Log");
+			System.out.println("Falha a listar alertas");
 		}
 		return temp;
+	}
+	
+	public void tornarAlertaVisto(Alerta alerta) {
+		try {
+			String query = "UPDATE alertas SET Visto = 1 WHERE IDAlerta = " + alerta.getIDAlerta() + ";";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha tornar alertas vistos");
+		}
 	}
 }
