@@ -32,20 +32,20 @@ import MenuAdmin.menu_Admin;
 import MenuInvestigador.menu_Investigador;
 import bancoDeDados.BancoDeDados;
 import bancoDeDados.Cultura;
+import bancoDeDados.Medicoes;
 import bancoDeDados.Utilizador;
+import bancoDeDados.Variaveis;
 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-public class ListCulturas extends JanelaBase {
-
-	private static JTextField Nome;
-	private static JTextField DescricaoCultura;
-	private static JTextField Email;
+public class ListCulturas extends JanelaBase {	
+	private ArrayList<Cultura> listCulturas;
 
 	public ListCulturas(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
+		listCulturas = bd.listaCultura();
 		initialize();
 	}
 
@@ -74,7 +74,7 @@ public class ListCulturas extends JanelaBase {
 
 		Object[] columnNames = { "#", "Nome Cultura", "Descrição Cultura", "Utilizador" };
 
-		Object[][] culturas = FuncoesAjuda.listaParaTabela(bd.listaCultura(), 4);
+		Object[][] culturas = FuncoesAjuda.listaParaTabela(listCulturas, 4);
 
 		JTable table = new JTable(culturas, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -97,36 +97,42 @@ public class ListCulturas extends JanelaBase {
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				int index = table.getSelectedRow();
+				Cultura c = listCulturas.get(index);
+				
 				FuncoesAjuda.getFrame().setBounds(250, 250, 500, 570);
-				Nome = new JTextField();
+				JTextField Nome = new JTextField();
 				Nome.setBounds(26, 470, 116, 22);
+				Nome.setText(c.getNomeCultura());
 				frame.getContentPane().add(Nome);
 				Nome.setColumns(10);
 
-				DescricaoCultura = new JTextField();
+				JTextField DescricaoCultura = new JTextField();
 				DescricaoCultura.setColumns(10);
 				DescricaoCultura.setBounds(191, 470, 116, 22);
+				DescricaoCultura.setText(c.getDescricaoCultura());
 				frame.getContentPane().add(DescricaoCultura);
 
-				Email = new JTextField();
-				Email.setColumns(10);
-				Email.setBounds(372, 470, 116, 22);
-				frame.getContentPane().add(Email);
+				JTextField IDUtilizador = new JTextField();
+				IDUtilizador.setColumns(10);
+				IDUtilizador.setBounds(372, 470, 116, 22);
+				IDUtilizador.setText(Integer.toString(c.getIDUtilizador_fk()));
+				frame.getContentPane().add(IDUtilizador);
 
 				JLabel lblNome = new JLabel("Nome");
 				lblNome.setFont(new Font("Tahoma", Font.PLAIN, 18));
 				lblNome.setBounds(26, 450, 110, 16);
 				frame.getContentPane().add(lblNome);
 
-				JLabel CatProf = new JLabel("Descrição");
-				CatProf.setFont(new Font("Tahoma", Font.PLAIN, 18));
-				CatProf.setBounds(191, 450, 110, 16);
-				frame.getContentPane().add(CatProf);
+				JLabel Descr = new JLabel("Descrição");
+				Descr.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				Descr.setBounds(191, 450, 110, 16);
+				frame.getContentPane().add(Descr);
 
-				JLabel leamail = new JLabel("Utilizador");
-				leamail.setFont(new Font("Tahoma", Font.PLAIN, 18));
-				leamail.setBounds(372, 450, 110, 16);
-				frame.getContentPane().add(leamail);
+				JLabel lblUtilizador = new JLabel("Utilizador");
+				lblUtilizador.setFont(new Font("Tahoma", Font.PLAIN, 18));
+				lblUtilizador.setBounds(372, 450, 110, 16);
+				frame.getContentPane().add(lblUtilizador);
 
 				JButton btnOkEdit = new JButton("Ok");
 				btnOkEdit.setBounds(372, 500, 116, 22);
@@ -137,49 +143,16 @@ public class ListCulturas extends JanelaBase {
 				System.out.println(table.getSelectedRow() + 1);
 				System.out.println(table.getModel().getValueAt(table.getSelectedRow(), 2));
 				btnOkEdit.addActionListener(new ActionListener() {
-					// o table.getselectedrow() + 1 : funciona bem para tabelas q nunca se apagam
-					// linhas - ID é certo.
-					// arranjar outra soluçao
 					public void actionPerformed(ActionEvent e) {
-//						if (DescricaoCultura.getText().isEmpty() && Nome.getText().isEmpty()
-//								&& Email.getText().isEmpty()) {
-//							JOptionPane.showMessageDialog(null, "Precisa inserir dados para editar!");
-//							return;
-//						}
-						int i = table.getSelectedRow();
-//						// Onde está null substituir pelo get da celula que não vai ser alterada.
-//						// btw isto vai necessitar de um codesmellzinho e melhorias
-//						if (DescricaoCultura.getText().isEmpty()) {
-//							bd.actualizarUtilizador(i + 1, Nome.toString(),
-//									table.getModel().getValueAt(i, 2).toString(), Email.toString(), true);
-//						}
-//						if (Nome.getText().isEmpty() && Email.getText().isEmpty()) {
-//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
-//									table.getModel().getValueAt(i, 1).toString(), DescricaoCultura.toString(),
-//									table.getModel().getValueAt(i, 3).toString(), true);
-//						}
-//						if (Nome.getText().isEmpty() && DescricaoCultura.getText().isEmpty()) {
-//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
-//									table.getModel().getValueAt(i, 1).toString(),
-//									table.getModel().getValueAt(i, 2).toString(), Email.toString(), true);
-//						}
-//						if (DescricaoCultura.getText().isEmpty() && Email.getText().isEmpty()) {
-//							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
-//									table.getModel().getValueAt(i, 2).toString(),
-//									table.getModel().getValueAt(i, 3).toString(), true);
-//						}
-//						if (Nome.getText().isEmpty()) {
-//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
-//									table.getModel().getValueAt(i, 1).toString(), DescricaoCultura.toString(),
-//									Email.toString(), true);
-//						}
-//						if (Email.getText().isEmpty()) {
-//							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
-//									DescricaoCultura.toString(), table.getModel().getValueAt(i, 3).toString(), true);
-//						}
-						bd.actualizarCulura(i + 1, table.getModel().getValueAt(i, 1).toString(),
-								table.getModel().getValueAt(i, 2).toString(),
-								table.getModel().getValueAt(i, 3).toString());
+						if(Nome.getText().isEmpty() || DescricaoCultura.getText().isEmpty() || IDUtilizador.getText().isEmpty()){
+							return;
+						}
+						
+						bd.actualizarCultura(c.ID, Nome.getText(), DescricaoCultura.getText(), IDUtilizador.getText());
+						
+						frame.setVisible(false);
+						ListCulturas ac = new ListCulturas(bd);
+						frame.getDefaultCloseOperation();
 					}
 				});
 			}
@@ -206,12 +179,11 @@ public class ListCulturas extends JanelaBase {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int column = 0;
-				int row = table.getSelectedRow();
-				int id = (int) table.getModel().getValueAt(row, column);
+				int index = table.getSelectedRow();
+				Cultura c = listCulturas.get(index);
 
-				System.out.println("Vou apagar a Cultura com ID= " + id + "\n");
-				bd.apagarCultura(id);
+				System.out.println("Vou apagar a Cultura com ID= " + c.getID() + "\n");
+				bd.apagarCultura(c.getID());
 
 				frame.setVisible(false);
 				ListCulturas ac = new ListCulturas(bd);

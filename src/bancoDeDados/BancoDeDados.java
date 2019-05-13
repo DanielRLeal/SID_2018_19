@@ -153,10 +153,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void actualizarCulura(int id, String nome, String descricao, String IDUtilizador_fk) {
+	public void actualizarCultura(int id, String nome, String descricao, String IDUtilizador_fk) {
 		try {
 			String query = "UPDATE Cultura set NomeCultura = '" + nome + "' , DescricaoCultura = '" + descricao
-					+ "', IDUtilizador_fk = '" + IDUtilizador_fk + "' WHERE IDCultura = " + id + ";";
+					+ "', IDUtilizador_fk = " + IDUtilizador_fk + " WHERE IDCultura = " + id + ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a actualizar cultura");
@@ -274,10 +274,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void actualizarVariaveis(int IDVariaveis, String NomeVariaveis, int IDCultura_fk) {
+	public void actualizarVariaveis(int IDVariaveis, String NomeVariaveis, String IDCultura_fk) {
 		try {
 			String query = "UPDATE Variaveis set IDVariaveis = '" + IDVariaveis + "' , NomeVariaveis = '"
-					+ NomeVariaveis + "', IDCultura_fk = '" + IDCultura_fk + "' WHERE IDVariaveis = " + IDVariaveis
+					+ NomeVariaveis + "', IDCultura_fk = " + IDCultura_fk + " WHERE IDVariaveis = " + IDVariaveis
 					+ ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
@@ -339,10 +339,10 @@ public class BancoDeDados {
 		}
 	}
 
-	public void actualizarVariaveisMedidas(int id, String nome, String descricao, String IDUtilizador_fk) {
+	public void actualizarVariaveisMedidas(int idCultura, int idVariavel, double LimiteSuperior, double LimiteInferior) {
 		try {
-			String query = "UPDATE Cultura set NomeCultura = '" + nome + "' , DescricaoCultura = '" + descricao
-					+ "', IDUtilizador_fk = '" + IDUtilizador_fk + "' WHERE IDCultura = " + id + ";";
+			String query = "UPDATE VariaveisMedidas set LimiteSuperior = " + LimiteSuperior + " , LimiteInferior = " + LimiteInferior
+					+ " WHERE IDCultura_fk = " + idCultura + " AND IDVariavel_fk = " + idVariavel + ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a actualizar VariaveisMedidas");

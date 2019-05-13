@@ -32,19 +32,19 @@ import MenuAdmin.adminCriarVariaveisMedidas;
 import MenuAdmin.menu_Admin;
 import MenuInvestigador.menu_Investigador;
 import bancoDeDados.BancoDeDados;
+import bancoDeDados.Medicoes;
 import bancoDeDados.VariaveisMedidas;
 import bancoDeDados.Utilizador;
 
 import javax.swing.JList;
 
 public class ListVariaveisMedidas extends JanelaBase {
-
-	private ArrayList<VariaveisMedidas> VariaveisMedidass2;
+	private ArrayList<VariaveisMedidas> VariaveisMedidas;
 
 	public ListVariaveisMedidas(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
-		VariaveisMedidass2 = bd.listaVariaveisMedidas();
+		VariaveisMedidas = bd.listaVariaveisMedidas();
 		initialize();
 	}
 
@@ -71,9 +71,9 @@ public class ListVariaveisMedidas extends JanelaBase {
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = { "IDCultura_fk", "IDVariavel_fk", "LimiteSuperior", "LimiteInferior" };
+		Object[] columnNames = { "IDCultura_fk", "IDVariavel_fk", "LimiteInferior", "LimiteSuperior" };
 
-		Object[][] VariaveisMedidass = FuncoesAjuda.listaParaTabela(bd.listaVariaveisMedidas(), 4);
+		Object[][] VariaveisMedidass = FuncoesAjuda.listaParaTabela(VariaveisMedidas, 4);
 
 		JTable table = new JTable(VariaveisMedidass, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -97,6 +97,59 @@ public class ListVariaveisMedidas extends JanelaBase {
 			btnCriarVariaveisMedidas.setBackground(new Color(240, 230, 140));
 	
 			JButton btnEditar = new JButton("Editar");
+			btnEditar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					int index = table.getSelectedRow();
+					VariaveisMedidas vm = VariaveisMedidas.get(index);
+					
+					FuncoesAjuda.getFrame().setBounds(250, 250, 500, 600);
+					JTextField LimiteSuperior = new JTextField();
+					LimiteSuperior.setBounds(26, 470, 116, 22);
+					frame.getContentPane().add(LimiteSuperior);
+					LimiteSuperior.setText(Double.toString(vm.getLimiteSuperior()));
+					LimiteSuperior.setColumns(10);
+
+					JTextField LimiteInferior = new JTextField();
+					LimiteInferior.setColumns(10);
+					LimiteInferior.setBounds(191, 470, 116, 22);
+					LimiteInferior.setText(Double.toString(vm.getLimiteInferior()));
+					frame.getContentPane().add(LimiteInferior);
+
+					JLabel lblLimiteSuperior = new JLabel("Limite Superior");
+					lblLimiteSuperior.setFont(new Font("Tahoma", Font.PLAIN, 18));
+					lblLimiteSuperior.setBounds(26, 450, 110, 16);
+					frame.getContentPane().add(lblLimiteSuperior);
+
+					JLabel lblLimiteInferior = new JLabel("Limite Inferior");
+					lblLimiteInferior.setFont(new Font("Tahoma", Font.PLAIN, 18));
+					lblLimiteInferior.setBounds(191, 450, 110, 16);
+					frame.getContentPane().add(lblLimiteInferior);
+
+					JButton btnOkEdit = new JButton("Ok");
+					btnOkEdit.setBounds(372, 520, 116, 22);
+					btnOkEdit.setFont(new Font("Tahoma", Font.PLAIN, 16));
+					btnOkEdit.setBackground(new Color(192, 192, 192));
+					frame.getContentPane().add(btnOkEdit);
+
+					btnOkEdit.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							try{
+							if(LimiteSuperior.getText().isEmpty() || LimiteInferior.getText().isEmpty()){
+								return;
+							}
+							
+							bd.actualizarVariaveisMedidas(vm.getIDCultura_fk(), vm.getIDVariavel_fk(), Double.parseDouble(LimiteSuperior.getText()), Double.parseDouble(LimiteInferior.getText()));
+							
+							frame.setVisible(false);
+							ListVariaveisMedidas lvm = new ListVariaveisMedidas(bd);
+							frame.getDefaultCloseOperation();
+							} catch(NumberFormatException e1) {
+						        return; 
+						    }
+						}
+					});
+				}
+			});
 			JButton btnEliminar = new JButton("Eliminar");
 	
 			table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -120,9 +173,9 @@ public class ListVariaveisMedidas extends JanelaBase {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					int index = table.getSelectedRow();
-					VariaveisMedidas c = VariaveisMedidass2.get(index);
+					VariaveisMedidas vm = VariaveisMedidas.get(index);
 	
-					bd.apagarVariaveisMedidas(c.getIDCultura_fk(), c.getIDVariavel_fk());
+					bd.apagarVariaveisMedidas(vm.getIDCultura_fk(), vm.getIDVariavel_fk());
 					
 					frame.setVisible(false);
 					ListVariaveisMedidas lvm = new ListVariaveisMedidas(bd);
