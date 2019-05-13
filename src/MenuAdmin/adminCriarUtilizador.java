@@ -117,14 +117,15 @@ public class adminCriarUtilizador extends JanelaBase {
 				}
 				if (!textField_TipoDeUti.getText().equals("Investigador")
 						&& !textField_TipoDeUti.getText().equals("Auditor")
-						&& !textField_TipoDeUti.getText().equals("Admin")) {
+						&& !textField_TipoDeUti.getText().equals("Administrador")) {
 					JOptionPane.showMessageDialog(null, "Categoria Profissional inexistente!");
 					return;
 				}
 				bd.inserirUtilizador(textField_nome.getText(), textField_password.getText(),
 						textField_TipoDeUti.getText(), textField_Email.getText(), true);
+				
+				frame.setVisible(false);
 				adminUtilizadores mA = new adminUtilizadores(bd);
-				mA.setVisible(true);
 				frame.getDefaultCloseOperation();
 			}
 		});

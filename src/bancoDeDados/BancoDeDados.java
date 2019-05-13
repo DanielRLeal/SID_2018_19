@@ -1,5 +1,6 @@
 package bancoDeDados;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -95,8 +96,21 @@ public class BancoDeDados {
 
 	public void inserirUtilizador(String nome, String password, String categoria, String email, boolean activo) {
 		try {
+			//Corre sem erros, mas não executa o SP...
+			/*String query = "{CALL " + BDname + "CriarUtilizador(?, ?, ?, ?, ?)}";
+			CallableStatement stmt = this.connection.prepareCall(query);
+			
+			stmt.setString(1, nome);
+			stmt.setString(2, categoria);
+			stmt.setString(3, email);
+			stmt.setBoolean(4, true);
+			stmt.setString(5, password);
+			
+			stmt.executeQuery();*/
+			
 			String query = "INSERT INTO " + BDname + "utilizador (NomeUtilizador, CategoriaProfissional, Email, Activo) VALUES ('"
 					+ nome + "', '" + categoria + "', '" + email + "', " + activo + ");";
+			
 			System.out.println(query);
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
@@ -104,8 +118,21 @@ public class BancoDeDados {
 		}
 	}
 
-	public void actualizarUtilizador(int id, String nome, String categoria, String email, boolean activo) {
+	public void actualizarUtilizador(int id, String nome, String categoria, String email, boolean activo, String password) {
 		try {
+			//Corre sem erros, mas não executa o SP...
+			/*String query = "{CALL " + BDname + "EditarUtilizador(?, ?, ?, ?, ?, ?)}";
+			CallableStatement stmt = this.connection.prepareCall(query);
+			
+			stmt.setInt(1, id);
+			stmt.setString(2, nome);
+			stmt.setString(3, categoria);
+			stmt.setString(4, email);
+			stmt.setBoolean(5, true);
+			stmt.setString(6, password);
+			
+			stmt.executeQuery();*/
+			
 			String query = "UPDATE " + BDname + "Utilizador SET NomeUtilizador = '" + nome
 					+ "', CategoriaProfissional = '" + categoria + "',Email = '" + email + "', Activo = " + activo
 					+ " WHERE IDUtilizador = " + id + ";";
@@ -117,6 +144,14 @@ public class BancoDeDados {
 
 	public void apagarUtilizador(int id, boolean bool) {
 		try {
+			//Corre sem erros, mas não executa o SP...
+			/*String query = "{CALL " + BDname + "ApagarUtilizador(?)}";
+			CallableStatement stmt = this.connection.prepareCall(query);
+			
+			stmt.setInt(1, id);
+			
+			stmt.executeQuery();*/
+			
 			String query = "UPDATE " + BDname + "Utilizador set Activo = " + bool + " WHERE IDUtilizador = " + id + ";";
 			System.out.println(query + "\n" + "Vou desativar o utilizador com id " + id);
 			this.statement.executeUpdate(query);

@@ -156,12 +156,12 @@ public class adminUtilizadores extends JanelaBase {
 					public void actionPerformed(ActionEvent e) {
 						if (!CategoriaProfissional.getText().equals("Investigador")
 								&& !CategoriaProfissional.getText().equals("Auditor")
-								&& !CategoriaProfissional.getText().equals("Admin")) {
+								&& !CategoriaProfissional.getText().equals("Administrador")) {
 							JOptionPane.showMessageDialog(null, "Categoria Profissional inexistente!");
 							return;
 						}
 						
-						bd.actualizarUtilizador(u.getID(), Nome.getText(), CategoriaProfissional.getText(), Email.getText(), Ativo.isSelected());
+						bd.actualizarUtilizador(u.getID(), Nome.getText(), CategoriaProfissional.getText(), Email.getText(), Ativo.isSelected(), "");
 						
 						frame.setVisible(false);
 						adminCriarUtilizador aCriarUti = new adminCriarUtilizador(bd);
@@ -179,7 +179,7 @@ public class adminUtilizadores extends JanelaBase {
 				bd.apagarUtilizador(u.getID(), false);
 				
 				frame.setVisible(false);
-				adminCriarUtilizador aCriarUti = new adminCriarUtilizador(bd);
+				adminUtilizadores aUti = new adminUtilizadores(bd);
 				frame.setVisible(false);
 			}
 		});
