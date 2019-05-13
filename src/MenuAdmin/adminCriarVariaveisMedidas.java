@@ -48,7 +48,7 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		btnVoltar.setBackground(new Color(192, 192, 192));
 		btnVoltar.setBounds(12, 427, 97, 25);
 		frame.getContentPane().add(btnVoltar);
-///////////////
+		
 		JLabel lblIDVariavel_fk = new JLabel("ID da Variavel");
 		lblIDVariavel_fk.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblIDVariavel_fk.setBounds(12, 187, 169, 16);
@@ -59,7 +59,6 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		textField_IDVariavel_fk.setBounds(221, 186, 216, 22);
 		frame.getContentPane().add(textField_IDVariavel_fk);
 
-///////////////////
 		JLabel lblIDCultura_fk = new JLabel("ID da Cultura");
 		lblIDCultura_fk.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblIDCultura_fk.setBounds(12, 320, 169, 16);
@@ -69,20 +68,15 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		textField_IDCultura_fk.setColumns(10);
 		textField_IDCultura_fk.setBounds(221, 320, 216, 22);
 		frame.getContentPane().add(textField_IDCultura_fk);
-//////////////
 		JLabel lblLimInferior = new JLabel("LimInferior");
 		lblLimInferior.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblLimInferior.setBounds(12, 239, 197, 16);
 		frame.getContentPane().add(lblLimInferior);
 
-//		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 		textField_LimInferior = new JTextField();
-//		textField_DataHoraMedicao.setText("2015-02-01 16:16:02");
 		textField_LimInferior.setColumns(10);
 		textField_LimInferior.setBounds(221, 238, 216, 22);
 		frame.getContentPane().add(textField_LimInferior);
-//--------------
 		JLabel lblLimSuperior = new JLabel("LimSuperior");
 		lblLimSuperior.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblLimSuperior.setBounds(12, 291, 197, 16);
@@ -103,11 +97,13 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 				String IDCultura_fk = textField_IDCultura_fk.getText().toString();
 
 				double limSuperior = Double.parseDouble(textField_LimSuperior.getText());
-//					double ValorMedicao = Double.parseDouble(textField_ValorMedicao.getText());
 				double limInferior = Double.parseDouble(textField_LimInferior.getText());
 
 				bd.inserirVariaveisMedidas(IDCultura_fk, IDVariavel_fk, limSuperior, limInferior);
 
+				frame.setVisible(false);
+				ListVariaveisMedidas ac = new ListVariaveisMedidas(bd);
+				frame.getDefaultCloseOperation();
 			}
 		});
 

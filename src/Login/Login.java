@@ -28,10 +28,6 @@ public class Login extends JanelaBase {
 	public void credenciais() {
 		bd = new BancoDeDados();
 		bd.conectar(textField.getText(), passwordField.getText());
-
-		VerificarAlertas vAlertas = new VerificarAlertas(bd);
-		Thread t = new Thread(vAlertas);
-		t.start();
 	}
 
 	@Override
@@ -50,11 +46,11 @@ public class Login extends JanelaBase {
 						JOptionPane.showMessageDialog(null, "Credências incorrectas!");
 					}
 
-					if (bd.utilizadorLogado.CategoriaProfissional.equals("Investigador")) {
+					if (bd.utilizadorLogado.CategoriaProfissional.contains("Investigador")) {
 						menu_Investigador mInvestigador = new menu_Investigador(bd);
 						frame.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Bem Vindo, Investigador!");
-					} else if (bd.utilizadorLogado.CategoriaProfissional.equals("Administrador")) {
+					} else if (bd.utilizadorLogado.CategoriaProfissional.contains("Administrador")) {
 						menu_Admin mAdmin = new menu_Admin(bd);
 						frame.setVisible(false);
 						JOptionPane.showMessageDialog(null, "Bem Vindo, Admin!");

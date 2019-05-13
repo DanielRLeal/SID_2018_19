@@ -19,44 +19,43 @@ public class VerificarAlertas implements Runnable {
 	private BancoDeDados bd;
 	private final String emailRemetente = "es2.2019.iscte";
 	private final String emailPass = "es22019iscte";
-	
-    public VerificarAlertas(BancoDeDados bd) {
-    	this.bd = bd;
-    }
 
-    public void run() {
-        while(true){
-        	try {
-        		ArrayList<Alerta> alert = bd.verificarAlertas();
-        		if(alert != null){
-	        		for (Alerta alerta : alert) {
-	        			String mensagem = "Limite Ultrapassado " + alerta.getDescricao();
-	        			String assunto = "Alerta da variavel " + alerta.getNomeVariavel();
-	        			
-						if(alerta.getEmailUtilizador() != null && !alerta.getEmailUtilizador().isEmpty()){
-							//envia email para o utilizador, alerta destinado ao investigador
+	public VerificarAlertas(BancoDeDados bd) {
+		this.bd = bd;
+	}
+
+	public void run() {
+		while (true) {
+			try {
+				ArrayList<Alerta> alert = bd.verificarAlertas();
+				if (alert != null) {
+					for (Alerta alerta : alert) {
+						String mensagem = "Limite Ultrapassado " + alerta.getDescricao();
+						String assunto = "Alerta da variavel " + alerta.getNomeVariavel();
+
+						if (alerta.getEmailUtilizador() != null && !alerta.getEmailUtilizador().isEmpty()) {
+							// envia email para o utilizador, alerta destinado ao investigador
 							sendEmail(alerta.getEmailUtilizador(), assunto, mensagem);
-						}else{
-							//envia email para email generico, alerta do sensor
+						} else {
+							// envia email para email generico, alerta do sensor
 							sendEmail(emailRemetente, assunto, mensagem);
 						}
-						
+
 						JOptionPane.showMessageDialog(null, mensagem);
-						
+
 						bd.tornarAlertaVisto(alerta);
 					}
-        		}
-        		
+				}
+
 				Thread.sleep(60000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-        }
-    }
-    
-    
-    public void sendEmail(String emailDestinatario, String Assunto, String corpoEmail) {
+		}
+	}
+
+	public void sendEmail(String emailDestinatario, String Assunto, String corpoEmail) {
 		try {
 
 			String host = "smtp.gmail.com";

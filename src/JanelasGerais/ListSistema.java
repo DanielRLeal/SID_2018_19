@@ -12,11 +12,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import javax.swing.border.MatteBorder;
 
+import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import Login.Login;
 import MenuAdmin.menu_Admin;
@@ -48,15 +52,22 @@ public class ListSistema extends JanelaBase {
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
-		JPanel panel_1 = new JPanel();
+		JScrollPane panel_1 = new JScrollPane();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_1.setBackground(Color.GRAY);
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		JList list = new JList();
-		list.setBounds(0, 0, 470, 209);
-		panel_1.add(list);
+		Object[] columnNames = { "Limite Superior Temperatura", "Limite Inferior Temperatura", "Limite Superior Luminosidade", "Limite Inferior Luminosidade" };
+
+		Object[][] sistema = FuncoesAjuda.listaParaTabela(bd.listaSistema(), 4);
+
+		JTable table = new JTable(sistema, columnNames);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setDefaultEditor(Object.class, null);
+
+		panel_1.setViewportView(table);
+
 
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
