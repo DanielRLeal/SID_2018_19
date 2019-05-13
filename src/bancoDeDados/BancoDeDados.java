@@ -481,6 +481,31 @@ public class BancoDeDados {
 
 	// Listar(..) Sistema
 
+	public ArrayList<Sistema> listaSistema() {
+		try {
+			String query = "SELECT * FROM Sistema";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+
+			ArrayList<Sistema> listTemp = new ArrayList<>();
+			while (this.resultset.next()) {
+				Sistema sis = new Sistema(
+						this.resultset.getDouble("LimiteSuperiorTemperatura"),
+						this.resultset.getDouble("LimiteInferiorTemperatura"),
+						this.resultset.getDouble("LimiteSuperiorLuminosidade"),
+						this.resultset.getDouble("LimiteInferiorLuminosidade"));
+
+				listTemp.add(sis);
+			}
+
+			return listTemp;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar sistema");
+			return null;
+		}
+	}
+	
 	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
 		ArrayList<Utilizador> newList = new ArrayList<>();
 		for (Utilizador element : list) {
