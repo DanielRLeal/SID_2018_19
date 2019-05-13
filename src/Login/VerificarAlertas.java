@@ -17,8 +17,8 @@ import bancoDeDados.BancoDeDados;
 public class VerificarAlertas implements Runnable {
 
 	private BancoDeDados bd;
-	private final String emailRemetente = "";
-	private final String emailPass = "";
+	private final String emailRemetente = "es2.2019.iscte";
+	private final String emailPass = "es22019iscte";
 	
     public VerificarAlertas(BancoDeDados bd) {
     	this.bd = bd;
