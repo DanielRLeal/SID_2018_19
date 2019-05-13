@@ -14,6 +14,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import Login.VerificarAlertas;
+
 public class BancoDeDados {
 
 	private Connection connection = null;
@@ -22,15 +24,20 @@ public class BancoDeDados {
 	public DefaultListModel<String> listaUtilizadores = new DefaultListModel<String>();
 	public Utilizador utilizadorLogado;
 	ArrayList<Utilizador> users = new ArrayList<>();
-
+	String BDname = "sid_bd_php.";
+	
 	public void conectar(String utilizador, String pass) {
-		String servidor = "jdbc:mysql://localhost:3306/sid_bd_php";
+		String servidor = "jdbc:mysql://localhost:3306/";
 		String driver = "com.mysql.jdbc.Driver";
 		try {
 			Class.forName(driver);
 			this.connection = DriverManager.getConnection(servidor, utilizador, pass);
 			this.statement = this.connection.createStatement();
 			getUtilizador(utilizador);
+			
+			VerificarAlertas vAlertas = new VerificarAlertas(this);
+			Thread t = new Thread(vAlertas);
+			t.start();
 		} catch (Exception e) {
 		}
 	}
@@ -50,13 +57,14 @@ public class BancoDeDados {
 				return;
 			}
 
-			String query = "SELECT * FROM utilizador WHERE IDUtilizador = " + utilizador;
+			String query = "SELECT * FROM " + BDname + "utilizador WHERE IDUtilizador = " + utilizador;
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
-
-			utilizadorLogado = new Utilizador(this.resultset.getInt("IDUtilizador"),
+			if(this.resultset.next()){
+				utilizadorLogado = new Utilizador(this.resultset.getInt("IDUtilizador"),
 					this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
 					this.resultset.getString("Email"), this.resultset.getBoolean("Activo"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Falha a pesquisar o Utilizador");
@@ -66,7 +74,7 @@ public class BancoDeDados {
 	public ArrayList<Utilizador> listarUtilizador() {
 		ArrayList<Utilizador> temp = new ArrayList<>();
 		try {
-			String query = "SELECT * FROM utilizador";
+			String query = "SELECT * FROM " + BDname + "utilizador";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
@@ -87,7 +95,7 @@ public class BancoDeDados {
 
 	public void inserirUtilizador(String nome, String password, String categoria, String email, boolean activo) {
 		try {
-			String query = "INSERT INTO Utilizador (NomeUtilizador, CategoriaProfissional, Email, Activo) VALUES ('"
+			String query = "INSERT INTO " + BDname + "utilizador (NomeUtilizador, CategoriaProfissional, Email, Activo) VALUES ('"
 					+ nome + "', '" + categoria + "', '" + email + "', " + activo + ");";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
@@ -98,7 +106,7 @@ public class BancoDeDados {
 
 	public void actualizarUtilizador(int id, String nome, String categoria, String email, boolean activo) {
 		try {
-			String query = "UPDATE Utilizador SET NomeUtilizador = '" + nome
+			String query = "UPDATE " + BDname + "Utilizador SET NomeUtilizador = '" + nome
 					+ "', CategoriaProfissional = '" + categoria + "',Email = '" + email + "', Activo = " + activo
 					+ " WHERE IDUtilizador = " + id + ";";
 			this.statement.executeUpdate(query);
@@ -109,7 +117,7 @@ public class BancoDeDados {
 
 	public void apagarUtilizador(int id, boolean bool) {
 		try {
-			String query = "UPDATE Utilizador set Activo = " + bool + " WHERE IDUtilizador = " + id + ";";
+			String query = "UPDATE " + BDname + "Utilizador set Activo = " + bool + " WHERE IDUtilizador = " + id + ";";
 			System.out.println(query + "\n" + "Vou desativar o utilizador com id " + id);
 			this.statement.executeUpdate(query);
 
@@ -121,7 +129,7 @@ public class BancoDeDados {
 	public ArrayList<Cultura> listaCultura() {
 		try {
 			String query = "SELECT c.IDCultura, c.NomeCultura, c.DescricaoCultura, c.IDUtilizador_fk, u.NomeUtilizador "
-					+ "FROM cultura c " + "INNER JOIN utilizador u ON u.IDUtilizador = c.IDUtilizador_fk;";
+					+ "FROM " + BDname + "cultura c INNER JOIN " + BDname + "utilizador u ON u.IDUtilizador = c.IDUtilizador_fk;";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
@@ -143,7 +151,7 @@ public class BancoDeDados {
 
 	public void inserirCultura(String nome, String descricao, String IDUtilizador_fk) {
 		try {
-			String query = "INSERT INTO Cultura (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES ('" + nome
+			String query = "INSERT INTO " + BDname + "Cultura (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES ('" + nome
 					+ "', '" + descricao + "', '" + IDUtilizador_fk + "');";
 
 			this.statement.executeUpdate(query);
@@ -155,7 +163,7 @@ public class BancoDeDados {
 
 	public void actualizarCultura(int id, String nome, String descricao, String IDUtilizador_fk) {
 		try {
-			String query = "UPDATE Cultura set NomeCultura = '" + nome + "' , DescricaoCultura = '" + descricao
+			String query = "UPDATE " + BDname + "Cultura set NomeCultura = '" + nome + "' , DescricaoCultura = '" + descricao
 					+ "', IDUtilizador_fk = " + IDUtilizador_fk + " WHERE IDCultura = " + id + ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
@@ -165,7 +173,7 @@ public class BancoDeDados {
 
 	public void apagarCultura(int id) {
 		try {
-			String query = "DELETE FROM Cultura WHERE IDCultura = '" + id + "';";
+			String query = "DELETE FROM " + BDname + "Cultura WHERE IDCultura = '" + id + "';";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar cultura");
@@ -176,9 +184,9 @@ public class BancoDeDados {
 
 	public ArrayList<Medicoes> listaMedicoes() {
 		try {
-			String query = "SELECT m.*, c.NomeCultura, v.NomeVariaveis FROM Medicoes m "
-					+ "INNER JOIN Cultura c ON m.IDCultura_fk = c.IDCultura "
-					+ "INNER JOIN Variaveis v ON m.IDVariavel_fk = v.IDVariaveis";
+			String query = "SELECT m.*, c.NomeCultura, v.NomeVariaveis FROM " + BDname + "Medicoes m "
+					+ "INNER JOIN " + BDname + "Cultura c ON m.IDCultura_fk = c.IDCultura "
+					+ "INNER JOIN " + BDname + "Variaveis v ON m.IDVariavel_fk = v.IDVariaveis";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
@@ -208,7 +216,7 @@ public class BancoDeDados {
 
 	public void inserirMedicoes(String IDCultura_fk, String iDVariavel_fk, String dataHoraMedicao, double ValorMedicao) {
 		try {
-			String query = "INSERT INTO Medicoes (IDCultura_fk, IDVariavel_fk, DataHoraMedicao, ValorMedicao) VALUES ('"
+			String query = "INSERT INTO " + BDname + "Medicoes (IDCultura_fk, IDVariavel_fk, DataHoraMedicao, ValorMedicao) VALUES ('"
 					+ IDCultura_fk + "', '" + iDVariavel_fk + "', '" + dataHoraMedicao + "', '" + ValorMedicao + "');";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
@@ -220,7 +228,7 @@ public class BancoDeDados {
 
 	public void actualizarMedicoes(int IDMedicoes, int IDCultura_fk, int IDVariavel_fk, String dataHoraMedicao, double ValorMedicao) {
 		try {
-			String query = "UPDATE Medicoes set IDCultura_fk = " + IDCultura_fk + ", IDVariavel_fk = " + IDVariavel_fk + ", "
+			String query = "UPDATE " + BDname + "Medicoes set IDCultura_fk = " + IDCultura_fk + ", IDVariavel_fk = " + IDVariavel_fk + ", "
 					+ "DataHoraMedicao = " + dataHoraMedicao + ",ValorMedicao = " + ValorMedicao + " WHERE IDMedicoes = " + IDMedicoes + ";";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
@@ -231,7 +239,7 @@ public class BancoDeDados {
 
 	public void apagarMedicoes(int id) {
 		try {
-			String query = "DELETE FROM Medicoes WHERE IDMedicoes = '" + id + "';";
+			String query = "DELETE FROM " + BDname + "Medicoes WHERE IDMedicoes = '" + id + "';";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar Medicoes");
@@ -243,7 +251,7 @@ public class BancoDeDados {
 	public ArrayList<Variaveis> listarVariaveis() {
 		ArrayList<Variaveis> temp = new ArrayList<>();
 		try {
-			String query = "SELECT v.*, c.NomeCultura FROM variaveis v INNER JOIN cultura c ON v.IDCultura_fk = c.IDCultura;";
+			String query = "SELECT v.*, c.NomeCultura FROM " + BDname + "variaveis v INNER JOIN " + BDname + "cultura c ON v.IDCultura_fk = c.IDCultura;";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
@@ -263,7 +271,7 @@ public class BancoDeDados {
 
 	public void inserirVariaveis(String NomeVariaveis, String IDCultura_fk) {
 		try {
-			String query = "INSERT INTO Variaveis (NomeVariaveis, IDCultura_fk) VALUES ('" + NomeVariaveis + "', '"
+			String query = "INSERT INTO " + BDname + "Variaveis (NomeVariaveis, IDCultura_fk) VALUES ('" + NomeVariaveis + "', '"
 					+ IDCultura_fk + "');";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
@@ -276,7 +284,7 @@ public class BancoDeDados {
 
 	public void actualizarVariaveis(int IDVariaveis, String NomeVariaveis, String IDCultura_fk) {
 		try {
-			String query = "UPDATE Variaveis set IDVariaveis = '" + IDVariaveis + "' , NomeVariaveis = '"
+			String query = "UPDATE " + BDname + "Variaveis set IDVariaveis = '" + IDVariaveis + "' , NomeVariaveis = '"
 					+ NomeVariaveis + "', IDCultura_fk = " + IDCultura_fk + " WHERE IDVariaveis = " + IDVariaveis
 					+ ";";
 			this.statement.executeUpdate(query);
@@ -287,7 +295,7 @@ public class BancoDeDados {
 
 	public void apagarVariaveis(int id) {
 		try {
-			String query = "DELETE FROM variaveis WHERE IDVariaveis = " + id + ";";
+			String query = "DELETE FROM " + BDname + "variaveis WHERE IDVariaveis = " + id + ";";
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "Variavel apagada com sucesso!");
 		} catch (Exception e) {
@@ -299,9 +307,9 @@ public class BancoDeDados {
 
 	public ArrayList<VariaveisMedidas> listaVariaveisMedidas() {
 		try {
-			String query = "SELECT vm.*, c.NomeCultura, v.NomeVariaveis FROM variaveismedidas vm "
-					+ "INNER JOIN cultura c ON vm.IDCultura_fk = c.IDCultura "
-					+ "INNER JOIN variaveis v ON vm.IDVariavel_fk = v.IDVariaveis;";
+			String query = "SELECT vm.*, c.NomeCultura, v.NomeVariaveis FROM " + BDname + "variaveismedidas vm "
+					+ "INNER JOIN " + BDname + "cultura c ON vm.IDCultura_fk = c.IDCultura "
+					+ "INNER JOIN " + BDname + "variaveis v ON vm.IDVariavel_fk = v.IDVariaveis;";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
@@ -328,7 +336,7 @@ public class BancoDeDados {
 			double limInferior) {
 
 		try {
-			String query = "INSERT INTO VariaveisMedidas (IDCultura_fk,IDVariavel_fk,LimiteSuperior,LimiteInferior) VALUES ('"
+			String query = "INSERT INTO " + BDname + "VariaveisMedidas (IDCultura_fk, IDVariavel_fk, LimiteSuperior, LimiteInferior) VALUES ('"
 					+ iDCultura_fk + "', '" + iDVariavel_fk + "', '" + limSuperior + "', '" + limInferior + "');";
 			System.out.println(query);
 
@@ -341,7 +349,7 @@ public class BancoDeDados {
 
 	public void actualizarVariaveisMedidas(int idCultura, int idVariavel, double LimiteSuperior, double LimiteInferior) {
 		try {
-			String query = "UPDATE VariaveisMedidas set LimiteSuperior = " + LimiteSuperior + " , LimiteInferior = " + LimiteInferior
+			String query = "UPDATE " + BDname + "VariaveisMedidas set LimiteSuperior = " + LimiteSuperior + " , LimiteInferior = " + LimiteInferior
 					+ " WHERE IDCultura_fk = " + idCultura + " AND IDVariavel_fk = " + idVariavel + ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
@@ -351,7 +359,7 @@ public class BancoDeDados {
 
 	public void apagarVariaveisMedidas(int idCultura, int idVariavel) {
 		try {
-			String query = "DELETE FROM variaveismedidas WHERE IDCultura_fk = '" + idCultura + "' AND IDVariavel_fk = '" + idVariavel + "';";
+			String query = "DELETE FROM " + BDname + "variaveismedidas WHERE IDCultura_fk = '" + idCultura + "' AND IDVariavel_fk = '" + idVariavel + "';";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar VariaveisMedidas");
@@ -362,7 +370,7 @@ public class BancoDeDados {
 
 	public ArrayList<MedicaoLuminosidade> listaMedicoesLuminosidade() {
 		try {
-			String query = "SELECT * FROM medicoesluminosidade";
+			String query = "SELECT * FROM " + BDname + "medicoesluminosidade";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
@@ -388,7 +396,7 @@ public class BancoDeDados {
 
 	public void inserirMedicoesLuminosidade(String dataHoraMedicao, double ValorMedicaoLuminosidade) {
 		try {
-			String query = "INSERT INTO medicoesluminosidade (DataHoraMedicao, ValorMedicaoLuminosidade) VALUES ('"
+			String query = "INSERT INTO " + BDname + "medicoesluminosidade (DataHoraMedicao, ValorMedicaoLuminosidade) VALUES ('"
 					+ dataHoraMedicao + "', '" + ValorMedicaoLuminosidade + "');";
 			System.out.println(query);
 
@@ -401,7 +409,7 @@ public class BancoDeDados {
 
 	public void actualizarMedicoesLuminosidade(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoLuminosidade) {
 		try {
-			String query = "UPDATE medicoesluminosidade set DataHoraMedicao = '" + DataHoraMedicao
+			String query = "UPDATE " + BDname + "medicoesluminosidade set DataHoraMedicao = '" + DataHoraMedicao
 					+ "', ValorMedicaoLuminosidade = '" + ValorMedicaoLuminosidade + "' WHERE IDMedicao = " + IDMedicao
 					+ ";";
 			this.statement.executeUpdate(query);
@@ -412,7 +420,7 @@ public class BancoDeDados {
 
 	public void apagarMedicoesLuminosidade(int IDMedicao) {
 		try {
-			String query = "DELETE FROM medicoesluminosidade WHERE IDMedicao = '" + IDMedicao + "';";
+			String query = "DELETE FROM " + BDname + "medicoesluminosidade WHERE IDMedicao = '" + IDMedicao + "';";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar medicoesluminosidade");
@@ -423,7 +431,7 @@ public class BancoDeDados {
 
 	public ArrayList<MedicaoTemperatura> listaMedicoesTemperatura() {
 		try {
-			String query = "SELECT * FROM medicoestemperatura";
+			String query = "SELECT * FROM " + BDname + "medicoestemperatura";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
@@ -449,7 +457,7 @@ public class BancoDeDados {
 
 	public void inserirMedicoesTemperatura(String dataHoraMedicao, double ValorMedicaoTemperatura) {
 		try {
-			String query = "INSERT INTO medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoTemperatura) VALUES ('"
+			String query = "INSERT INTO " + BDname + "medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoTemperatura) VALUES ('"
 					+ dataHoraMedicao + "', '" + ValorMedicaoTemperatura + "');";
 
 			this.statement.executeUpdate(query);
@@ -461,7 +469,7 @@ public class BancoDeDados {
 
 	public void actualizarMedicoesTemperatura(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoTemperatura) {
 		try {
-			String query = "UPDATE medicoestemperatura set DataHoraMedicao = '" + DataHoraMedicao
+			String query = "UPDATE " + BDname + "medicoestemperatura set DataHoraMedicao = '" + DataHoraMedicao
 					+ "', ValorMedicaoLuminosidade = '" + ValorMedicaoTemperatura + "' WHERE IDMedicao = " + IDMedicao
 					+ ";";
 			this.statement.executeUpdate(query);
@@ -472,7 +480,7 @@ public class BancoDeDados {
 
 	public void apagarMedicoesTemperatura(int IDMedicao) {
 		try {
-			String query = "DELETE FROM medicoestemperatura WHERE IDMedicao = '" + IDMedicao + "';";
+			String query = "DELETE FROM " + BDname + "medicoestemperatura WHERE IDMedicao = '" + IDMedicao + "';";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar medicoestemperatura");
@@ -483,7 +491,7 @@ public class BancoDeDados {
 
 	public ArrayList<Sistema> listaSistema() {
 		try {
-			String query = "SELECT * FROM Sistema";
+			String query = "SELECT * FROM " + BDname + "Sistema";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
@@ -526,7 +534,7 @@ public class BancoDeDados {
 	public ArrayList<Utilizador_Log> listarUtilizador_Log() {
 		ArrayList<Utilizador_Log> temp = new ArrayList<>();
 		try {
-			String query = "SELECT * FROM utilizador_log";
+			String query = "SELECT * FROM " + BDname + "utilizador_log";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
@@ -549,7 +557,7 @@ public class BancoDeDados {
 	public ArrayList<Alertas_Log> listarAlertas_Log() {
 		ArrayList<Alertas_Log> temp = new ArrayList<>();
 		try {
-			String query = "SELECT * FROM alertas_log";
+			String query = "SELECT * FROM " + BDname + "alertas_log";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
@@ -573,7 +581,7 @@ public class BancoDeDados {
 	public ArrayList<Medicoes_Log> listarMedicoes_Log() {
 		ArrayList<Medicoes_Log> temp = new ArrayList<>();
 		try {
-			String query = "SELECT * FROM medicoes_log";
+			String query = "SELECT * FROM " + BDname + "medicoes_log";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
@@ -598,7 +606,7 @@ public class BancoDeDados {
 	public ArrayList<Cultura_Log> listarCultura_Log() {
 		ArrayList<Cultura_Log> temp = new ArrayList<>();
 		try {
-			String query = "SELECT * FROM cultura_log";
+			String query = "SELECT * FROM " + BDname + "cultura_log";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
@@ -621,7 +629,7 @@ public class BancoDeDados {
 	public ArrayList<VariaveisMedidas_Log> listarVariaveisMedidas_Log() {
 		ArrayList<VariaveisMedidas_Log> temp = new ArrayList<>();
 		try {
-			String query = "SELECT * FROM variaveismedidas_log";
+			String query = "SELECT * FROM " + BDname + "variaveismedidas_log";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
@@ -647,7 +655,7 @@ public class BancoDeDados {
 	public ArrayList<Variaveis_Log> listarVariaveis_Log() {
 		ArrayList<Variaveis_Log> temp = new ArrayList<>();
 		try {
-			String query = "SELECT * FROM variaveis_log";
+			String query = "SELECT * FROM " + BDname + "variaveis_log";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
@@ -671,8 +679,8 @@ public class BancoDeDados {
 	public ArrayList<Alerta> verificarAlertas() {
 		ArrayList<Alerta> temp = new ArrayList<>();
 		try {
-			String query = "SELECT a.*, u.Email FROM alertas a "
-					+ "LEFT OUTER JOIN utilizador u ON a.IDUtilizador = u.IDUtilizador "
+			String query = "SELECT a.*, u.Email FROM " + BDname + "alertas a "
+					+ "LEFT OUTER JOIN " + BDname + "utilizador u ON a.IDUtilizador = u.IDUtilizador "
 					+ "WHERE a.Visto = 0 "
 					//+ "AND a.DataHora > DATE_SUB(NOW(), INTERVAL 1 MINUTE) "
 					+ "AND (a.IDUtilizador IS NULL OR a.IDUtilizador = " + this.utilizadorLogado.ID + ");";
@@ -710,7 +718,7 @@ public class BancoDeDados {
 	
 	public void tornarAlertaVisto(Alerta alerta) {
 		try {
-			String query = "UPDATE alertas SET Visto = 1 WHERE IDAlerta = " + alerta.getIDAlerta() + ";";
+			String query = "UPDATE " + BDname + "alertas SET Visto = 1 WHERE IDAlerta = " + alerta.getIDAlerta() + ";";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 		} catch (SQLException e) {
