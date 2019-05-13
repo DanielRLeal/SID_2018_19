@@ -29,19 +29,19 @@ import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
-import bancoDeDados.Cultura;
+import bancoDeDados.VariaveisMedidas;
 import bancoDeDados.Utilizador;
 
 import javax.swing.JList;
 
 public class investigadorVariaveisMedidas extends JanelaBase {
 
-	private ArrayList<Cultura> culturas2;
+	private ArrayList<VariaveisMedidas> VariaveisMedidass2;
 
 	public investigadorVariaveisMedidas(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
-		culturas2 = bd.listaCultura();
+		VariaveisMedidass2 = bd.listaVariaveisMedidas();
 		initialize();
 	}
 
@@ -58,7 +58,7 @@ public class investigadorVariaveisMedidas extends JanelaBase {
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Culturas");
+		JLabel lblMenu = new JLabel("VariaveisMedidass");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
@@ -68,11 +68,11 @@ public class investigadorVariaveisMedidas extends JanelaBase {
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = { "#", "Nome Cultura", "Descrição Cultura", "Utilizador" };
+		Object[] columnNames = { "IDCultura_fk", "IDVariavel_fk", "LimiteSuperior", "LimiteInferior" };
 
-		Object[][] culturas = FuncoesAjuda.listaParaTabela(bd.listaCultura(), 4);
+		Object[][] VariaveisMedidass = FuncoesAjuda.listaParaTabela(bd.listaVariaveisMedidas(), 4);
 
-		JTable table = new JTable(culturas, columnNames);
+		JTable table = new JTable(VariaveisMedidass, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultEditor(Object.class, null);
 
@@ -84,11 +84,11 @@ public class investigadorVariaveisMedidas extends JanelaBase {
 		btnVoltar.setBounds(12, 416, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 
-		JButton btnCriarCultura = new JButton("Criar Cultura");
-		btnCriarCultura.setBounds(360, 416, 120, 23);
-		frame.getContentPane().add(btnCriarCultura);
-		btnCriarCultura.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnCriarCultura.setBackground(new Color(240, 230, 140));
+		JButton btnCriarVariaveisMedidas = new JButton("Criar VariaveisMedidas");
+		btnCriarVariaveisMedidas.setBounds(360, 416, 120, 23);
+		frame.getContentPane().add(btnCriarVariaveisMedidas);
+		btnCriarVariaveisMedidas.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnCriarVariaveisMedidas.setBackground(new Color(240, 230, 140));
 
 		JButton btnEditar = new JButton("Editar");
 		JButton btnEliminar = new JButton("Eliminar");
@@ -114,21 +114,19 @@ public class investigadorVariaveisMedidas extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
-				Cultura c = culturas2.get(index);
+				VariaveisMedidas c = VariaveisMedidass2.get(index);
 
-				System.out.println(
-						"Vou apagar a cultura no index: " + index + "\n" + "Cultura com ID= " + c.getID() + "\n");
-				bd.apagarCultura(c.getID());
+				bd.apagarVariaveisMedidas(c.getIDCultura_fk());
 				// falta fazer com que a window atualize a table
 
 			}
 		});
-		btnCriarCultura.addActionListener(new ActionListener() {
+		btnCriarVariaveisMedidas.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorCriarCultura acd = new investigadorCriarCultura(bd);
+				investigadorCriarVariaveisMedidas acd = new investigadorCriarVariaveisMedidas(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});

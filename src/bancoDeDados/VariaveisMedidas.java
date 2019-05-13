@@ -3,8 +3,8 @@ package bancoDeDados;
 public class VariaveisMedidas implements ObjectBD {
 	private int IDCultura_fk;
 	private int IDVariavel_fk;
-	private int LimiteSuperior;
-	private int LimiteInferior;
+	private double LimiteSuperior;
+	private double LimiteInferior;
 
 	/**
 	 * @param iD
@@ -13,11 +13,11 @@ public class VariaveisMedidas implements ObjectBD {
 	 * @param email
 	 * @param ativo
 	 */
-	public VariaveisMedidas(int IDCultura_fk, int IDVariavel_fk, int LimiteSuperior, int LimiteInferior) {
+	public VariaveisMedidas(int IDCultura_fk, int IDVariavel_fk, double d, double e) {
 		this.IDCultura_fk = IDCultura_fk;
 		this.IDVariavel_fk = IDVariavel_fk;
-		this.LimiteSuperior = LimiteSuperior;
-		this.LimiteInferior = LimiteInferior;
+		this.LimiteSuperior = d;
+		this.LimiteInferior = e;
 	}
 
 	public int getIDCultura_fk() {
@@ -36,7 +36,7 @@ public class VariaveisMedidas implements ObjectBD {
 		IDVariavel_fk = iDVariavel_fk;
 	}
 
-	public int getLimiteSuperior() {
+	public double getLimiteSuperior() {
 		return LimiteSuperior;
 	}
 
@@ -44,7 +44,7 @@ public class VariaveisMedidas implements ObjectBD {
 		LimiteSuperior = limiteSuperior;
 	}
 
-	public int getLimiteInferior() {
+	public double getLimiteInferior() {
 		return LimiteInferior;
 	}
 

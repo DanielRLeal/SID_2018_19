@@ -1,33 +1,24 @@
 package MenuInvestigador;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.JPanel;
-import java.awt.FlowLayout;
-import javax.swing.border.MatteBorder;
+import javax.swing.JTextField;
 
 import Login.JanelaBase;
-import Login.Login;
 import bancoDeDados.BancoDeDados;
 
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-
 public class investigadorCriarVariaveisMedidas extends JanelaBase {
-	private JTextField textField_NomeCultura;
-	private JTextField textField_DescricaoCultura;
-	private JTextField textField_Utilizador_resp;
+	private JTextField textField_IDVariavel_fk;
+	private JTextField textField_IDCultura_fk;
+	private JTextField textField_LimInferior;
+	private JTextField textField_LimSuperior;
 
 	public investigadorCriarVariaveisMedidas(BancoDeDados bd) {
 		super(bd);
@@ -38,7 +29,7 @@ public class investigadorCriarVariaveisMedidas extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma cultura");
+		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma VariaveisMedidas");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
 		frame.getContentPane().add(lblInicieASesso);
@@ -47,7 +38,7 @@ public class investigadorCriarVariaveisMedidas extends JanelaBase {
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Criar Cultura");
+		JLabel lblMenu = new JLabel("Criar VariaveisMedidas");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
@@ -56,48 +47,66 @@ public class investigadorCriarVariaveisMedidas extends JanelaBase {
 		btnVoltar.setBackground(new Color(192, 192, 192));
 		btnVoltar.setBounds(12, 427, 97, 25);
 		frame.getContentPane().add(btnVoltar);
+///////////////
+		JLabel lblIDVariavel_fk = new JLabel("ID da Variavel");
+		lblIDVariavel_fk.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblIDVariavel_fk.setBounds(12, 187, 169, 16);
+		frame.getContentPane().add(lblIDVariavel_fk);
 
-		JLabel lblNomeDaCultura = new JLabel("Nome da Cultura");
-		lblNomeDaCultura.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNomeDaCultura.setBounds(12, 187, 169, 16);
-		frame.getContentPane().add(lblNomeDaCultura);
+		textField_IDVariavel_fk = new JTextField();
+		textField_IDVariavel_fk.setColumns(10);
+		textField_IDVariavel_fk.setBounds(221, 186, 216, 22);
+		frame.getContentPane().add(textField_IDVariavel_fk);
 
-		textField_NomeCultura = new JTextField();
-		textField_NomeCultura.setColumns(10);
-		textField_NomeCultura.setBounds(221, 186, 216, 22);
-		frame.getContentPane().add(textField_NomeCultura);
+///////////////////
+		JLabel lblIDCultura_fk = new JLabel("ID da Cultura");
+		lblIDCultura_fk.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblIDCultura_fk.setBounds(12, 320, 169, 16);
+		frame.getContentPane().add(lblIDCultura_fk);
 
-		JLabel lblDescrioDaCultura = new JLabel("Descri\u00E7\u00E3o da Cultura");
-		lblDescrioDaCultura.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblDescrioDaCultura.setBounds(12, 239, 197, 16);
-		frame.getContentPane().add(lblDescrioDaCultura);
+		textField_IDCultura_fk = new JTextField();
+		textField_IDCultura_fk.setColumns(10);
+		textField_IDCultura_fk.setBounds(221, 320, 216, 22);
+		frame.getContentPane().add(textField_IDCultura_fk);
+//////////////
+		JLabel lblLimInferior = new JLabel("LimInferior");
+		lblLimInferior.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblLimInferior.setBounds(12, 239, 197, 16);
+		frame.getContentPane().add(lblLimInferior);
 
-		textField_DescricaoCultura = new JTextField();
-		textField_DescricaoCultura.setColumns(10);
-		textField_DescricaoCultura.setBounds(221, 238, 216, 22);
-		frame.getContentPane().add(textField_DescricaoCultura);
+//		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		JLabel lblUtilizadorResponsvel = new JLabel("Utilizador respons\u00E1vel");
-		lblUtilizadorResponsvel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblUtilizadorResponsvel.setBounds(12, 291, 197, 16);
-		frame.getContentPane().add(lblUtilizadorResponsvel);
+		textField_LimInferior = new JTextField();
+//		textField_DataHoraMedicao.setText("2015-02-01 16:16:02");
+		textField_LimInferior.setColumns(10);
+		textField_LimInferior.setBounds(221, 238, 216, 22);
+		frame.getContentPane().add(textField_LimInferior);
+//--------------
+		JLabel lblLimSuperior = new JLabel("LimSuperior");
+		lblLimSuperior.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblLimSuperior.setBounds(12, 291, 197, 16);
+		frame.getContentPane().add(lblLimSuperior);
 
-		textField_Utilizador_resp = new JTextField();
-		textField_Utilizador_resp.setColumns(10);
-		textField_Utilizador_resp.setBounds(221, 290, 216, 22);
-		frame.getContentPane().add(textField_Utilizador_resp);
+		textField_LimSuperior = new JTextField();
+		textField_LimSuperior.setColumns(10);
+		textField_LimSuperior.setBounds(221, 290, 216, 22);
+		frame.getContentPane().add(textField_LimSuperior);
 
 		JButton buttonCriar = new JButton("Criar");
-		buttonCriar.setBounds(340, 339, 97, 25);
+		buttonCriar.setBounds(340, 360, 97, 25);
 		frame.getContentPane().add(buttonCriar);
 		buttonCriar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					bd.inserirCultura(textField_NomeCultura.getText(), textField_DescricaoCultura.getText(),
-							textField_Utilizador_resp.getText());
-				} catch (Exception e2) {
-				}
+				String IDVariavel_fk = textField_IDVariavel_fk.getText().toString();
+				String IDCultura_fk = textField_IDCultura_fk.getText().toString();
+
+				double limSuperior = Double.parseDouble(textField_LimSuperior.getText());
+//					double ValorMedicao = Double.parseDouble(textField_ValorMedicao.getText());
+				double limInferior = Double.parseDouble(textField_LimInferior.getText());
+
+				bd.inserirVariaveisMedidas(IDCultura_fk, IDVariavel_fk, limSuperior, limInferior);
+
 			}
 		});
 

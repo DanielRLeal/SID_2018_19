@@ -156,7 +156,7 @@ public class adminUtilizadores extends JanelaBase {
 						}
 
 						// Onde está null substituir pelo get da celula que não vai ser alterada.
-						//btw isto vai necessitar de um codesmellzinho e melhorias
+						// btw isto vai necessitar de um codesmellzinho e melhorias
 						if (CategoriaProfissional.getText().isEmpty()) {
 							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(), null, Email.toString(),
 									true);

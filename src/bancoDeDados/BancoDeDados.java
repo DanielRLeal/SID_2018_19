@@ -12,6 +12,7 @@ import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class BancoDeDados {
 
@@ -204,10 +205,11 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirMedicoes(String IDCultura_fk, String iDVariavel_fk, String DataHoraMedicao, double valorMedido) {
+	public void inserirMedicoes(String IDCultura_fk, String iDVariavel_fk, String DataHoraMedicao,
+			double ValorMedicao) {
 		try {
 			String query = "INSERT INTO Medicoes (IDCultura_fk, IDVariavel_fk, DataHoraMedicao, ValorMedicao) VALUES ('"
-					+ IDCultura_fk + "', '" + iDVariavel_fk + "', '" + DataHoraMedicao + "', '" + valorMedido + "');";
+					+ IDCultura_fk + "', '" + iDVariavel_fk + "', '" + DataHoraMedicao + "', '" + ValorMedicao + "');";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "Medicoes adiciona com sucesso!");
@@ -260,10 +262,10 @@ public class BancoDeDados {
 		return temp;
 	}
 
-	public void inserirVariaveis(int IDVariaveis, String NomeVariaveis, int IDCultura_fk) {
+	public void inserirVariaveis(String iDVariaveis, String NomeVariaveis, String iDCultura_fk) {
 		try {
-			String query = "INSERT INTO Variaveis (IDVariaveis, NomeVariaveis, IDCultura_fk) VALUES ('" + IDVariaveis
-					+ "', '" + NomeVariaveis + "', '" + IDCultura_fk + ");";
+			String query = "INSERT INTO Variaveis (IDVariaveis, NomeVariaveis, IDCultura_fk) VALUES ('" + iDVariaveis
+					+ "', '" + NomeVariaveis + "', '" + iDCultura_fk + ");";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
@@ -299,8 +301,9 @@ public class BancoDeDados {
 
 	public ArrayList<VariaveisMedidas> listaVariaveisMedidas() {
 		try {
-			String query = "SELECT c.IDCultura, c.NomeCultura, c.DescricaoCultura, c.IDUtilizador_fk, u.NomeUtilizador "
+			String query2 = "SELECT c.IDCultura, c.NomeCultura, c.DescricaoCultura, c.IDUtilizador_fk, u.NomeUtilizador "
 					+ "FROM cultura c " + "INNER JOIN utilizador u ON u.IDUtilizador = c.IDUtilizador_fk;";
+			String query = "SELECT * from variaveismedidas";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
@@ -308,8 +311,8 @@ public class BancoDeDados {
 			while (this.resultset.next()) {
 				VariaveisMedidas vm = new VariaveisMedidas(Integer.parseInt(this.resultset.getString("IDCultura_fk")),
 						Integer.parseInt(this.resultset.getString("IDVariavel_fk")),
-						Integer.parseInt(this.resultset.getString("LimiteSuperior")),
-						Integer.parseInt(this.resultset.getString("LimiteInferior")));
+						Double.parseDouble(this.resultset.getString("LimiteSuperior")),
+						Double.parseDouble(this.resultset.getString("LimiteInferior")));
 				listVariaveisMedidas.add(vm);
 			}
 
@@ -321,12 +324,13 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, String limSuperior, String limInferior) {
+	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, double LimSuperior,
+			double LimInferior) {
 
-//		IDCultura_fk,IDVariavel_fk,LimiteSuperior,LimiteInferior,
 		try {
 			String query = "INSERT INTO VariaveisMedidas (IDCultura_fk,IDVariavel_fk,LimiteSuperior,LimiteInferior) VALUES ('"
-					+ iDCultura_fk + "', '" + iDVariavel_fk + "', '" + limSuperior + "', '" + limInferior + "');";
+					+ iDCultura_fk + "', '" + iDVariavel_fk + "', '" + LimSuperior + "', '" + LimInferior + "');";
+			System.out.println(query);
 
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "VariaveisMedidas adiciona com sucesso!");

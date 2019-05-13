@@ -1,4 +1,4 @@
-package MenuAdmin;
+package MenuInvestigador;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,13 +14,13 @@ import javax.swing.JTextField;
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
 
-public class adminCriarVariaveisMedidas extends JanelaBase {
+public class investigadorCriarVariaveis extends JanelaBase {
 	private JTextField textField_IDVariavel_fk;
 	private JTextField textField_IDCultura_fk;
-	private JTextField textField_LimInferior;
-	private JTextField textField_LimSuperior;
+	private JFormattedTextField textField_DataHoraMedicao;
+	private JTextField textField_ValorMedicao;
 
-	public adminCriarVariaveisMedidas(BancoDeDados bd) {
+	public investigadorCriarVariaveis(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
@@ -29,7 +29,7 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 	protected void initialize() {
 		super.initialize();
 
-		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma VariaveisMedidas");
+		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma Medicao");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
 		frame.getContentPane().add(lblInicieASesso);
@@ -38,7 +38,7 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Criar VariaveisMedidas");
+		JLabel lblMenu = new JLabel("Criar Medicao");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
@@ -69,28 +69,28 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		textField_IDCultura_fk.setBounds(221, 320, 216, 22);
 		frame.getContentPane().add(textField_IDCultura_fk);
 //////////////
-		JLabel lblLimInferior = new JLabel("LimInferior");
-		lblLimInferior.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblLimInferior.setBounds(12, 239, 197, 16);
-		frame.getContentPane().add(lblLimInferior);
+		JLabel lblDataHoraMedicao = new JLabel("DataHoraMedicao");
+		lblDataHoraMedicao.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblDataHoraMedicao.setBounds(12, 239, 197, 16);
+		frame.getContentPane().add(lblDataHoraMedicao);
 
 //		DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-		textField_LimInferior = new JTextField();
+		textField_DataHoraMedicao = new JFormattedTextField("yyyy-MM-dd HH:mm:ss");
 //		textField_DataHoraMedicao.setText("2015-02-01 16:16:02");
-		textField_LimInferior.setColumns(10);
-		textField_LimInferior.setBounds(221, 238, 216, 22);
-		frame.getContentPane().add(textField_LimInferior);
+		textField_DataHoraMedicao.setColumns(10);
+		textField_DataHoraMedicao.setBounds(221, 238, 216, 22);
+		frame.getContentPane().add(textField_DataHoraMedicao);
 //--------------
-		JLabel lblLimSuperior = new JLabel("LimSuperior");
-		lblLimSuperior.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblLimSuperior.setBounds(12, 291, 197, 16);
-		frame.getContentPane().add(lblLimSuperior);
+		JLabel lblValorMedicao = new JLabel("ValorMedicao");
+		lblValorMedicao.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblValorMedicao.setBounds(12, 291, 197, 16);
+		frame.getContentPane().add(lblValorMedicao);
 
-		textField_LimSuperior = new JTextField();
-		textField_LimSuperior.setColumns(10);
-		textField_LimSuperior.setBounds(221, 290, 216, 22);
-		frame.getContentPane().add(textField_LimSuperior);
+		textField_ValorMedicao = new JTextField();
+		textField_ValorMedicao.setColumns(10);
+		textField_ValorMedicao.setBounds(221, 290, 216, 22);
+		frame.getContentPane().add(textField_ValorMedicao);
 
 		JButton buttonCriar = new JButton("Criar");
 		buttonCriar.setBounds(340, 360, 97, 25);
@@ -98,14 +98,12 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		buttonCriar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String IDVariavel_fk = textField_IDVariavel_fk.getText().toString();
-				String IDCultura_fk = textField_IDCultura_fk.getText().toString();
+				String IDVariaveis = textField_IDVariavel_fk.getText().toString();
+				String NomeVariaveis = textField_IDCultura_fk.getText().toString();
 
-				double limSuperior = Double.parseDouble(textField_LimSuperior.getText());
-//					double ValorMedicao = Double.parseDouble(textField_ValorMedicao.getText());
-				double limInferior = Double.parseDouble(textField_LimInferior.getText());
+				String IDCultura_fk = textField_ValorMedicao.getText();
 
-				bd.inserirVariaveisMedidas(IDCultura_fk, IDVariavel_fk, limSuperior, limInferior);
+				bd.inserirVariaveis(IDVariaveis, NomeVariaveis, IDCultura_fk);
 
 			}
 		});
@@ -114,7 +112,7 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				adminVariaveisMedidas ac = new adminVariaveisMedidas(bd);
+				investigadorVariaveis ac = new investigadorVariaveis(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});
