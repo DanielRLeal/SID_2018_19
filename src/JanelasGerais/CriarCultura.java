@@ -1,4 +1,4 @@
-package MenuInvestigador;
+package JanelasGerais;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -24,12 +24,12 @@ import bancoDeDados.BancoDeDados;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-public class investigadorCriarCultura extends JanelaBase {
+public class CriarCultura extends JanelaBase {
 	private JTextField textField_NomeCultura;
 	private JTextField textField_DescricaoCultura;
 	private JTextField textField_Utilizador_resp;
 
-	public investigadorCriarCultura(BancoDeDados bd) {
+	public CriarCultura(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
@@ -37,7 +37,7 @@ public class investigadorCriarCultura extends JanelaBase {
 	@Override
 	protected void initialize() {
 		super.initialize();
-
+		
 		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma cultura");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
@@ -100,12 +100,12 @@ public class investigadorCriarCultura extends JanelaBase {
 				}
 			}
 		});
-
+		
 		btnVoltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorCultura ac = new investigadorCultura(bd);
+				ListCulturas ac = new ListCulturas(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});

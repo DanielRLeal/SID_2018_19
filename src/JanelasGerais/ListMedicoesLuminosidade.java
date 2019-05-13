@@ -1,4 +1,4 @@
-package MenuInvestigador;
+package JanelasGerais;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,15 +19,17 @@ import javax.swing.event.ListSelectionListener;
 
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
+import MenuAdmin.menu_Admin;
+import MenuInvestigador.menu_Investigador;
 import bancoDeDados.BancoDeDados;
 import bancoDeDados.MedicaoLuminosidade;
 import bancoDeDados.MedicaoLuminosidade;
 
-public class investigadorMedicoesLuminosidade extends JanelaBase {
+public class ListMedicoesLuminosidade extends JanelaBase {
 
 	private ArrayList<MedicaoLuminosidade> medLum;
 
-	public investigadorMedicoesLuminosidade(BancoDeDados bd) {
+	public ListMedicoesLuminosidade(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
 		medLum = bd.listaMedicoesLuminosidade();
@@ -73,60 +75,54 @@ public class investigadorMedicoesLuminosidade extends JanelaBase {
 		btnVoltar.setBounds(12, 416, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 
-		JButton btnCriarMedicaoLuminosidade = new JButton("Criar MedicaoLuminosidade");
-		btnCriarMedicaoLuminosidade.setBounds(360, 416, 120, 23);
-		frame.getContentPane().add(btnCriarMedicaoLuminosidade);
-		btnCriarMedicaoLuminosidade.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnCriarMedicaoLuminosidade.setBackground(new Color(240, 230, 140));
-
-		JButton btnEditar = new JButton("Editar");
-		JButton btnEliminar = new JButton("Eliminar");
-
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				btnEditar.setBounds(150, 416, 75, 23);
-				frame.getContentPane().add(btnEditar);
-				btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-				btnEditar.setBackground(new Color(240, 230, 140));
-
-				btnEliminar.setBounds(230, 416, 100, 23);
-				frame.getContentPane().add(btnEliminar);
-				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-				btnEliminar.setBackground(new Color(240, 230, 140));
-			}
-		});
-
-		btnEliminar.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int index = table.getSelectedRow();
-				MedicaoLuminosidade medicaoLum = medLum.get(index);
-
-				System.out.println("Vou apagar a MedicaoLuminosidade no index: " + index + "\n"
-						+ "MedicaoLuminosidade com ID= " + medicaoLum.getIDMedicao() + "\n");
-				bd.apagarMedicoesLuminosidade(medicaoLum.getIDMedicao());
-				// falta fazer com que a window atualize a table
-
-			}
-		});
-		btnCriarMedicaoLuminosidade.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				investigadorCriarMedicaoLuminosidade acd = new investigadorCriarMedicaoLuminosidade(bd);
-				frame.getDefaultCloseOperation();
-			}
-		});
-
+//		JButton btnCriarMedicaoLuminosidade = new JButton("Criar MedicaoLuminosidade");
+//		btnCriarMedicaoLuminosidade.setBounds(360, 416, 120, 23);
+//		frame.getContentPane().add(btnCriarMedicaoLuminosidade);
+//		btnCriarMedicaoLuminosidade.setFont(new Font("Tahoma", Font.PLAIN, 13));
+//		btnCriarMedicaoLuminosidade.setBackground(new Color(240, 230, 140));
+//
+//		JButton btnEditar = new JButton("Editar");
+//		JButton btnEliminar = new JButton("Eliminar");
+//
+//		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+//
+//			@Override
+//			public void valueChanged(ListSelectionEvent e) {
+//				btnEditar.setBounds(150, 416, 75, 23);
+//				frame.getContentPane().add(btnEditar);
+//				btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+//				btnEditar.setBackground(new Color(240, 230, 140));
+//
+//				btnEliminar.setBounds(230, 416, 100, 23);
+//				frame.getContentPane().add(btnEliminar);
+//				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+//				btnEliminar.setBackground(new Color(240, 230, 140));
+//			}
+//		});
+//
+//		btnEliminar.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				int index = table.getSelectedRow();
+//				MedicaoLuminosidade medicaoLum = medLum.get(index);
+//
+//				System.out.println("Vou apagar a MedicaoLuminosidade no index: " + index + "\n"
+//						+ "MedicaoLuminosidade com ID= " + medicaoLum.getIDMedicao() + "\n");
+//				bd.apagarMedicoesLuminosidade(medicaoLum.getIDMedicao());
+//				// falta fazer com que a window atualize a table
+//
+//			}
+//		});
 		btnVoltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				menu_Investigador mA = new menu_Investigador(bd);
+				if(bd.utilizadorLogado.CategoriaProfissional.equals("Administrador")){
+					menu_Admin mA = new menu_Admin(bd);
+				}else{
+					menu_Investigador mi = new menu_Investigador(bd);
+				}
 				frame.getDefaultCloseOperation();
 			}
 		});

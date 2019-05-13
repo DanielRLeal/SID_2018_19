@@ -9,6 +9,11 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import JanelasGerais.ListCulturas;
+import JanelasGerais.ListMedicoes;
+import JanelasGerais.ListMedicoesLuminosidade;
+import JanelasGerais.ListMedicoesTemp;
+import JanelasGerais.ListVariaveisMedidas;
 import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
@@ -65,7 +70,7 @@ public class menu_Admin extends JanelaBase {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				adminMedicoesLuminosidade aLuminosidade = new adminMedicoesLuminosidade(bd);
+				ListMedicoesLuminosidade aLuminosidade = new ListMedicoesLuminosidade(bd);
 				frame.setVisible(false);
 			}
 		});
@@ -74,7 +79,7 @@ public class menu_Admin extends JanelaBase {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				adminMedicoesTemp aTemp = new adminMedicoesTemp(bd);
+				ListMedicoesTemp aTemp = new ListMedicoesTemp(bd);
 				frame.setVisible(false);
 			}
 		});
@@ -89,7 +94,7 @@ public class menu_Admin extends JanelaBase {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				adminMedicoes aMed = new adminMedicoes(bd);
+				ListMedicoes aMed = new ListMedicoes(bd);
 				frame.setVisible(false);
 			}
 		});
@@ -104,8 +109,6 @@ public class menu_Admin extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				// Hugo preciso que ajustes esta secção com a maneira que estás a construir as
-				// janelas da GUI
 				menu_Admin_Logs login = new menu_Admin_Logs(bd);
 				frame.getDefaultCloseOperation();
 			}
@@ -120,7 +123,7 @@ public class menu_Admin extends JanelaBase {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				adminVariaveisMedidas aVarMedidas = new adminVariaveisMedidas(bd);
+				ListVariaveisMedidas aVarMedidas = new ListVariaveisMedidas(bd);
 				frame.setVisible(false);
 			}
 		});
@@ -129,7 +132,7 @@ public class menu_Admin extends JanelaBase {
 		btnCultura.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				adminCulturas aCult = new adminCulturas(bd);
+				ListCulturas aCult = new ListCulturas(bd);
 				frame.setVisible(false);
 			}
 		});

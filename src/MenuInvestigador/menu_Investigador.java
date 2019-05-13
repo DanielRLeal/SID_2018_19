@@ -14,6 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import JanelasGerais.ListCulturas;
+import JanelasGerais.ListMedicoes;
+import JanelasGerais.ListMedicoesLuminosidade;
+import JanelasGerais.ListMedicoesTemp;
+import JanelasGerais.ListSistema;
+import JanelasGerais.ListVariaveis;
+import JanelasGerais.ListVariaveisMedidas;
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import Login.Login;
@@ -44,7 +51,7 @@ public class menu_Investigador extends JanelaBase {
 		btnVariaveis.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				investigadorVariaveis iVar = new investigadorVariaveis(bd);
+				ListVariaveis iVar = new ListVariaveis(bd);
 				frame.setVisible(false);
 			}
 		});
@@ -57,7 +64,7 @@ public class menu_Investigador extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorCultura iCul = new investigadorCultura(bd);
+				ListCulturas iCul = new ListCulturas(bd);
 			}
 		});
 
@@ -69,7 +76,7 @@ public class menu_Investigador extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorMedicoes iMedi = new investigadorMedicoes(bd);
+				ListMedicoes iMedi = new ListMedicoes(bd);
 			}
 		});
 
@@ -81,7 +88,7 @@ public class menu_Investigador extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorVariaveisMedidas iVM = new investigadorVariaveisMedidas(bd);
+				ListVariaveisMedidas iVM = new ListVariaveisMedidas(bd);
 			}
 		});
 
@@ -101,7 +108,7 @@ public class menu_Investigador extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorMedicoesLuminosidade mLum = new investigadorMedicoesLuminosidade(bd);
+				ListMedicoesLuminosidade mLum = new ListMedicoesLuminosidade(bd);
 			}
 		});
 
@@ -114,7 +121,7 @@ public class menu_Investigador extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorMedicoesTemp mTemp = new investigadorMedicoesTemp(bd);
+				ListMedicoesTemp mTemp = new ListMedicoesTemp(bd);
 			}
 		});
 
@@ -134,7 +141,7 @@ public class menu_Investigador extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				investigadorSistema sis = new investigadorSistema(bd);
+				ListSistema sis = new ListSistema(bd);
 			}
 		});
 		JButton btnVoltar = new JButton("Voltar");

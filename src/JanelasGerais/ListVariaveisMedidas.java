@@ -1,4 +1,4 @@
-package MenuAdmin;
+package JanelasGerais;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -28,17 +28,20 @@ import javax.swing.event.ListSelectionListener;
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import Login.Login;
+import MenuAdmin.adminCriarVariaveisMedidas;
+import MenuAdmin.menu_Admin;
+import MenuInvestigador.menu_Investigador;
 import bancoDeDados.BancoDeDados;
 import bancoDeDados.VariaveisMedidas;
 import bancoDeDados.Utilizador;
 
 import javax.swing.JList;
 
-public class adminVariaveisMedidas extends JanelaBase {
+public class ListVariaveisMedidas extends JanelaBase {
 
 	private ArrayList<VariaveisMedidas> VariaveisMedidass2;
 
-	public adminVariaveisMedidas(BancoDeDados bd) {
+	public ListVariaveisMedidas(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
 		VariaveisMedidass2 = bd.listaVariaveisMedidas();
@@ -84,58 +87,66 @@ public class adminVariaveisMedidas extends JanelaBase {
 		btnVoltar.setBounds(12, 416, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 
-		JButton btnCriarVariaveisMedidas = new JButton("Criar VariaveisMedidas");
-		btnCriarVariaveisMedidas.setBounds(360, 416, 120, 23);
-		frame.getContentPane().add(btnCriarVariaveisMedidas);
-		btnCriarVariaveisMedidas.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnCriarVariaveisMedidas.setBackground(new Color(240, 230, 140));
-
-		JButton btnEditar = new JButton("Editar");
-		JButton btnEliminar = new JButton("Eliminar");
-
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				btnEditar.setBounds(150, 416, 75, 23);
-				frame.getContentPane().add(btnEditar);
-				btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-				btnEditar.setBackground(new Color(240, 230, 140));
-
-				btnEliminar.setBounds(230, 416, 100, 23);
-				frame.getContentPane().add(btnEliminar);
-				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-				btnEliminar.setBackground(new Color(240, 230, 140));
-			}
-		});
-
-		btnEliminar.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int index = table.getSelectedRow();
-				VariaveisMedidas c = VariaveisMedidass2.get(index);
-
-				bd.apagarVariaveisMedidas(c.getIDCultura_fk());
-				// falta fazer com que a window atualize a table
-
-			}
-		});
-		btnCriarVariaveisMedidas.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				adminCriarVariaveisMedidas acd = new adminCriarVariaveisMedidas(bd);
-				frame.getDefaultCloseOperation();
-			}
-		});
-
+		if(bd.utilizadorLogado.CategoriaProfissional.equals("Administrador")
+				|| bd.utilizadorLogado.ID == 0){
+		
+			JButton btnCriarVariaveisMedidas = new JButton("Criar VariaveisMedidas");
+			btnCriarVariaveisMedidas.setBounds(360, 416, 120, 23);
+			frame.getContentPane().add(btnCriarVariaveisMedidas);
+			btnCriarVariaveisMedidas.setFont(new Font("Tahoma", Font.PLAIN, 13));
+			btnCriarVariaveisMedidas.setBackground(new Color(240, 230, 140));
+	
+			JButton btnEditar = new JButton("Editar");
+			JButton btnEliminar = new JButton("Eliminar");
+	
+			table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+	
+				@Override
+				public void valueChanged(ListSelectionEvent e) {
+					btnEditar.setBounds(150, 416, 75, 23);
+					frame.getContentPane().add(btnEditar);
+					btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+					btnEditar.setBackground(new Color(240, 230, 140));
+	
+					btnEliminar.setBounds(230, 416, 100, 23);
+					frame.getContentPane().add(btnEliminar);
+					btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+					btnEliminar.setBackground(new Color(240, 230, 140));
+				}
+			});
+	
+			btnEliminar.addActionListener(new ActionListener() {
+	
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int index = table.getSelectedRow();
+					VariaveisMedidas c = VariaveisMedidass2.get(index);
+	
+					bd.apagarVariaveisMedidas(c.getIDCultura_fk());
+					// falta fazer com que a window atualize a table
+	
+				}
+			});
+			btnCriarVariaveisMedidas.addActionListener(new ActionListener() {
+	
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					frame.setVisible(false);
+					adminCriarVariaveisMedidas acd = new adminCriarVariaveisMedidas(bd);
+					frame.getDefaultCloseOperation();
+				}
+			});
+		}
+		
 		btnVoltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				menu_Admin mA = new menu_Admin(bd);
+				if(bd.utilizadorLogado.CategoriaProfissional.equals("Administrador")){
+					menu_Admin mA = new menu_Admin(bd);
+				}else{
+					menu_Investigador mi = new menu_Investigador(bd);
+				}
 				frame.getDefaultCloseOperation();
 			}
 		});

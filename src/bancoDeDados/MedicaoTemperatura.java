@@ -24,7 +24,7 @@ public class MedicaoTemperatura implements ObjectBD {
 
 	@Override
 	public Object[] toObjectArray() {
-		return new Object[] { this.IDMedicao, this.DataHoraMedicao, this.ValorMedicaoTemperatura };
+		return new Object[] { this.IDMedicao, getDataHoraMedicaoString(), this.ValorMedicaoTemperatura };
 	}
 
 	public int getIDMedicao() {

@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import JanelasGerais.ListVariaveisMedidas;
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
 
@@ -114,7 +115,7 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				adminVariaveisMedidas ac = new adminVariaveisMedidas(bd);
+				ListVariaveisMedidas ac = new ListVariaveisMedidas(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});

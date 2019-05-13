@@ -1,4 +1,4 @@
-package MenuAdmin;
+package JanelasGerais;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,15 +19,17 @@ import javax.swing.event.ListSelectionListener;
 
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
+import MenuAdmin.menu_Admin;
+import MenuInvestigador.menu_Investigador;
 import bancoDeDados.BancoDeDados;
 import bancoDeDados.MedicaoTemperatura;
 import bancoDeDados.MedicaoTemperatura;
 
-public class adminMedicoesTemp extends JanelaBase {
+public class ListMedicoesTemp extends JanelaBase {
 
 	private ArrayList<MedicaoTemperatura> medTemp;
 
-	public adminMedicoesTemp(BancoDeDados bd) {
+	public ListMedicoesTemp(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
 		medTemp = bd.listaMedicoesTemperatura();
@@ -73,60 +75,55 @@ public class adminMedicoesTemp extends JanelaBase {
 		btnVoltar.setBounds(12, 416, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 
-		JButton btnCriarMedicaoTemperatura = new JButton("Criar MedicaoTemperatura");
-		btnCriarMedicaoTemperatura.setBounds(360, 416, 120, 23);
-		frame.getContentPane().add(btnCriarMedicaoTemperatura);
-		btnCriarMedicaoTemperatura.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnCriarMedicaoTemperatura.setBackground(new Color(240, 230, 140));
-
-		JButton btnEditar = new JButton("Editar");
-		JButton btnEliminar = new JButton("Eliminar");
-
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				btnEditar.setBounds(150, 416, 75, 23);
-				frame.getContentPane().add(btnEditar);
-				btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-				btnEditar.setBackground(new Color(240, 230, 140));
-
-				btnEliminar.setBounds(230, 416, 100, 23);
-				frame.getContentPane().add(btnEliminar);
-				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-				btnEliminar.setBackground(new Color(240, 230, 140));
-			}
-		});
-
-		btnEliminar.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int index = table.getSelectedRow();
-				MedicaoTemperatura medicaoTemp = medTemp.get(index);
-
-				System.out.println("Vou apagar a MedicaoTemperatura no index: " + index + "\n"
-						+ "MedicaoTemperatura com ID= " + medicaoTemp.getIDMedicao() + "\n");
-				bd.apagarMedicoesTemperatura(medicaoTemp.getIDMedicao());
-				// falta fazer com que a window atualize a table
-
-			}
-		});
-		btnCriarMedicaoTemperatura.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.setVisible(false);
-				adminCriarMedicaoTemp acd = new adminCriarMedicaoTemp(bd);
-				frame.getDefaultCloseOperation();
-			}
-		});
+//		JButton btnCriarMedicaoTemperatura = new JButton("Criar MedicaoTemperatura");
+//		btnCriarMedicaoTemperatura.setBounds(360, 416, 120, 23);
+//		frame.getContentPane().add(btnCriarMedicaoTemperatura);
+//		btnCriarMedicaoTemperatura.setFont(new Font("Tahoma", Font.PLAIN, 13));
+//		btnCriarMedicaoTemperatura.setBackground(new Color(240, 230, 140));
+//
+//		JButton btnEditar = new JButton("Editar");
+//		JButton btnEliminar = new JButton("Eliminar");
+//
+//		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+//
+//			@Override
+//			public void valueChanged(ListSelectionEvent e) {
+//				btnEditar.setBounds(150, 416, 75, 23);
+//				frame.getContentPane().add(btnEditar);
+//				btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+//				btnEditar.setBackground(new Color(240, 230, 140));
+//
+//				btnEliminar.setBounds(230, 416, 100, 23);
+//				frame.getContentPane().add(btnEliminar);
+//				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+//				btnEliminar.setBackground(new Color(240, 230, 140));
+//			}
+//		});
+//
+//		btnEliminar.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				int index = table.getSelectedRow();
+//				MedicaoTemperatura medicaoTemp = medTemp.get(index);
+//
+//				System.out.println("Vou apagar a MedicaoTemperatura no index: " + index + "\n"
+//						+ "MedicaoTemperatura com ID= " + medicaoTemp.getIDMedicao() + "\n");
+//				bd.apagarMedicoesTemperatura(medicaoTemp.getIDMedicao());
+//				// falta fazer com que a window atualize a table
+//
+//			}
+//		});
 
 		btnVoltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				menu_Admin mA = new menu_Admin(bd);
+				if(bd.utilizadorLogado.CategoriaProfissional.equals("Administrador")){
+					menu_Admin mA = new menu_Admin(bd);
+				}else{
+					menu_Investigador mi = new menu_Investigador(bd);
+				}
 				frame.getDefaultCloseOperation();
 			}
 		});

@@ -1,4 +1,4 @@
-package MenuAdmin;
+package JanelasGerais;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,14 +19,16 @@ import javax.swing.event.ListSelectionListener;
 
 import Login.FuncoesAjuda;
 import Login.JanelaBase;
+import MenuAdmin.menu_Admin;
+import MenuInvestigador.menu_Investigador;
 import bancoDeDados.BancoDeDados;
 import bancoDeDados.Medicoes;
 
-public class adminMedicoes extends JanelaBase {
+public class ListMedicoes extends JanelaBase {
 
 	private ArrayList<Medicoes> medicoes = new ArrayList<>();
 	
-	public adminMedicoes(BancoDeDados bd) {
+	public ListMedicoes(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
 		medicoes = bd.listaMedicoes();
@@ -161,7 +163,7 @@ public class adminMedicoes extends JanelaBase {
 								Double.parseDouble(ValorMedicao.getText()));
 						
 						frame.setVisible(false);
-						adminMedicoes am = new adminMedicoes(bd);
+						ListMedicoes am = new ListMedicoes(bd);
 						frame.getDefaultCloseOperation();
 						} catch(NumberFormatException e1) {
 					        return; 
@@ -197,7 +199,7 @@ public class adminMedicoes extends JanelaBase {
 				bd.apagarMedicoes(m.getIDMedicoes());
 				
 				frame.setVisible(false);
-				adminMedicoes am = new adminMedicoes(bd);
+				ListMedicoes am = new ListMedicoes(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});
@@ -205,7 +207,7 @@ public class adminMedicoes extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				adminCriarMedicao acd = new adminCriarMedicao(bd);
+				CriarMedicao acd = new CriarMedicao(bd);
 				frame.getDefaultCloseOperation();
 			}
 		});
@@ -214,7 +216,11 @@ public class adminMedicoes extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
-				menu_Admin mA = new menu_Admin(bd);
+				if(bd.utilizadorLogado.CategoriaProfissional.equals("Administrador")){
+					menu_Admin mA = new menu_Admin(bd);
+				}else{
+					menu_Investigador mi = new menu_Investigador(bd);
+				}
 				frame.getDefaultCloseOperation();
 			}
 		});
