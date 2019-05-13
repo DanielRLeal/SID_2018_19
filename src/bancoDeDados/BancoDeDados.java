@@ -54,9 +54,9 @@ public class BancoDeDados {
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 
-			utilizadorLogado = new Utilizador(Integer.parseInt(this.resultset.getString("IDUtilizador")),
+			utilizadorLogado = new Utilizador(this.resultset.getInt("IDUtilizador"),
 					this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
-					this.resultset.getString("Email"), Boolean.parseBoolean(this.resultset.getString("Activo")));
+					this.resultset.getString("Email"), this.resultset.getBoolean("Activo"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Falha a pesquisar o Utilizador");
@@ -71,9 +71,9 @@ public class BancoDeDados {
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
-				Utilizador user = new Utilizador(Integer.parseInt(this.resultset.getString("IDUtilizador")),
+				Utilizador user = new Utilizador(this.resultset.getInt("IDUtilizador"),
 						this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
-						this.resultset.getString("Email"), Boolean.parseBoolean(this.resultset.getString("Activo")));
+						this.resultset.getString("Email"), this.resultset.getBoolean("Activo"));
 				temp.add(user);
 				users = removeDuplicates(temp);
 
@@ -127,9 +127,9 @@ public class BancoDeDados {
 
 			ArrayList<Cultura> listCulturas = new ArrayList<Cultura>();
 			while (this.resultset.next()) {
-				Cultura cultura = new Cultura(Integer.parseInt(this.resultset.getString("IDCultura")),
+				Cultura cultura = new Cultura(this.resultset.getInt("IDCultura"),
 						this.resultset.getString("NomeCultura"), this.resultset.getString("DescricaoCultura"),
-						Integer.parseInt(this.resultset.getString("IDUtilizador_fk")),
+						this.resultset.getInt("IDUtilizador_fk"),
 						this.resultset.getString("NomeUtilizador"));
 				listCulturas.add(cultura);
 			}
@@ -190,12 +190,12 @@ public class BancoDeDados {
 				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 				sdf.format(date);
 
-				Medicoes medicao = new Medicoes(Integer.parseInt(this.resultset.getString("IDMedicoes")),
-						Integer.parseInt(this.resultset.getString("IDCultura_fk")),
+				Medicoes medicao = new Medicoes(this.resultset.getInt("IDMedicoes"),
+						this.resultset.getInt("IDCultura_fk"),
 						this.resultset.getString("NomeCultura"),
-						Integer.parseInt(this.resultset.getString("IDVariavel_fk")), 
+						this.resultset.getInt("IDVariavel_fk"), 
 						this.resultset.getString("NomeVariaveis"), date,
-						Double.parseDouble(this.resultset.getString("valorMedicao")));
+						this.resultset.getDouble("valorMedicao"));
 				listMedicoes.add(medicao);
 			}
 			return listMedicoes;
@@ -248,9 +248,9 @@ public class BancoDeDados {
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
-				Variaveis var = new Variaveis(Integer.parseInt(this.resultset.getString("IDVariaveis")),
+				Variaveis var = new Variaveis(this.resultset.getInt("IDVariaveis"),
 						this.resultset.getString("NomeVariaveis"),
-						Integer.parseInt(this.resultset.getString("IDCultura_fk")),
+						this.resultset.getInt("IDCultura_fk"),
 						this.resultset.getString("NomeCultura"));
 				temp.add(var);
 			}
@@ -307,12 +307,12 @@ public class BancoDeDados {
 
 			ArrayList<VariaveisMedidas> listVariaveisMedidas = new ArrayList<VariaveisMedidas>();
 			while (this.resultset.next()) {
-				VariaveisMedidas vm = new VariaveisMedidas(Integer.parseInt(this.resultset.getString("IDCultura_fk")),
+				VariaveisMedidas vm = new VariaveisMedidas(this.resultset.getInt("IDCultura_fk"),
 						this.resultset.getString("NomeCultura"),
-						Integer.parseInt(this.resultset.getString("IDVariavel_fk")),
+						this.resultset.getInt("IDVariavel_fk"),
 						this.resultset.getString("NomeVariaveis"),
-						Double.parseDouble(this.resultset.getString("LimiteSuperior")),
-						Double.parseDouble(this.resultset.getString("LimiteInferior")));
+						this.resultset.getDouble("LimiteSuperior"),
+						this.resultset.getDouble("LimiteInferior"));
 				listVariaveisMedidas.add(vm);
 			}
 
@@ -372,8 +372,8 @@ public class BancoDeDados {
 				Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
 				Date date = new Date(timestamp.getTime());
 				MedicaoLuminosidade medLum = new MedicaoLuminosidade(
-						Integer.parseInt(this.resultset.getString("IDMedicao")), date,
-						Double.parseDouble(this.resultset.getString("ValorMedicaoLuminosidade")));
+						this.resultset.getInt("IDMedicao"), date,
+						this.resultset.getDouble("ValorMedicaoLuminosidade"));
 
 				listMedicoesLumin.add(medLum);
 			}
@@ -433,8 +433,8 @@ public class BancoDeDados {
 				Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
 				Date date = new Date(timestamp.getTime());
 				MedicaoTemperatura medTemp = new MedicaoTemperatura(
-						Integer.parseInt(this.resultset.getString("IDMedicao")), date,
-						Double.parseDouble(this.resultset.getString("ValorMedicaoTemperatura")));
+						this.resultset.getInt("IDMedicao"), date,
+						this.resultset.getDouble("ValorMedicaoTemperatura"));
 
 				listMedicoesTemp.add(medTemp);
 			}
@@ -506,11 +506,11 @@ public class BancoDeDados {
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
-				Utilizador_Log user = new Utilizador_Log(Integer.parseInt(this.resultset.getString("IDLog")),
-						Integer.parseInt(this.resultset.getString("IDLogUtilizador")),
-						Integer.parseInt(this.resultset.getString("IDUtilizador")),
+				Utilizador_Log user = new Utilizador_Log(this.resultset.getInt("IDLog"),
+						this.resultset.getInt("IDLogUtilizador"),
+						this.resultset.getInt("IDUtilizador"),
 						this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
-						this.resultset.getString("Email"), "1".equals(this.resultset.getString("Activo")),
+						this.resultset.getString("Email"), this.resultset.getBoolean("Activo"),
 						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
 				temp.add(user);
 			}
@@ -529,13 +529,13 @@ public class BancoDeDados {
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
-				Alertas_Log user = new Alertas_Log(Integer.parseInt(this.resultset.getString("IDLog")),
-						Integer.parseInt(this.resultset.getString("IDAlerta")),
-						Integer.parseInt(this.resultset.getString("IDUtilizador")),
+				Alertas_Log user = new Alertas_Log(this.resultset.getInt("IDLog"),
+						this.resultset.getInt("IDAlerta"),
+						this.resultset.getInt("IDUtilizador"),
 						this.resultset.getString("DataHora"), this.resultset.getString("NomeVariavel"),
 						this.resultset.getDouble("LimiteInferior"), this.resultset.getDouble("LimiteSuperior"),
 						this.resultset.getDouble("ValorMedicao"), this.resultset.getString("Descricao"),
-						"0".equals(this.resultset.getString("Visto")), this.resultset.getString("Data"));
+						this.resultset.getBoolean("Visto"), this.resultset.getString("Data"));
 				temp.add(user);
 			}
 		} catch (SQLException e) {
@@ -554,11 +554,11 @@ public class BancoDeDados {
 			while (this.resultset.next()) {
 
 				// passar para double ValorMEDICAO
-				Medicoes_Log user = new Medicoes_Log(Integer.parseInt(this.resultset.getString("IDLog")),
-						Integer.parseInt(this.resultset.getString("IDLogUtilizador")),
-						Integer.parseInt(this.resultset.getString("IDMedicoes")),
-						Integer.parseInt(this.resultset.getString("IDCultura")),
-						Integer.parseInt(this.resultset.getString("IDVariavel")),
+				Medicoes_Log user = new Medicoes_Log(this.resultset.getInt("IDLog"),
+						this.resultset.getInt("IDLogUtilizador"),
+						this.resultset.getInt("IDMedicoes"),
+						this.resultset.getInt("IDCultura"),
+						this.resultset.getInt("IDVariavel"),
 						this.resultset.getString("DataHoraMedicao"), this.resultset.getDouble("ValorMedicao"),
 						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
 				temp.add(user);
@@ -578,11 +578,11 @@ public class BancoDeDados {
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
-				Cultura_Log user = new Cultura_Log(Integer.parseInt(this.resultset.getString("IDLog")),
-						Integer.parseInt(this.resultset.getString("IDLogUtilizador")),
-						Integer.parseInt(this.resultset.getString("IDCultura")),
+				Cultura_Log user = new Cultura_Log(this.resultset.getInt("IDLog"),
+						this.resultset.getInt("IDLogUtilizador"),
+						this.resultset.getInt("IDCultura"),
 						this.resultset.getString("NomeCultura"), this.resultset.getString("DescricaoCultura"),
-						Integer.parseInt(this.resultset.getString("IDUtilizador")),
+						this.resultset.getInt("IDUtilizador"),
 						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
 				temp.add(user);
 			}
@@ -602,12 +602,14 @@ public class BancoDeDados {
 			while (this.resultset.next()) {
 
 				VariaveisMedidas_Log user = new VariaveisMedidas_Log(
-						Integer.parseInt(this.resultset.getString("IDLog")),
-						Integer.parseInt(this.resultset.getString("IDLogUtilizador")),
-						Integer.parseInt(this.resultset.getString("IDCultura")),
-						Integer.parseInt(this.resultset.getString("IDVariavel")),
-						this.resultset.getDouble("LimiteSuperior"), this.resultset.getDouble("LimiteInferior"),
-						this.resultset.getString("Operacao"), this.resultset.getString("Data"));
+						this.resultset.getInt("IDLog"),
+						this.resultset.getInt("IDLogUtilizador"),
+						this.resultset.getInt("IDCultura"),
+						this.resultset.getInt("IDVariavel"),
+						this.resultset.getDouble("LimiteSuperior"),
+						this.resultset.getDouble("LimiteInferior"),
+						this.resultset.getString("Operacao"), 
+						this.resultset.getString("Data"));
 				temp.add(user);
 			}
 		} catch (SQLException e) {
@@ -625,13 +627,55 @@ public class BancoDeDados {
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
-				Variaveis_Log user = new Variaveis_Log(Integer.parseInt(this.resultset.getString("IDLog")),
-						Integer.parseInt(this.resultset.getString("IDLogUtilizador")),
-						Integer.parseInt(this.resultset.getString("IDVariaveis")),
+				Variaveis_Log user = new Variaveis_Log(this.resultset.getInt("IDLog"),
+						this.resultset.getInt("IDLogUtilizador"),
+						this.resultset.getInt("IDVariaveis"),
 						this.resultset.getString("NomeVariaveis"),
-						Integer.parseInt(this.resultset.getString("IDCultura")), this.resultset.getString("Operacao"),
+						this.resultset.getInt("IDCultura"),
+						this.resultset.getString("Operacao"),
 						this.resultset.getString("Data"));
 				temp.add(user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Falha a listar Variaveis_Log");
+		}
+		return temp;
+	}
+	
+	public ArrayList<Alerta> verificarAlertas() {
+		ArrayList<Alerta> temp = new ArrayList<>();
+		try {
+			String query = "SELECT a.*, u.Email FROM alertas a "
+					+ "LEFT OUTER JOIN utilizador u ON a.IDUtilizador = u.IDUtilizador "
+					+ "WHERE a.Visto = 0 "
+					//+ "AND a.DataHora > DATE_SUB(NOW(), INTERVAL 1 MINUTE) "
+					+ "AND (a.IDUtilizador IS NULL OR a.IDUtilizador = " + this.utilizadorLogado.ID + ");";
+			System.out.println(query);
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+			while (this.resultset.next()) {
+
+				Timestamp timestamp = this.resultset.getTimestamp("DataHora");
+				Date date = new Date(timestamp.getTime());
+				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+				sdf.format(date);
+				
+				int IDUtilizador = 0;
+				if(this.resultset.findColumn("IDUtilizador") > 0)
+					IDUtilizador = this.resultset.getInt("IDUtilizador");
+					
+				Alerta alerta = new Alerta(Integer.parseInt(this.resultset.getString("IDAlerta")),
+						IDUtilizador,
+						this.resultset.getString("Email"),
+						date,
+						this.resultset.getString("NomeVariavel"),
+						this.resultset.getDouble("LimiteInferior"),
+						this.resultset.getDouble("LimiteSuperior"),
+						this.resultset.getDouble("ValorMedicao"),
+						this.resultset.getString("Descricao"),
+						this.resultset.getBoolean("Visto"));
+				temp.add(alerta);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
