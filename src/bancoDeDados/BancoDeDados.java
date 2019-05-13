@@ -98,7 +98,7 @@ public class BancoDeDados {
 	public void actualizarUtilizador(int id, String nome, String categoria, String email, boolean activo) {
 		try {
 			String query = "UPDATE Utilizador set IDUtilizador = '" + id + "', NomeUtilizador = '" + nome
-					+ "' , CategoriaProfissional = '" + categoria + "',Email = '" + email + "', Activo = '" + activo
+					+ "', CategoriaProfissional = '" + categoria + "',Email = " + email + ", Activo = '" + activo
 					+ "' WHERE IDUtilizador = " + id + ";";
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
@@ -132,7 +132,6 @@ public class BancoDeDados {
 						this.resultset.getString("NomeUtilizador"));
 				listCulturas.add(cultura);
 			}
-
 			return listCulturas;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -321,7 +320,8 @@ public class BancoDeDados {
 		}
 	}
 
-	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, String limSuperior, String limInferior) {
+	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, String limSuperior,
+			String limInferior) {
 
 //		IDCultura_fk,IDVariavel_fk,LimiteSuperior,LimiteInferior,
 		try {

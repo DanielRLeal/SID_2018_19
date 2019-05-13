@@ -144,58 +144,63 @@ public class adminUtilizadores extends JanelaBase {
 				frame.getContentPane().add(btnOkEdit);
 
 				System.out.println(table.getSelectedRow() + 1);
+				System.out.println(table.getModel().getValueAt(table.getSelectedRow(), 2));
 				btnOkEdit.addActionListener(new ActionListener() {
 					// o table.getselectedrow() + 1 : funciona bem para tabelas q nunca se apagam
 					// linhas - ID é certo.
 					// arranjar outra soluçao
 					public void actionPerformed(ActionEvent e) {
-						if (CategoriaProfissional.getText() != "Investigador"
-								|| CategoriaProfissional.getText() != "Auditor"
-								|| CategoriaProfissional.getText() != "Admin") {
-							JOptionPane.showMessageDialog(null, "Categoria Profissional inexistente!");
-						}
-
-						// Onde está null substituir pelo get da celula que não vai ser alterada.
-						//btw isto vai necessitar de um codesmellzinho e melhorias
-						if (CategoriaProfissional.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(), null, Email.toString(),
-									true);
-						}
-
-						if (Nome.getText().isEmpty() && Email.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
-									CategoriaProfissional.toString(), Email.toString(), true);
-						}
-						if (Nome.getText().isEmpty() && CategoriaProfissional.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, null, null, Email.toString(), true);
-						}
-						if (CategoriaProfissional.getText().isEmpty() && Email.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(), null, null, true);
-						}
-						if (Nome.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, null, CategoriaProfissional.toString(),
-									Email.toString(), true);
-						}
-						if (Email.getText().isEmpty()) {
-							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
-									CategoriaProfissional.toString(), null, true);
-						}
-
-						if (CategoriaProfissional.getText().isEmpty() && Nome.getText().isEmpty()
-								&& Email.getText().isEmpty()) {
-							JOptionPane.showMessageDialog(null, "Precisa inserir dados para editar!");
-						}
-						bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
-								CategoriaProfissional.toString(), Email.toString(), true);
+//						if (CategoriaProfissional.getText().isEmpty() && Nome.getText().isEmpty()
+//								&& Email.getText().isEmpty()) {
+//							JOptionPane.showMessageDialog(null, "Precisa inserir dados para editar!");
+//							return;
+//						}
+//						if (CategoriaProfissional.getText() != "Investigador"
+//								|| CategoriaProfissional.getText() != "Auditor"
+//								|| CategoriaProfissional.getText() != "Admin") {
+//							JOptionPane.showMessageDialog(null, "Categoria Profissional inexistente!");
+//						}
+						int i = table.getSelectedRow();
+//						// Onde está null substituir pelo get da celula que não vai ser alterada.
+//						// btw isto vai necessitar de um codesmellzinho e melhorias
+//						if (CategoriaProfissional.getText().isEmpty()) {
+//							bd.actualizarUtilizador(i + 1, Nome.toString(),
+//									table.getModel().getValueAt(i, 2).toString(), Email.toString(), true);
+//						}
+//						if (Nome.getText().isEmpty() && Email.getText().isEmpty()) {
+//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
+//									table.getModel().getValueAt(i, 1).toString(), CategoriaProfissional.toString(),
+//									table.getModel().getValueAt(i, 3).toString(), true);
+//						}
+//						if (Nome.getText().isEmpty() && CategoriaProfissional.getText().isEmpty()) {
+//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
+//									table.getModel().getValueAt(i, 1).toString(),
+//									table.getModel().getValueAt(i, 2).toString(), Email.toString(), true);
+//						}
+//						if (CategoriaProfissional.getText().isEmpty() && Email.getText().isEmpty()) {
+//							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
+//									table.getModel().getValueAt(i, 2).toString(),
+//									table.getModel().getValueAt(i, 3).toString(), true);
+//						}
+//						if (Nome.getText().isEmpty()) {
+//							bd.actualizarUtilizador(table.getSelectedRow() + 1,
+//									table.getModel().getValueAt(i, 1).toString(), CategoriaProfissional.toString(),
+//									Email.toString(), true);
+//						}
+//						if (Email.getText().isEmpty()) {
+//							bd.actualizarUtilizador(table.getSelectedRow() + 1, Nome.toString(),
+//									CategoriaProfissional.toString(), table.getModel().getValueAt(i, 3).toString(),
+//									true);
+//						}
+						bd.actualizarUtilizador(i + 1, table.getModel().getValueAt(i, 1).toString(),
+								table.getModel().getValueAt(i, 2).toString(),
+								table.getModel().getValueAt(i, 3).toString(), true);
 					}
 				});
-
 			}
 		});
 
 		btnEliminar.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				int column = 0;
 				int row = table.getSelectedRow();
@@ -232,7 +237,6 @@ public class adminUtilizadores extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-
 	}
 
 	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
