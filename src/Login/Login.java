@@ -28,10 +28,10 @@ public class Login extends JanelaBase {
 	public void credenciais() {
 		bd = new BancoDeDados();
 		bd.conectar(textField.getText(), passwordField.getText());
-		
+
 		VerificarAlertas vAlertas = new VerificarAlertas(bd);
-        Thread t = new Thread(vAlertas);
-        t.start();
+		Thread t = new Thread(vAlertas);
+		t.start();
 	}
 
 	@Override
@@ -62,9 +62,9 @@ public class Login extends JanelaBase {
 					// utilizador root
 					else if (bd.utilizadorLogado.ID == 0) {
 						menu_Admin mAdmin = new menu_Admin(bd);
-						//menu_Investigador mInvestigador = new menu_Investigador(bd);
+						menu_Investigador mInvestigador = new menu_Investigador(bd);
 						frame.setVisible(false);
-						//JOptionPane.showMessageDialog(null, "Bem Vindo, Rooteiro!");
+						// JOptionPane.showMessageDialog(null, "Bem Vindo, Rooteiro!");
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
