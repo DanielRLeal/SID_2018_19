@@ -20,6 +20,7 @@ import Login.FuncoesAjuda;
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
 import bancoDeDados.Variaveis;
+import bancoDeDados.Variaveis;
 
 public class investigadorVariaveis extends JanelaBase {
 
@@ -45,7 +46,7 @@ public class investigadorVariaveis extends JanelaBase {
 		panel.setBounds(0, 107, 494, 37);
 		frame.getContentPane().add(panel);
 
-		JLabel lblMenu = new JLabel("Variaveiss");
+		JLabel lblMenu = new JLabel("Variaveis");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 
@@ -55,11 +56,11 @@ public class investigadorVariaveis extends JanelaBase {
 		panel_1.setBounds(12, 183, 470, 209);
 		frame.getContentPane().add(panel_1);
 
-		Object[] columnNames = { "#", "IDVariaveis", "NomeVariaveis", "IDCultura_fk" };
+		Object[] columnNames = { "#", "NomeVariaveis", "IDCultura_fk" };
 
-		Object[][] Variaveis = FuncoesAjuda.listaParaTabela(bd.listarVariaveis(), 4);
+		Object[][] Vars = FuncoesAjuda.listaParaTabela(bd.listarVariaveis(), 3);
 
-		JTable table = new JTable(Variaveis, columnNames);
+		JTable table = new JTable(Vars, columnNames);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultEditor(Object.class, null);
 
@@ -101,11 +102,11 @@ public class investigadorVariaveis extends JanelaBase {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = table.getSelectedRow();
-				Variaveis m = variaveis.get(index);
+				Variaveis v = variaveis.get(index);
 
-				System.out.println("Vou apagar a Variaveis no index: " + index + "\n" + "Variaveis com ID= "
-						+ m.getIDVariaveis() + "\n");
-				bd.apagarVariaveis(m.getIDVariaveis());
+				System.out.println("Vou apagar a Variavel no index: " + index + "\n" + "Variavel com ID= "
+						+ v.getIDVariaveis() + "\n");
+				bd.apagarVariaveis(v.getIDVariaveis());
 
 			}
 		});

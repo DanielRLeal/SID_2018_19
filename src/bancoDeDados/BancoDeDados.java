@@ -243,16 +243,15 @@ public class BancoDeDados {
 	public ArrayList<Variaveis> listarVariaveis() {
 		ArrayList<Variaveis> temp = new ArrayList<>();
 		try {
-			String query = "SELECT * FROM Variaveis";
+			String query = "SELECT * FROM variaveis";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
 
-				Variaveis variavel = new Variaveis(Integer.parseInt(this.resultset.getString("IDVariaveis")),
+				Variaveis var = new Variaveis(Integer.parseInt(this.resultset.getString("IDVariaveis")),
 						this.resultset.getString("NomeVariaveis"),
 						Integer.parseInt(this.resultset.getString("IDCultura_fk")));
-				temp.add(variavel);
-
+				temp.add(var);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -261,10 +260,10 @@ public class BancoDeDados {
 		return temp;
 	}
 
-	public void inserirVariaveis(String iDVariaveis, String NomeVariaveis, String iDCultura_fk) {
+	public void inserirVariaveis(String NomeVariaveis, String IDCultura_fk) {
 		try {
-			String query = "INSERT INTO Variaveis (IDVariaveis, NomeVariaveis, IDCultura_fk) VALUES ('" + iDVariaveis
-					+ "', '" + NomeVariaveis + "', '" + iDCultura_fk + ");";
+			String query = "INSERT INTO Variaveis (NomeVariaveis, IDCultura_fk) VALUES ('" + NomeVariaveis + "', '"
+					+ IDCultura_fk + "');";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {

@@ -6,9 +6,9 @@ public class Variaveis implements ObjectBD {
 	private int IDCultura_fk;
 
 	public Variaveis(int IDVariaveis, String NomeVariaveis, int IDCultura_fk) {
-		IDVariaveis = IDVariaveis;
-		NomeVariaveis = NomeVariaveis;
-		IDCultura_fk = IDCultura_fk;
+		this.IDVariaveis = IDVariaveis;
+		this.NomeVariaveis = NomeVariaveis;
+		this.IDCultura_fk = IDCultura_fk;
 	}
 
 	@Override
