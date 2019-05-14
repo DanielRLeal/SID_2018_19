@@ -22,5 +22,6 @@
 	<classpathentry kind="lib" path="JAR Mongo Extensions/org.json.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Pedro Almeida/Desktop/api_email/java mail API/activation.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Pedro Almeida/Desktop/api_email/java mail API/javax.mail-1.4.4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

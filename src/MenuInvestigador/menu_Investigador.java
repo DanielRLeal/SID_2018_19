@@ -1,6 +1,7 @@
 package MenuInvestigador;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -157,5 +158,9 @@ public class menu_Investigador extends JanelaBase {
 			}
 		});
 		return panel_1;
+	}
+
+	public JFrame getFrame() {
+		return frame;
 	}
 }
