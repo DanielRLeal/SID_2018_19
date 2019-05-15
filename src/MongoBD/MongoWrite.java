@@ -113,25 +113,12 @@ public class MongoWrite implements MqttCallback {
 		if (!this.topic.equals(topicArrived) || message.getQos() != qos)
 			return;
 
-//		if (!isJSONValid(message.toString())) {
-//			System.out.println("mensagem de formato JSON incorrecto:" + message.toString());
-//			return;
-//		}
+		if (!isJSONValid(message.toString())) {
+			System.out.println("mensagem de formato JSON incorrecto:" + message.toString());
+			return;
+		}
 
 		JSONObject jsonObj = new JSONObject(message.toString());
-
-		if (!jsonObj.has("tmp") || !jsonObj.has("cell")) {
-			System.out.println("mensagem não contêm todos os dados necessários (dat, tim, tmp, cell)");
-			return;
-		}
-
-		if (jsonObj.get("cell").toString().equals("") || jsonObj.get("tim").toString().equals("")) {
-
-			System.out.println("Dados invalidos para serem inseridos na db");
-			return;
-		}
-
-		//String dataValor2 = jsonObj.get("dat").toString() + " " + jsonObj.get("tim").toString();
 
 		// valor da temperatura
 		String tempValor = jsonObj.get("tmp").toString();
@@ -141,10 +128,14 @@ public class MongoWrite implements MqttCallback {
 		/************* Escrever dados do sensor na MongoBD *************/
 		// documento a inserir na coleção
 		BasicDBObject document = new BasicDBObject();
-		document.put("ValorTemperatura", tempValor);
-		document.put("ValorLuminosidade", lumValor);
-
-		// Valida se data é valida para o java
+		
+		if (jsonObj.has("tmp") && !jsonObj.get("tmp").toString().equals("")){
+			document.put("ValorTemperatura", tempValor);
+		}
+		
+		if (jsonObj.has("tmp") && !jsonObj.get("tmp").toString().equals("")){
+			document.put("ValorLuminosidade", lumValor);
+		}
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = new Date();
@@ -180,7 +171,7 @@ public class MongoWrite implements MqttCallback {
 		return true;
 	}
 
-	public boolean isDateValid(String test) {
+	/*public boolean isDateValid(String test) {
 		try {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date date = new Date(test);
@@ -189,5 +180,5 @@ public class MongoWrite implements MqttCallback {
 			return false;
 		}
 		return true;
-	}
+	}*/
 }

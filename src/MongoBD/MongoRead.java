@@ -30,15 +30,25 @@ public class MongoRead {
 				DBCollection table = db.getCollection("DadosSensor");
 
 				DBCursor myCursor = table.find();
+				boolean temTemp = false;
+				boolean temLum = false;
 				while (myCursor.hasNext()) {
 					DBObject jsonObject = myCursor.next(); // todo o objecto
-					if (!jsonObject.containsKey("ValorTemperatura") || !jsonObject.containsKey("ValorLuminosidade")
+					if ((!jsonObject.containsKey("ValorTemperatura") && !jsonObject.containsKey("ValorLuminosidade"))
 							|| !jsonObject.containsKey("DataHoraMedicao"))
 						continue;
-					queryTemperatura += "('" + jsonObject.get("DataHoraMedicao").toString() + "','"
-							+ jsonObject.get("ValorTemperatura").toString() + "')";
-					queryLuminosidade += "('" + jsonObject.get("DataHoraMedicao").toString() + "','"
-							+ jsonObject.get("ValorLuminosidade").toString() + "')";
+					
+					if(jsonObject.containsKey("ValorTemperatura")){
+						queryTemperatura += "('" + jsonObject.get("DataHoraMedicao").toString() + "','"
+								+ jsonObject.get("ValorTemperatura").toString() + "')";
+						temTemp = true;
+					}
+					
+					if(jsonObject.containsKey("ValorLuminosidade")){
+						queryLuminosidade += "('" + jsonObject.get("DataHoraMedicao").toString() + "','"
+								+ jsonObject.get("ValorLuminosidade").toString() + "')";
+						temLum = true;
+					}
 
 					if (myCursor.hasNext()) {
 						queryTemperatura += ",";
@@ -73,8 +83,10 @@ public class MongoRead {
 				Statement statement = connection.createStatement();
 
 				// Executa a Query
-				statement.executeUpdate(queryLuminosidade);
-				statement.executeUpdate(queryTemperatura);
+				if(temLum)
+					statement.executeUpdate(queryLuminosidade);
+				if(temTemp)
+					statement.executeUpdate(queryTemperatura);
 
 				connection.close();
 //				db.getCollection("sid_mongodb").drop();

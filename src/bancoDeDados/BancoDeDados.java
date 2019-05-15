@@ -109,7 +109,7 @@ public class BancoDeDados {
 		try {
 			//Corre sem erros, mas n�o executa o SP...
 			/*String query = "{CALL " + BDname + "CriarUtilizador(?, ?, ?, ?, ?)}";
-			CallableStatement stmt = this.connection.prepareCall(query);
+			PreparedStatement stmt = this.connection.prepareStatement(query);
 			
 			stmt.setString(1, nome);
 			stmt.setString(2, categoria);
