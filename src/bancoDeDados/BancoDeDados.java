@@ -1,6 +1,5 @@
 package bancoDeDados;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,7 +12,6 @@ import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 import Login.VerificarAlertas;
 
@@ -28,7 +26,7 @@ public class BancoDeDados {
 	String BDname = "sid_bd_php.";
 	
 	public void conectar(String utilizador, String pass) {
-		String servidor = "jdbc:mysql://localhost:3306/sid_bd_php";
+		String servidor = "jdbc:mysql://localhost:8889/sid_bd_php";
 		String driver = "com.mysql.jdbc.Driver";
 		try {
 			Class.forName(driver);
@@ -498,6 +496,7 @@ public class BancoDeDados {
 			return null;
 		}
 	}
+	
 
 	private MedicaoTemperatura medTemp() throws java.sql.SQLException {
 		Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
