@@ -25,7 +25,7 @@ public class MongoRead {
 				// ligação á instancia mongo de porta 27017
 				MongoClient mongoClient1 = new MongoClient("127.0.0.1", 27017);
 				// vai buscar a bd de sid
-				DB db = mongoClient1.getDB("sid_mongodb");
+				DB db = mongoClient1.getDB("sid_mongobd");
 				// Colecção a inserir os dados
 				DBCollection table = db.getCollection("DadosSensor");
 
@@ -93,7 +93,8 @@ public class MongoRead {
 				table.remove(new BasicDBObject());
 				mongoClient1.close();
 
-				TimeUnit.SECONDS.sleep(30);
+				//media de 5 medições para cada variavel por iteração
+				TimeUnit.SECONDS.sleep(10);
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());

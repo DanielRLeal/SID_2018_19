@@ -23,7 +23,7 @@ import org.json.JSONStringer;
 
 public class MongoWrite implements MqttCallback {
 	// Nome do topico subscrito
-	String topic = "sid_2019_g19_";
+	String topic = "/sid_lab_2019_2";
 	// conteudo a escrever no servidor Paho, utilizado quando se for publicar
 	// mensagens
 	// String content = "teste123";
@@ -33,9 +33,9 @@ public class MongoWrite implements MqttCallback {
 	// longo do tempo
 	int qos = 0;
 	// Caminho do servidor Paho a utilizar na conecção
-	String broker = "tcp://iot.eclipse.org:1883";
+	String broker = "tcp://broker.mqttdashboard.com:1883";
 	// Id do cliente a utilizar na connecção
-	String clientId = "js-utility-452";
+	String clientId = "js-utility-dsaf";
 	DBCollection table;
 
 	public static void main(String[] args) {
@@ -93,7 +93,7 @@ public class MongoWrite implements MqttCallback {
 			// ligação á instancia mongo de porta 27017
 			MongoClient mongoClient1 = new MongoClient("127.0.0.1", 27017);
 			// vai buscar a bd de sid
-			DB db = mongoClient1.getDB("sid_mongodb");
+			DB db = mongoClient1.getDB("sid_mongobd");
 			// Colecção a inserir os dados
 			table = db.getCollection("DadosSensor");
 		} catch (MqttException e) {
@@ -105,35 +105,40 @@ public class MongoWrite implements MqttCallback {
 	@Override
 	public void messageArrived(String topicArrived, MqttMessage message) throws Exception {
 		// formato dos dados recebidos pelo sensor
-		// {"tmp":"22.40","hum":"61.30","dat":"9/4/2019","tim":"14:59:32","cell":"3138","sens":"wifi"}
+		// {"tmp":"22.40","hum":"61.30","dat":"9/4/2019","tim":"14:59:32","cell":"3138""sens":"wifi"}
 
 		// no caso do topico não for igual ao da mensagem que estamos a espera sai da
 		// função
 		// ou no caso da qualidade de serviço ser outra não é de confiança
 		if (!this.topic.equals(topicArrived) || message.getQos() != qos)
 			return;
-
-		if (!isJSONValid(message.toString())) {
+		
+		String JSONString = message.toString();
+		if (JSONString.toLowerCase().indexOf("\"\"s") != -1) {
+			int index = JSONString.toLowerCase().indexOf("\"\"s") + 1;
+			JSONString = JSONString.substring(0, index) + "," + JSONString.substring(index, message.toString().length());
+		}
+		
+		if (!isJSONValid(JSONString)) {
 			System.out.println("mensagem de formato JSON incorrecto:" + message.toString());
 			return;
 		}
-
-		JSONObject jsonObj = new JSONObject(message.toString());
-
-		// valor da temperatura
-		String tempValor = jsonObj.get("tmp").toString();
-		// valor da luminosidade
-		String lumValor = jsonObj.get("cell").toString();
+		
+		JSONObject jsonObj = new JSONObject(JSONString);
 
 		/************* Escrever dados do sensor na MongoBD *************/
 		// documento a inserir na coleção
 		BasicDBObject document = new BasicDBObject();
 		
 		if (jsonObj.has("tmp") && !jsonObj.get("tmp").toString().equals("")){
+			// valor da temperatura
+			String tempValor = jsonObj.get("tmp").toString();
 			document.put("ValorTemperatura", tempValor);
 		}
 		
-		if (jsonObj.has("tmp") && !jsonObj.get("tmp").toString().equals("")){
+		if (jsonObj.has("cell") && !jsonObj.get("cell").toString().equals("")){
+			// valor da luminosidade
+			String lumValor = jsonObj.get("cell").toString();
 			document.put("ValorLuminosidade", lumValor);
 		}
 
@@ -147,6 +152,7 @@ public class MongoWrite implements MqttCallback {
 		try {
 			table.insert(document);
 		} catch (Exception e) {
+			System.out.println("erro");
 		}
 	}
 
