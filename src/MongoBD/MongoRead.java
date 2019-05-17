@@ -51,8 +51,12 @@ public class MongoRead {
 					}
 
 					if (myCursor.hasNext()) {
-						queryTemperatura += ",";
-						queryLuminosidade += ",";
+						if(jsonObject.containsKey("ValorTemperatura")){
+							queryTemperatura += ",";
+						}
+						if(jsonObject.containsKey("ValorLuminosidade")){
+							queryLuminosidade += ",";
+						}
 					} else {
 						queryTemperatura += ";";
 						queryLuminosidade += ";";
@@ -66,7 +70,7 @@ public class MongoRead {
 				// caminho para a instancia MySQL
 				String servidor = "jdbc:mysql://localhost:3306/";
 				// base dados de sid
-				String baseDados = "sid_bd_php";
+				String baseDados = "sid_bd_android";
 				// driver da bd MySQL
 				String driver = "com.mysql.jdbc.Driver";
 				// nome do utilizador

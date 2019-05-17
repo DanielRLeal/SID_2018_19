@@ -23,7 +23,7 @@ import org.json.JSONStringer;
 
 public class MongoWrite implements MqttCallback {
 	// Nome do topico subscrito
-	String topic = "/sid_lab_2019_2";
+	String topic = "/sid_lab_2019";
 	// conteudo a escrever no servidor Paho, utilizado quando se for publicar
 	// mensagens
 	// String content = "teste123";
@@ -33,7 +33,8 @@ public class MongoWrite implements MqttCallback {
 	// longo do tempo
 	int qos = 0;
 	// Caminho do servidor Paho a utilizar na conecção
-	String broker = "tcp://broker.mqttdashboard.com:1883";
+	String broker = "tcp://iot.eclipse.org:1883";
+	//String broker = "tcp://broker.mqttdashboard.com:1883";
 	// Id do cliente a utilizar na connecção
 	String clientId = "js-utility-dsaf";
 	DBCollection table;
@@ -114,7 +115,7 @@ public class MongoWrite implements MqttCallback {
 			return;
 		
 		String JSONString = message.toString();
-		if (JSONString.toLowerCase().indexOf("\"\"s") != -1) {
+		if (JSONString.toLowerCase().indexOf("\"\"sens") != -1) {
 			int index = JSONString.toLowerCase().indexOf("\"\"s") + 1;
 			JSONString = JSONString.substring(0, index) + "," + JSONString.substring(index, message.toString().length());
 		}
