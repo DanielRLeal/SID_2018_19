@@ -20,10 +20,19 @@ import bancoDeDados.BancoDeDados;
 import bancoDeDados.Medicoes;
 import bancoDeDados.Utilizador_Log;
 
+/**
+ * Class admin_LogUtilizador.
+ */
 public class admin_LogUtilizador extends JanelaBase {
 
+	/** lista de utilizador log. */
 	private ArrayList<Utilizador_Log> utilizador_log;
 
+	/**
+	 * Instancia o admin_LogUtilizador.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public admin_LogUtilizador(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
@@ -31,6 +40,9 @@ public class admin_LogUtilizador extends JanelaBase {
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -67,6 +79,11 @@ public class admin_LogUtilizador extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Lbl inicie A sessao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Log de Utilizadores");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -74,6 +91,11 @@ public class admin_LogUtilizador extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Table.
+	 *
+	 * @return the j table
+	 */
 	private JTable table() {
 		Object[] columnNames = { "IDLog", "IDLogUtilizador", " IDUtilizador", "NomeUtilizador", "CategoriaProfissioanl",
 				"Email", "Activo", "Operacao", "Data" };
@@ -83,6 +105,11 @@ public class admin_LogUtilizador extends JanelaBase {
 		return table;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

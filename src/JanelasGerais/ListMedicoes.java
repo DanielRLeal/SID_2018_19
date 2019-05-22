@@ -4,7 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,10 +28,19 @@ import MenuInvestigador.menu_Investigador;
 import bancoDeDados.BancoDeDados;
 import bancoDeDados.Medicoes;
 
+/**
+ * Class ListMedicoes.
+ */
 public class ListMedicoes extends JanelaBase {
 
+	/** a lista de medicoes. */
 	private ArrayList<Medicoes> medicoes = new ArrayList<>();
 	
+	/**
+	 * Instancia o ListMedicoes.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public ListMedicoes(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
@@ -35,6 +48,9 @@ public class ListMedicoes extends JanelaBase {
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -49,7 +65,8 @@ public class ListMedicoes extends JanelaBase {
 		frame.getContentPane().add(panel_1);
 
 		JTable table = table();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		panel_1.setViewportView(table);
+		
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnVoltar.setBackground(new Color(192, 192, 192));
@@ -208,16 +225,24 @@ public class ListMedicoes extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Panel 1.
+	 *
+	 * @return the j scroll pane
+	 */
 	private JScrollPane panel_1() {
 		JScrollPane panel_1 = new JScrollPane();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_1.setBackground(Color.GRAY);
 		panel_1.setBounds(12, 183, 470, 209);
-		JTable table = table();
-		panel_1.setViewportView(table);
 		return panel_1;
 	}
 
+	/**
+	 * Lbl inicie A sessao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Consulta de Medicoes");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -225,18 +250,29 @@ public class ListMedicoes extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Table.
+	 *
+	 * @return the j table
+	 */
 	private JTable table() {
-		Object[] columnNames = { "#", "Cultura", " Variï¿½vel", "Data Hora Mediï¿½ï¿½o", "Valor Mediï¿½ï¿½o" };
+		Object[] columnNames = { "#", "Cultura", " Variavel", "Data Hora Medicao", "Valor Medicao" };
 		Object[][] Medicoes = FuncoesAjuda.listaParaTabela(medicoes, 5);
 		JTable table = new JTable(Medicoes, columnNames);
 		table.setDefaultEditor(Object.class, null);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		return table;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);
-		JLabel lblMenu = new JLabel("Mediï¿½ï¿½es");
+		JLabel lblMenu = new JLabel("Medicoes");
 		panel.add(lblMenu);
 		lblMenu.setFont(new Font("Leelawadee", Font.PLAIN, 24));
 		return panel;

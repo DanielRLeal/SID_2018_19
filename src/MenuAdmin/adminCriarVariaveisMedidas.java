@@ -15,17 +15,36 @@ import JanelasGerais.ListVariaveisMedidas;
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
 
+/**
+ * Class adminCriarVariaveisMedidas.
+ */
 public class adminCriarVariaveisMedidas extends JanelaBase {
+	
+	/** The text field ID variavel fk. */
 	private JTextField textField_IDVariavel_fk;
+	
+	/** The text field ID cultura fk. */
 	private JTextField textField_IDCultura_fk;
+	
+	/** The text field lim inferior. */
 	private JTextField textField_LimInferior;
+	
+	/** The text field lim superior. */
 	private JTextField textField_LimSuperior;
 
+	/**
+	 * Instancia o adminCriarVariaveisMedidas.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public adminCriarVariaveisMedidas(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -94,30 +113,47 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Text field limite superior.
+	 */
 	private void textField_LimSuperior() {
 		textField_LimSuperior = new JTextField();
 		textField_LimSuperior.setColumns(10);
 		textField_LimSuperior.setBounds(221, 290, 216, 22);
 	}
 
+	/**
+	 * Text field limite inferior.
+	 */
 	private void textField_LimInferior() {
 		textField_LimInferior = new JTextField();
 		textField_LimInferior.setColumns(10);
 		textField_LimInferior.setBounds(221, 238, 216, 22);
 	}
 
+	/**
+	 * Text field ID variavel fk.
+	 */
 	private void textField_IDVariavel_fk() {
 		textField_IDVariavel_fk = new JTextField();
 		textField_IDVariavel_fk.setColumns(10);
 		textField_IDVariavel_fk.setBounds(221, 186, 216, 22);
 	}
 
+	/**
+	 * Text field ID cultura fk.
+	 */
 	private void textField_IDCultura_fk() {
 		textField_IDCultura_fk = new JTextField();
 		textField_IDCultura_fk.setColumns(10);
 		textField_IDCultura_fk.setBounds(221, 320, 216, 22);
 	}
 
+	/**
+	 * Lbl limite superior.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblLimSuperior() {
 		JLabel lblLimSuperior = new JLabel("LimSuperior");
 		lblLimSuperior.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -125,6 +161,11 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		return lblLimSuperior;
 	}
 
+	/**
+	 * Lbl limite inferior.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblLimInferior() {
 		JLabel lblLimInferior = new JLabel("LimInferior");
 		lblLimInferior.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -132,6 +173,11 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		return lblLimInferior;
 	}
 
+	/**
+	 * Lbl inicie A sessao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma VariaveisMedidas");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -139,6 +185,11 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Lbl ID variavel fk.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblIDVariavel_fk() {
 		JLabel lblIDVariavel_fk = new JLabel("ID da Variavel");
 		lblIDVariavel_fk.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -146,6 +197,11 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		return lblIDVariavel_fk;
 	}
 
+	/**
+	 * Lbl ID cultura fk.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblIDCultura_fk() {
 		JLabel lblIDCultura_fk = new JLabel("ID da Cultura");
 		lblIDCultura_fk.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -153,6 +209,11 @@ public class adminCriarVariaveisMedidas extends JanelaBase {
 		return lblIDCultura_fk;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

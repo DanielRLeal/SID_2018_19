@@ -25,10 +25,19 @@ import bancoDeDados.BancoDeDados;
 import bancoDeDados.MedicaoTemperatura;
 import bancoDeDados.MedicaoTemperatura;
 
+/**
+ * Class ListMedicoesTemp.
+ */
 public class ListMedicoesTemp extends JanelaBase {
 
+	/** Lista de medicoes de temperatura. */
 	private ArrayList<MedicaoTemperatura> medTemp;
 
+	/**
+	 * Instancia o ListMedicoesTemp.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public ListMedicoesTemp(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
@@ -36,6 +45,9 @@ public class ListMedicoesTemp extends JanelaBase {
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -62,46 +74,6 @@ public class ListMedicoesTemp extends JanelaBase {
 		btnVoltar.setBounds(12, 416, 97, 25);
 		frame.getContentPane().add(btnVoltar);
 
-//		JButton btnCriarMedicaoTemperatura = new JButton("Criar MedicaoTemperatura");
-//		btnCriarMedicaoTemperatura.setBounds(360, 416, 120, 23);
-//		frame.getContentPane().add(btnCriarMedicaoTemperatura);
-//		btnCriarMedicaoTemperatura.setFont(new Font("Tahoma", Font.PLAIN, 13));
-//		btnCriarMedicaoTemperatura.setBackground(new Color(240, 230, 140));
-//
-//		JButton btnEditar = new JButton("Editar");
-//		JButton btnEliminar = new JButton("Eliminar");
-//
-//		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-//
-//			@Override
-//			public void valueChanged(ListSelectionEvent e) {
-//				btnEditar.setBounds(150, 416, 75, 23);
-//				frame.getContentPane().add(btnEditar);
-//				btnEditar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-//				btnEditar.setBackground(new Color(240, 230, 140));
-//
-//				btnEliminar.setBounds(230, 416, 100, 23);
-//				frame.getContentPane().add(btnEliminar);
-//				btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-//				btnEliminar.setBackground(new Color(240, 230, 140));
-//			}
-//		});
-//
-//		btnEliminar.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				int index = table.getSelectedRow();
-//				MedicaoTemperatura medicaoTemp = medTemp.get(index);
-//
-//				System.out.println("Vou apagar a MedicaoTemperatura no index: " + index + "\n"
-//						+ "MedicaoTemperatura com ID= " + medicaoTemp.getIDMedicao() + "\n");
-//				bd.apagarMedicoesTemperatura(medicaoTemp.getIDMedicao());
-//				// falta fazer com que a window atualize a table
-//
-//			}
-//		});
-
 		btnVoltar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -116,6 +88,11 @@ public class ListMedicoesTemp extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Lbl inicie A sessao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -123,6 +100,11 @@ public class ListMedicoesTemp extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Table.
+	 *
+	 * @return the j table
+	 */
 	private JTable table() {
 		Object[] coTempnNames = { "#", "DataHoraMedicao", "ValorMedicaoTemperatura" };
 		Object[][] MedicaoTemperaturas = FuncoesAjuda.listaParaTabela(bd.listaMedicoesTemperatura(), 3);
@@ -131,6 +113,11 @@ public class ListMedicoesTemp extends JanelaBase {
 		return table;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

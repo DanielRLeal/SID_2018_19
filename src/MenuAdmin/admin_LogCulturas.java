@@ -21,10 +21,19 @@ import bancoDeDados.Cultura_Log;
 import bancoDeDados.Medicoes;
 import bancoDeDados.Utilizador_Log;
 
+/**
+ * Class admin_LogCulturas.
+ */
 public class admin_LogCulturas extends JanelaBase {
 
+	/** lista de cultura log. */
 	private ArrayList<Cultura_Log> cultura_log;
 
+	/**
+	 * Instancia o admin_LogCulturas.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public admin_LogCulturas(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
@@ -32,6 +41,9 @@ public class admin_LogCulturas extends JanelaBase {
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -68,6 +80,11 @@ public class admin_LogCulturas extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Lbl inicie A sessao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Log de Culturas");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -75,6 +92,11 @@ public class admin_LogCulturas extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Table.
+	 *
+	 * @return the j table
+	 */
 	private JTable table() {
 		Object[] columnNames = { "IDLog", "IDLogUtilizador", " IDCultura", "NomeCultura", "DescricaoCultura",
 				"IDUtilizador", "Operacao", "Data" };
@@ -84,6 +106,11 @@ public class admin_LogCulturas extends JanelaBase {
 		return table;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

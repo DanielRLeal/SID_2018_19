@@ -28,12 +28,24 @@ import Login.Login;
 import MenuAdmin.menu_Admin;
 import bancoDeDados.BancoDeDados;
 
+/**
+ * Class menu_Investigador.
+ */
 public class menu_Investigador extends JanelaBase {
+	
+	/**
+	 * Instancia o menu investigador.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public menu_Investigador(BancoDeDados bd) {
 		super(bd, true);
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -107,6 +119,11 @@ public class menu_Investigador extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Panel 1.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel_1() {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
@@ -160,6 +177,11 @@ public class menu_Investigador extends JanelaBase {
 		return panel_1;
 	}
 
+	/**
+	 * Gets the frame.
+	 *
+	 * @return the frame
+	 */
 	public JFrame getFrame() {
 		return frame;
 	}

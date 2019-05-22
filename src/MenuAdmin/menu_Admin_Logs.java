@@ -15,13 +15,24 @@ import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
 
+/**
+ * Class menu_Admin_Logs.
+ */
 public class menu_Admin_Logs extends JanelaBase {
 
+	/**
+	 * Instancia o menu_Admin_Logs.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public menu_Admin_Logs(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -31,6 +42,11 @@ public class menu_Admin_Logs extends JanelaBase {
 
 	}
 
+	/**
+	 * Panel 1.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel_1() {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
@@ -63,7 +79,7 @@ public class menu_Admin_Logs extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-		JButton btnLogMedies = new JButton("Log Medi\u00E7\u00F5es");
+		JButton btnLogMedies = new JButton("Log Medicoes");
 		btnLogMedies.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnLogMedies.setBackground(Color.WHITE);
 		btnLogMedies.setBounds(165, 45, 161, 23);
@@ -75,7 +91,7 @@ public class menu_Admin_Logs extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-		JButton btnLogVariveis = new JButton("Log Vari\u00E1veis");
+		JButton btnLogVariveis = new JButton("Log Variaveis");
 		btnLogVariveis.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnLogVariveis.setBackground(Color.WHITE);
 		btnLogVariveis.setBounds(1, 79, 161, 23);
@@ -87,7 +103,7 @@ public class menu_Admin_Logs extends JanelaBase {
 				frame.getDefaultCloseOperation();
 			}
 		});
-		JButton btnLogVariveisMedidas = new JButton("Log Variï¿½veis Medidas");
+		JButton btnLogVariveisMedidas = new JButton("Log Variaveis Medidas");
 		btnLogVariveisMedidas.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnLogVariveisMedidas.setBackground(Color.WHITE);
 		btnLogVariveisMedidas.setBounds(1, 11, 161, 23);

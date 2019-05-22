@@ -21,10 +21,19 @@ import bancoDeDados.BancoDeDados;
 import bancoDeDados.Medicoes;
 import bancoDeDados.Utilizador_Log;
 
+/**
+ * Class admin_LogAlertas.
+ */
 public class admin_LogAlertas extends JanelaBase {
 
+	/** lista dos alertas log. */
 	private ArrayList<Alertas_Log> alertas_log;
 
+	/**
+	 * Instancia o admin_LogAlertas.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public admin_LogAlertas(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
@@ -32,6 +41,9 @@ public class admin_LogAlertas extends JanelaBase {
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -68,6 +80,11 @@ public class admin_LogAlertas extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Lbl inicie A sessao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Log de Alertas");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -75,6 +92,11 @@ public class admin_LogAlertas extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Table.
+	 *
+	 * @return the j table
+	 */
 	private JTable table() {
 		Object[] columnNames = { "IDLog", "IDAlerta", " IDUtilizador", "DataHora", "NomeVariavel", "LimiteInferior",
 				"LimiteSuperior", "ValorMedicao", "Descricao", "Visto", "Data" };
@@ -84,6 +106,11 @@ public class admin_LogAlertas extends JanelaBase {
 		return table;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

@@ -16,20 +16,36 @@ import MenuAdmin.menu_Admin;
 import MenuInvestigador.menu_Investigador;
 import bancoDeDados.BancoDeDados;
 
+/**
+ * Class Login.
+ */
 public class Login extends JanelaBase {
+	
+	/** The text field. */
 	private JTextField textField;
+	
+	/** The password field. */
 	private JPasswordField passwordField;
 
+	/**
+	 * Instantiates a new login.
+	 */
 	public Login() {
 		super(null);
 		initialize();
 	}
 
+	/**
+	 * Credenciais.
+	 */
 	public void credenciais() {
 		bd = new BancoDeDados();
 		bd.conectar(textField.getText(), passwordField.getText());
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -50,13 +66,23 @@ public class Login extends JanelaBase {
 		frame.getContentPane().add(lblInicieASesso);
 	}
 
+	/**
+	 * Lbl utilizador.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblUsurio() {
-		JLabel lblUsurio = new JLabel("Usu\u00E1rio");
+		JLabel lblUsurio = new JLabel("Utilizador");
 		lblUsurio.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblUsurio.setBounds(68, 263, 77, 16);
 		return lblUsurio;
 	}
 
+	/**
+	 * Lbl password.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblPassword() {
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 17));
@@ -64,13 +90,23 @@ public class Login extends JanelaBase {
 		return lblPassword;
 	}
 
+	/**
+	 * Lbl inicie A sessao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
-		JLabel lblInicieASesso = new JLabel("Inicie a sess\u00E3o para continuar");
+		JLabel lblInicieASesso = new JLabel("Inicie a sessao para continuar");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(231, 232, 196, 16);
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Btn new button.
+	 *
+	 * @return the j button
+	 */
 	private JButton btnNewButton() {
 		JButton btnNewButton = new JButton("Aceder");
 		btnNewButton.setBackground(Color.WHITE);
@@ -81,7 +117,7 @@ public class Login extends JanelaBase {
 					try {
 						credenciais();
 					} catch (Exception e2) {
-						JOptionPane.showMessageDialog(null, "Cred�ncias incorrectas!");
+						JOptionPane.showMessageDialog(null, "Credencias incorrectas!");
 					}
 					if (bd.utilizadorLogado.CategoriaProfissional.contains("Investigador")) {
 						menu_Investigador mInvestigador = new menu_Investigador(bd);
@@ -98,7 +134,7 @@ public class Login extends JanelaBase {
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(null, "O nome n�o pertence a nenhum tipo de utilizador");
+					JOptionPane.showMessageDialog(null, "O nome nao pertence a nenhum tipo de utilizador");
 				}
 			}
 		});
@@ -114,6 +150,11 @@ public class Login extends JanelaBase {
 		return btnNewButton;
 	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

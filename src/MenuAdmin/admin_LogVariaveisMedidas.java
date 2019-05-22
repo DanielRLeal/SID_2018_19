@@ -22,10 +22,19 @@ import bancoDeDados.Medicoes;
 import bancoDeDados.Utilizador_Log;
 import bancoDeDados.VariaveisMedidas_Log;
 
+/**
+ * Class admin_LogVariaveisMedidas.
+ */
 public class admin_LogVariaveisMedidas extends JanelaBase {
 
+	/** lista de variaveismedidas log. */
 	private ArrayList<VariaveisMedidas_Log> variaveismedidas_log;
 
+	/**
+	 * Instancia o admin_LogVariaveisMedidas.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public admin_LogVariaveisMedidas(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
@@ -33,6 +42,9 @@ public class admin_LogVariaveisMedidas extends JanelaBase {
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -69,6 +81,11 @@ public class admin_LogVariaveisMedidas extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Lbl inicie A sessao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Log de Variï¿½veis Medidas");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -76,6 +93,11 @@ public class admin_LogVariaveisMedidas extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Table.
+	 *
+	 * @return the j table
+	 */
 	private JTable table() {
 		Object[] columnNames = { "IDLog", "IDLogUtilziador", " IDCultura", "IDVariavel", "LimiteSuperior",
 				"LimiteInferior", "Operacao", "Data" };
@@ -85,6 +107,11 @@ public class admin_LogVariaveisMedidas extends JanelaBase {
 		return table;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

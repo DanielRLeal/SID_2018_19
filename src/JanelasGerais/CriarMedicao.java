@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -14,17 +18,36 @@ import javax.swing.JTextField;
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
 
+/**
+ * Class CriarMedicao.
+ */
 public class CriarMedicao extends JanelaBase {
+	
+	/** The text field ID variavel fk. */
 	private JTextField textField_IDVariavel_fk;
+	
+	/** The text field ID cultura fk. */
 	private JTextField textField_IDCultura_fk;
+	
+	/** The text field data hora medicao. */
 	private JFormattedTextField textField_DataHoraMedicao;
+	
+	/** The text field valor medicao. */
 	private JTextField textField_ValorMedicao;
 
+	/**
+	 * Instancia o CriarMedicao.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public CriarMedicao(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -95,30 +118,47 @@ public class CriarMedicao extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Text field valor medicao.
+	 */
 	private void textField_ValorMedicao() {
 		textField_ValorMedicao = new JTextField();
 		textField_ValorMedicao.setColumns(10);
 		textField_ValorMedicao.setBounds(221, 290, 216, 22);
 	}
 
+	/**
+	 * Text field ID variavel fk.
+	 */
 	private void textField_IDVariavel_fk() {
 		textField_IDVariavel_fk = new JTextField();
 		textField_IDVariavel_fk.setColumns(10);
 		textField_IDVariavel_fk.setBounds(221, 186, 216, 22);
 	}
 
+	/**
+	 * Text field ID cultura fk.
+	 */
 	private void textField_IDCultura_fk() {
 		textField_IDCultura_fk = new JTextField();
 		textField_IDCultura_fk.setColumns(10);
 		textField_IDCultura_fk.setBounds(221, 320, 216, 22);
 	}
 
+	/**
+	 * Text field data hora medicao.
+	 */
 	private void textField_DataHoraMedicao() {
 		textField_DataHoraMedicao = new JFormattedTextField("dd-MM-yyyy HH:mm:ss");
 		textField_DataHoraMedicao.setColumns(10);
 		textField_DataHoraMedicao.setBounds(221, 238, 216, 22);
 	}
 
+	/**
+	 * Lbl valor medicao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblValorMedicao() {
 		JLabel lblValorMedicao = new JLabel("ValorMedicao");
 		lblValorMedicao.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -126,13 +166,23 @@ public class CriarMedicao extends JanelaBase {
 		return lblValorMedicao;
 	}
 
+	/**
+	 * Lbl inicie A sesso.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
-		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma Medicao");
+		JLabel lblInicieASesso = new JLabel("Criacao de uma Medicao");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Lbl ID variavel fk.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblIDVariavel_fk() {
 		JLabel lblIDVariavel_fk = new JLabel("ID da Variavel");
 		lblIDVariavel_fk.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -140,6 +190,11 @@ public class CriarMedicao extends JanelaBase {
 		return lblIDVariavel_fk;
 	}
 
+	/**
+	 * Lbl ID cultura fk.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblIDCultura_fk() {
 		JLabel lblIDCultura_fk = new JLabel("ID da Cultura");
 		lblIDCultura_fk.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -147,6 +202,11 @@ public class CriarMedicao extends JanelaBase {
 		return lblIDCultura_fk;
 	}
 
+	/**
+	 * Lbl data hora medicao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblDataHoraMedicao() {
 		JLabel lblDataHoraMedicao = new JLabel("DataHoraMedicao");
 		lblDataHoraMedicao.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -154,6 +214,11 @@ public class CriarMedicao extends JanelaBase {
 		return lblDataHoraMedicao;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

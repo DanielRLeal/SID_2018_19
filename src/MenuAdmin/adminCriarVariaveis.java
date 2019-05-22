@@ -14,16 +14,33 @@ import JanelasGerais.ListVariaveis;
 import Login.JanelaBase;
 import bancoDeDados.BancoDeDados;
 
+/**
+ * Class adminCriarVariaveis.
+ */
 public class adminCriarVariaveis extends JanelaBase {
+	
+	/** The text field ID cultura fk. */
 	private JTextField textField_IDCultura_fk;
+	
+	/** The text field nome variaveis. */
 	private JTextField textField_NomeVariaveis;
+	
+	/** The text field valor medicao. */
 	private JTextField textField_ValorMedicao;
 
+	/**
+	 * Instancia o adminCriarVariaveis.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public adminCriarVariaveis(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -79,18 +96,29 @@ public class adminCriarVariaveis extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Text field nome variaveis.
+	 */
 	private void textField_NomeVariaveis() {
 		textField_NomeVariaveis = new JTextField();
 		textField_NomeVariaveis.setColumns(10);
 		textField_NomeVariaveis.setBounds(221, 238, 216, 22);
 	}
 
+	/**
+	 * Text field ID cultura fk.
+	 */
 	private void textField_IDCultura_fk() {
 		textField_IDCultura_fk = new JTextField();
 		textField_IDCultura_fk.setColumns(10);
 		textField_IDCultura_fk.setBounds(221, 320, 216, 22);
 	}
 
+	/**
+	 * Lbl nome variaveis.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblNomeVariaveis() {
 		JLabel lblNomeVariaveis = new JLabel("NomeVariaveis");
 		lblNomeVariaveis.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -98,6 +126,11 @@ public class adminCriarVariaveis extends JanelaBase {
 		return lblNomeVariaveis;
 	}
 
+	/**
+	 * Lbl inicie A sesso.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma Medicao");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -105,6 +138,11 @@ public class adminCriarVariaveis extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Lbl ID cultura fk.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblIDCultura_fk() {
 		JLabel lblIDCultura_fk = new JLabel("ID da Cultura");
 		lblIDCultura_fk.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -112,6 +150,11 @@ public class adminCriarVariaveis extends JanelaBase {
 		return lblIDCultura_fk;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

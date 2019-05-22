@@ -2,10 +2,12 @@ package bancoDeDados;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,18 +17,40 @@ import javax.swing.JOptionPane;
 
 import Login.VerificarAlertas;
 
+/**
+ * Class BancoDeDados.
+ */
 public class BancoDeDados {
 
+	/** The connection. */
 	private Connection connection = null;
+	
+	/** The statement. */
 	private Statement statement = null;
+	
+	/** The resultset. */
 	private ResultSet resultset = null;
+	
+	/** The lista utilizadores. */
 	public DefaultListModel<String> listaUtilizadores = new DefaultListModel<String>();
+	
+	/** The utilizador logado. */
 	public Utilizador utilizadorLogado;
+	
+	/** The users. */
 	ArrayList<Utilizador> users = new ArrayList<>();
+	
+	/** The B dname. */
 	String BDname = "sid_bd_php.";
 	
+	/**
+	 * Conectar.
+	 *
+	 * @param utilizador the utilizador
+	 * @param pass the pass
+	 */
 	public void conectar(String utilizador, String pass) {
-		String servidor = "jdbc:mysql://localhost:8889/sid_bd_php";
+		String servidor = "jdbc:mysql://localhost:3306/sid_bd_php";
 		String driver = "com.mysql.jdbc.Driver";
 		try {
 			Class.forName(driver);
@@ -34,11 +58,16 @@ public class BancoDeDados {
 			this.statement = this.connection.createStatement();
 			getUtilizador(utilizador);
 			
-			Thread t = t();
+			//Thread t = t();
 		} catch (Exception e) {
 		}
 	}
 
+	/**
+	 * T.
+	 *
+	 * @return the thread
+	 */
 	private Thread t() {
 		VerificarAlertas vAlertas = new VerificarAlertas(this);
 		Thread t = new Thread(vAlertas);
@@ -46,6 +75,11 @@ public class BancoDeDados {
 		return t;
 	}
 
+	/**
+	 * Esta ligado.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean estaLigado() {
 		if (this.connection != null) {
 			return true;
@@ -54,6 +88,12 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Gets the utilizador.
+	 *
+	 * @param utilizador the utilizador
+	 * @return the utilizador
+	 */
 	public void getUtilizador(String utilizador) {
 		try {
 			if (utilizador.equals("root")) {
@@ -75,16 +115,23 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Listar utilizador.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Utilizador> listarUtilizador() {
 		ArrayList<Utilizador> temp = new ArrayList<>();
 		try {
 			String query = "SELECT * FROM " + BDname + "utilizador";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
-			temp(temp);
+			users = new ArrayList<Utilizador>();
 			while (this.resultset.next()) {
-
-				users = removeDuplicates(temp);
+				Utilizador user = new Utilizador(this.resultset.getInt("IDUtilizador"),
+						this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
+						this.resultset.getString("Email"), this.resultset.getBoolean("Activo"));
+				users.add(user);
 
 			}
 		} catch (SQLException e) {
@@ -94,44 +141,46 @@ public class BancoDeDados {
 		return users;
 	}
 
-	private void temp(ArrayList<Utilizador> temp) throws java.sql.SQLException {
-		while (this.resultset.next()) {
-			Utilizador user = new Utilizador(this.resultset.getInt("IDUtilizador"),
-					this.resultset.getString("NomeUtilizador"), this.resultset.getString("CategoriaProfissional"),
-					this.resultset.getString("Email"), this.resultset.getBoolean("Activo"));
-			temp.add(user);
-		}
-	}
-
+	/**
+	 * Inserir utilizador.
+	 *
+	 * @param nome the nome
+	 * @param password the password
+	 * @param categoria the categoria
+	 * @param email the email
+	 * @param activo the activo
+	 */
 	public void inserirUtilizador(String nome, String password, String categoria, String email, boolean activo) {
 		try {
-			//Corre sem erros, mas n�o executa o SP...
-			/*String query = "{CALL " + BDname + "CriarUtilizador(?, ?, ?, ?, ?)}";
+			String query = "{call " + BDname + "CriarUtilizador(?, ?, ?, ?)}";
 			PreparedStatement stmt = this.connection.prepareStatement(query);
 			
 			stmt.setString(1, nome);
 			stmt.setString(2, categoria);
 			stmt.setString(3, email);
-			stmt.setBoolean(4, true);
-			stmt.setString(5, password);
+			stmt.setString(4, password);
 			
-			stmt.executeQuery();*/
-			
-			String query = "INSERT INTO " + BDname + "utilizador (NomeUtilizador, CategoriaProfissional, Email, Activo) VALUES ('"
-					+ nome + "', '" + categoria + "', '" + email + "', " + activo + ");";
-			
-			System.out.println(query);
-			this.statement.executeUpdate(query);
+			stmt.executeUpdate();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a inserir utilizador");
 		}
 	}
 
+	/**
+	 * Actualizar utilizador.
+	 *
+	 * @param id the id
+	 * @param nome the nome
+	 * @param categoria the categoria
+	 * @param email the email
+	 * @param activo the activo
+	 * @param password the password
+	 */
 	public void actualizarUtilizador(int id, String nome, String categoria, String email, boolean activo, String password) {
 		try {
-			//Corre sem erros, mas n�o executa o SP...
-			/*String query = "{CALL " + BDname + "EditarUtilizador(?, ?, ?, ?, ?, ?)}";
-			CallableStatement stmt = this.connection.prepareCall(query);
+			//Corre sem erros, mas nao executa o SP...
+			String query = "{CALL " + BDname + "EditarUtilizador(?, ?, ?, ?, ?, ?)}";
+			PreparedStatement stmt = this.connection.prepareCall(query);
 			
 			stmt.setInt(1, id);
 			stmt.setString(2, nome);
@@ -140,36 +189,38 @@ public class BancoDeDados {
 			stmt.setBoolean(5, true);
 			stmt.setString(6, password);
 			
-			stmt.executeQuery();*/
-			
-			String query = "UPDATE " + BDname + "Utilizador SET NomeUtilizador = '" + nome
-					+ "', CategoriaProfissional = '" + categoria + "',Email = '" + email + "', Activo = " + activo
-					+ " WHERE IDUtilizador = " + id + ";";
-			this.statement.executeUpdate(query);
+			stmt.executeQuery();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a actualizar utilizador");
 		}
 	}
 
+	/**
+	 * Apagar utilizador.
+	 *
+	 * @param id the id
+	 * @param bool the bool
+	 */
 	public void apagarUtilizador(int id, boolean bool) {
 		try {
-			//Corre sem erros, mas n�o executa o SP...
-			/*String query = "{CALL " + BDname + "ApagarUtilizador(?)}";
-			CallableStatement stmt = this.connection.prepareCall(query);
+			//Corre sem erros, mas nao executa o SP...
+			String query = "{CALL " + BDname + "ApagarUtilizador(?)}";
+			PreparedStatement stmt = this.connection.prepareCall(query);
 			
 			stmt.setInt(1, id);
 			
-			stmt.executeQuery();*/
-			
-			String query = "UPDATE " + BDname + "Utilizador set Activo = " + bool + " WHERE IDUtilizador = " + id + ";";
-			System.out.println(query + "\n" + "Vou desativar o utilizador com id " + id);
-			this.statement.executeUpdate(query);
+			stmt.executeQuery();
 
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Falha a apagar utilizador");
 		}
 	}
 
+	/**
+	 * Lista cultura.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Cultura> listaCultura() {
 		try {
 			String query = "SELECT c.IDCultura, c.NomeCultura, c.DescricaoCultura, c.IDUtilizador_fk, u.NomeUtilizador "
@@ -193,6 +244,13 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Inserir cultura.
+	 *
+	 * @param nome the nome
+	 * @param descricao the descricao
+	 * @param IDUtilizador_fk the ID utilizador fk
+	 */
 	public void inserirCultura(String nome, String descricao, String IDUtilizador_fk) {
 		try {
 			String query = "INSERT INTO " + BDname + "Cultura (NomeCultura, DescricaoCultura, IDUtilizador_fk) VALUES ('" + nome
@@ -205,6 +263,14 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Actualizar cultura.
+	 *
+	 * @param id the id
+	 * @param nome the nome
+	 * @param descricao the descricao
+	 * @param IDUtilizador_fk the ID utilizador fk
+	 */
 	public void actualizarCultura(int id, String nome, String descricao, String IDUtilizador_fk) {
 		try {
 			String query = "UPDATE " + BDname + "Cultura set NomeCultura = '" + nome + "' , DescricaoCultura = '" + descricao
@@ -215,6 +281,11 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Apagar cultura.
+	 *
+	 * @param id the id
+	 */
 	public void apagarCultura(int id) {
 		try {
 			String query = "DELETE FROM " + BDname + "Cultura WHERE IDCultura = '" + id + "';";
@@ -226,6 +297,11 @@ public class BancoDeDados {
 
 	// Listar(..) Medicoes
 
+	/**
+	 * Lista medicoes.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Medicoes> listaMedicoes() {
 		try {
 			String query = "SELECT m.*, c.NomeCultura, v.NomeVariaveis FROM " + BDname + "Medicoes m "
@@ -239,8 +315,6 @@ public class BancoDeDados {
 
 				Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
 				Date date = new Date(timestamp.getTime());
-				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-				sdf.format(date);
 
 				Medicoes medicao = new Medicoes(this.resultset.getInt("IDMedicoes"),
 						this.resultset.getInt("IDCultura_fk"),
@@ -258,10 +332,23 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Inserir medicoes.
+	 *
+	 * @param IDCultura_fk the ID cultura fk
+	 * @param iDVariavel_fk the i D variavel fk
+	 * @param dataHoraMedicao the data hora medicao
+	 * @param ValorMedicao the valor medicao
+	 */
 	public void inserirMedicoes(String IDCultura_fk, String iDVariavel_fk, String dataHoraMedicao, double ValorMedicao) {
 		try {
+			DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = format.parse(dataHoraMedicao);
+			String dataHora = dateFormat.format(date);
+			
 			String query = "INSERT INTO " + BDname + "Medicoes (IDCultura_fk, IDVariavel_fk, DataHoraMedicao, ValorMedicao) VALUES ('"
-					+ IDCultura_fk + "', '" + iDVariavel_fk + "', '" + dataHoraMedicao + "', '" + ValorMedicao + "');";
+					+ IDCultura_fk + "', '" + iDVariavel_fk + "', '" + dataHora + "', '" + ValorMedicao + "');";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
 			JOptionPane.showMessageDialog(null, "Medicoes adiciona com sucesso!");
@@ -270,10 +357,24 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Actualizar medicoes.
+	 *
+	 * @param IDMedicoes the ID medicoes
+	 * @param IDCultura_fk the ID cultura fk
+	 * @param IDVariavel_fk the ID variavel fk
+	 * @param dataHoraMedicao the data hora medicao
+	 * @param ValorMedicao the valor medicao
+	 */
 	public void actualizarMedicoes(int IDMedicoes, int IDCultura_fk, int IDVariavel_fk, String dataHoraMedicao, double ValorMedicao) {
 		try {
+			DateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = format.parse(dataHoraMedicao);
+			String dataHora = dateFormat.format(date);
+			
 			String query = "UPDATE " + BDname + "Medicoes set IDCultura_fk = " + IDCultura_fk + ", IDVariavel_fk = " + IDVariavel_fk + ", "
-					+ "DataHoraMedicao = " + dataHoraMedicao + ",ValorMedicao = " + ValorMedicao + " WHERE IDMedicoes = " + IDMedicoes + ";";
+					+ "DataHoraMedicao = '" + dataHora + "',ValorMedicao = " + ValorMedicao + " WHERE IDMedicoes = " + IDMedicoes + ";";
 			System.out.println(query);
 			this.statement.executeUpdate(query);
 		} catch (Exception e) {
@@ -281,6 +382,11 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Apagar medicoes.
+	 *
+	 * @param id the id
+	 */
 	public void apagarMedicoes(int id) {
 		try {
 			String query = "DELETE FROM " + BDname + "Medicoes WHERE IDMedicoes = '" + id + "';";
@@ -292,6 +398,11 @@ public class BancoDeDados {
 
 	// Listar(..) Variaveis
 
+	/**
+	 * Listar variaveis.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Variaveis> listarVariaveis() {
 		ArrayList<Variaveis> temp = new ArrayList<>();
 		try {
@@ -313,6 +424,12 @@ public class BancoDeDados {
 		return temp;
 	}
 
+	/**
+	 * Inserir variaveis.
+	 *
+	 * @param NomeVariaveis the nome variaveis
+	 * @param IDCultura_fk the ID cultura fk
+	 */
 	public void inserirVariaveis(String NomeVariaveis, String IDCultura_fk) {
 		try {
 			String query = "INSERT INTO " + BDname + "Variaveis (NomeVariaveis, IDCultura_fk) VALUES ('" + NomeVariaveis + "', '"
@@ -326,6 +443,13 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Actualizar variaveis.
+	 *
+	 * @param IDVariaveis the ID variaveis
+	 * @param NomeVariaveis the nome variaveis
+	 * @param IDCultura_fk the ID cultura fk
+	 */
 	public void actualizarVariaveis(int IDVariaveis, String NomeVariaveis, String IDCultura_fk) {
 		try {
 			String query = "UPDATE " + BDname + "Variaveis set IDVariaveis = '" + IDVariaveis + "' , NomeVariaveis = '"
@@ -337,6 +461,11 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Apagar variaveis.
+	 *
+	 * @param id the id
+	 */
 	public void apagarVariaveis(int id) {
 		try {
 			String query = "DELETE FROM " + BDname + "variaveis WHERE IDVariaveis = " + id + ";";
@@ -349,6 +478,11 @@ public class BancoDeDados {
 
 	// Listar(..) VariaveisMedidas
 
+	/**
+	 * Lista variaveis medidas.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<VariaveisMedidas> listaVariaveisMedidas() {
 		try {
 			String query = "SELECT vm.*, c.NomeCultura, v.NomeVariaveis FROM " + BDname + "variaveismedidas vm "
@@ -376,6 +510,14 @@ public class BancoDeDados {
 		}
 	}
 	
+	/**
+	 * Inserir variaveis medidas.
+	 *
+	 * @param iDCultura_fk the i D cultura fk
+	 * @param iDVariavel_fk the i D variavel fk
+	 * @param limSuperior the lim superior
+	 * @param limInferior the lim inferior
+	 */
 	public void inserirVariaveisMedidas(String iDCultura_fk, String iDVariavel_fk, double limSuperior,
 			double limInferior) {
 
@@ -391,6 +533,14 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Actualizar variaveis medidas.
+	 *
+	 * @param idCultura the id cultura
+	 * @param idVariavel the id variavel
+	 * @param LimiteSuperior the limite superior
+	 * @param LimiteInferior the limite inferior
+	 */
 	public void actualizarVariaveisMedidas(int idCultura, int idVariavel, double LimiteSuperior, double LimiteInferior) {
 		try {
 			String query = "UPDATE " + BDname + "VariaveisMedidas set LimiteSuperior = " + LimiteSuperior + " , LimiteInferior = " + LimiteInferior
@@ -401,6 +551,12 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Apagar variaveis medidas.
+	 *
+	 * @param idCultura the id cultura
+	 * @param idVariavel the id variavel
+	 */
 	public void apagarVariaveisMedidas(int idCultura, int idVariavel) {
 		try {
 			String query = "DELETE FROM " + BDname + "variaveismedidas WHERE IDCultura_fk = '" + idCultura + "' AND IDVariavel_fk = '" + idVariavel + "';";
@@ -412,6 +568,11 @@ public class BancoDeDados {
 
 	// Listar(..) MedicoesLuminiosidade
 
+	/**
+	 * Lista medicoes luminosidade.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<MedicaoLuminosidade> listaMedicoesLuminosidade() {
 		try {
 			String query = "SELECT * FROM " + BDname + "medicoesluminosidade";
@@ -433,6 +594,12 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Med lum.
+	 *
+	 * @return the medicao luminosidade
+	 * @throws SQLException the SQL exception
+	 */
 	private MedicaoLuminosidade medLum() throws java.sql.SQLException {
 		Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
 		Date date = new Date(timestamp.getTime());
@@ -441,6 +608,12 @@ public class BancoDeDados {
 		return medLum;
 	}
 
+	/**
+	 * Inserir medicoes luminosidade.
+	 *
+	 * @param dataHoraMedicao the data hora medicao
+	 * @param ValorMedicaoLuminosidade the valor medicao luminosidade
+	 */
 	public void inserirMedicoesLuminosidade(String dataHoraMedicao, double ValorMedicaoLuminosidade) {
 		try {
 			String query = "INSERT INTO " + BDname + "medicoesluminosidade (DataHoraMedicao, ValorMedicaoLuminosidade) VALUES ('"
@@ -454,6 +627,13 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Actualizar medicoes luminosidade.
+	 *
+	 * @param IDMedicao the ID medicao
+	 * @param DataHoraMedicao the data hora medicao
+	 * @param ValorMedicaoLuminosidade the valor medicao luminosidade
+	 */
 	public void actualizarMedicoesLuminosidade(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoLuminosidade) {
 		try {
 			String query = "UPDATE " + BDname + "medicoesluminosidade set DataHoraMedicao = '" + DataHoraMedicao
@@ -465,6 +645,11 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Apagar medicoes luminosidade.
+	 *
+	 * @param IDMedicao the ID medicao
+	 */
 	public void apagarMedicoesLuminosidade(int IDMedicao) {
 		try {
 			String query = "DELETE FROM " + BDname + "medicoesluminosidade WHERE IDMedicao = '" + IDMedicao + "';";
@@ -476,6 +661,11 @@ public class BancoDeDados {
 
 	// Listar(..) MedicoesTemperatura
 
+	/**
+	 * Lista medicoes temperatura.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<MedicaoTemperatura> listaMedicoesTemperatura() {
 		try {
 			String query = "SELECT * FROM " + BDname + "medicoestemperatura";
@@ -498,6 +688,12 @@ public class BancoDeDados {
 	}
 	
 
+	/**
+	 * Med temp.
+	 *
+	 * @return the medicao temperatura
+	 * @throws SQLException the SQL exception
+	 */
 	private MedicaoTemperatura medTemp() throws java.sql.SQLException {
 		Timestamp timestamp = this.resultset.getTimestamp("DataHoraMedicao");
 		Date date = new Date(timestamp.getTime());
@@ -506,6 +702,12 @@ public class BancoDeDados {
 		return medTemp;
 	}
 
+	/**
+	 * Inserir medicoes temperatura.
+	 *
+	 * @param dataHoraMedicao the data hora medicao
+	 * @param ValorMedicaoTemperatura the valor medicao temperatura
+	 */
 	public void inserirMedicoesTemperatura(String dataHoraMedicao, double ValorMedicaoTemperatura) {
 		try {
 			String query = "INSERT INTO " + BDname + "medicoesluminosidade (IDMedicao, DataHoraMedicao, ValorMedicaoTemperatura) VALUES ('"
@@ -518,6 +720,13 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Actualizar medicoes temperatura.
+	 *
+	 * @param IDMedicao the ID medicao
+	 * @param DataHoraMedicao the data hora medicao
+	 * @param ValorMedicaoTemperatura the valor medicao temperatura
+	 */
 	public void actualizarMedicoesTemperatura(int IDMedicao, Date DataHoraMedicao, double ValorMedicaoTemperatura) {
 		try {
 			String query = "UPDATE " + BDname + "medicoestemperatura set DataHoraMedicao = '" + DataHoraMedicao
@@ -529,6 +738,11 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Apagar medicoes temperatura.
+	 *
+	 * @param IDMedicao the ID medicao
+	 */
 	public void apagarMedicoesTemperatura(int IDMedicao) {
 		try {
 			String query = "DELETE FROM " + BDname + "medicoestemperatura WHERE IDMedicao = '" + IDMedicao + "';";
@@ -540,6 +754,11 @@ public class BancoDeDados {
 
 	// Listar(..) Sistema
 
+	/**
+	 * Lista sistema.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Sistema> listaSistema() {
 		try {
 			String query = "SELECT * FROM " + BDname + "Sistema";
@@ -552,7 +771,12 @@ public class BancoDeDados {
 						this.resultset.getDouble("LimiteSuperiorTemperatura"),
 						this.resultset.getDouble("LimiteInferiorTemperatura"),
 						this.resultset.getDouble("LimiteSuperiorLuminosidade"),
-						this.resultset.getDouble("LimiteInferiorLuminosidade"));
+						this.resultset.getDouble("LimiteInferiorLuminosidade"),
+						this.resultset.getDouble("PercentagemLimiarTemperatura"),
+						this.resultset.getDouble("PercentagemLimiarLuminosidade"),
+						this.resultset.getInt("NumeroMedicoesParaAlertaTemperatura"),
+						this.resultset.getInt("NumeroMedicoesParaAlertaLuminosidade"),
+						this.resultset.getDouble("IntervaloEntreAlertasMinutos"));
 
 				listTemp.add(sis);
 			}
@@ -565,16 +789,9 @@ public class BancoDeDados {
 		}
 	}
 	
-	public static ArrayList<Utilizador> removeDuplicates(ArrayList<Utilizador> list) {
-		ArrayList<Utilizador> newList = new ArrayList<>();
-		for (Utilizador element : list) {
-			if (!newList.contains(element)) {
-				newList.add(element);
-			}
-		}
-		return newList;
-	}
-
+	/**
+	 * Desconectar.
+	 */
 	public void desconectar() {
 		try {
 			this.connection.close();
@@ -582,6 +799,11 @@ public class BancoDeDados {
 		}
 	}
 
+	/**
+	 * Listar utilizador log.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Utilizador_Log> listarUtilizador_Log() {
 		ArrayList<Utilizador_Log> temp = new ArrayList<>();
 		try {
@@ -605,6 +827,11 @@ public class BancoDeDados {
 		return temp;
 	}
 
+	/**
+	 * Listar alertas log.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Alertas_Log> listarAlertas_Log() {
 		ArrayList<Alertas_Log> temp = new ArrayList<>();
 		try {
@@ -629,6 +856,11 @@ public class BancoDeDados {
 		return temp;
 	}
 
+	/**
+	 * Listar medicoes log.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Medicoes_Log> listarMedicoes_Log() {
 		ArrayList<Medicoes_Log> temp = new ArrayList<>();
 		try {
@@ -654,6 +886,11 @@ public class BancoDeDados {
 		return temp;
 	}
 
+	/**
+	 * Listar cultura log.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Cultura_Log> listarCultura_Log() {
 		ArrayList<Cultura_Log> temp = new ArrayList<>();
 		try {
@@ -677,6 +914,11 @@ public class BancoDeDados {
 		return temp;
 	}
 
+	/**
+	 * Listar variaveis medidas log.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<VariaveisMedidas_Log> listarVariaveisMedidas_Log() {
 		ArrayList<VariaveisMedidas_Log> temp = new ArrayList<>();
 		try {
@@ -703,6 +945,11 @@ public class BancoDeDados {
 		return temp;
 	}
 
+	/**
+	 * Listar variaveis log.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Variaveis_Log> listarVariaveis_Log() {
 		ArrayList<Variaveis_Log> temp = new ArrayList<>();
 		try {
@@ -727,14 +974,20 @@ public class BancoDeDados {
 		return temp;
 	}
 	
+	/**
+	 * Verificar alertas.
+	 *
+	 * @return the array list
+	 */
 	public ArrayList<Alerta> verificarAlertas() {
 		ArrayList<Alerta> temp = new ArrayList<>();
 		try {
 			String query = "SELECT a.*, u.Email FROM " + BDname + "alertas a "
-					+ "LEFT OUTER JOIN " + BDname + "utilizador u ON a.IDUtilizador = u.IDUtilizador "
+					+ "LEFT OUTER JOIN " + BDname + "cultura c ON a.IDCultura = c.IDCultura "
+					+ "LEFT OUTER JOIN " + BDname + "utilizador u ON c.IDUtilizador_fk = u.IDUtilizador "
 					+ "WHERE a.Visto = 0 "
 					//+ "AND a.DataHora > DATE_SUB(NOW(), INTERVAL 1 MINUTE) "
-					+ "AND (a.IDUtilizador IS NULL OR a.IDUtilizador = " + this.utilizadorLogado.ID + ");";
+					+ "AND (a.IDCultura IS NULL OR u.IDUtilizador = " + this.utilizadorLogado.ID + ");";
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while (this.resultset.next()) {
@@ -744,17 +997,14 @@ public class BancoDeDados {
 				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 				sdf.format(date);
 				
-				int IDUtilizador = IDUtilizador();
 				Alerta alerta = new Alerta(Integer.parseInt(this.resultset.getString("IDAlerta")),
-						IDUtilizador,
 						this.resultset.getString("Email"),
 						date,
 						this.resultset.getString("NomeVariavel"),
 						this.resultset.getDouble("LimiteInferior"),
 						this.resultset.getDouble("LimiteSuperior"),
 						this.resultset.getDouble("ValorMedicao"),
-						this.resultset.getString("Descricao"),
-						this.resultset.getBoolean("Visto"));
+						this.resultset.getString("Descricao"));
 				temp.add(alerta);
 			}
 		} catch (SQLException e) {
@@ -763,19 +1013,16 @@ public class BancoDeDados {
 		}
 		return temp;
 	}
-
-	private int IDUtilizador() throws java.sql.SQLException {
-		int IDUtilizador = 0;
-		if (this.resultset.findColumn("IDUtilizador") > 0)
-			IDUtilizador = this.resultset.getInt("IDUtilizador");
-		return IDUtilizador;
-	}
 	
+	/**
+	 * Tornar alerta visto.
+	 *
+	 * @param alerta the alerta
+	 */
 	public void tornarAlertaVisto(Alerta alerta) {
 		try {
 			String query = "UPDATE " + BDname + "alertas SET Visto = 1 WHERE IDAlerta = " + alerta.getIDAlerta() + ";";
-			this.resultset = this.statement.executeQuery(query);
-			this.statement = this.connection.createStatement();
+			this.statement.executeUpdate(query);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("Falha tornar alertas vistos");

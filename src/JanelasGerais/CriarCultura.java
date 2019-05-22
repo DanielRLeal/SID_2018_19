@@ -24,16 +24,33 @@ import bancoDeDados.BancoDeDados;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
+/**
+ * Class CriarCultura.
+ */
 public class CriarCultura extends JanelaBase {
+	
+	/** The text field nome cultura. */
 	private JTextField textField_NomeCultura;
+	
+	/** The text field descricao cultura. */
 	private JTextField textField_DescricaoCultura;
+	
+	/** The text field utilizador resp. */
 	private JTextField textField_Utilizador_resp;
 
+	/**
+	 * Instancia o CriarCultura.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public CriarCultura(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -96,31 +113,50 @@ public class CriarCultura extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Text field utilizador responsável.
+	 */
 	private void textField_Utilizador_resp() {
 		textField_Utilizador_resp = new JTextField();
 		textField_Utilizador_resp.setColumns(10);
 		textField_Utilizador_resp.setBounds(221, 290, 216, 22);
 	}
 
+	/**
+	 * Text field nome cultura.
+	 */
 	private void textField_NomeCultura() {
 		textField_NomeCultura = new JTextField();
 		textField_NomeCultura.setColumns(10);
 		textField_NomeCultura.setBounds(221, 186, 216, 22);
 	}
 
+	/**
+	 * Text field descricao cultura.
+	 */
 	private void textField_DescricaoCultura() {
 		textField_DescricaoCultura = new JTextField();
 		textField_DescricaoCultura.setColumns(10);
 		textField_DescricaoCultura.setBounds(221, 238, 216, 22);
 	}
 
+	/**
+	 * Lbl utilizador responsvel.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblUtilizadorResponsvel() {
-		JLabel lblUtilizadorResponsvel = new JLabel("Utilizador respons\u00E1vel");
+		JLabel lblUtilizadorResponsvel = new JLabel("Utilizador responsavel");
 		lblUtilizadorResponsvel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblUtilizadorResponsvel.setBounds(12, 291, 197, 16);
 		return lblUtilizadorResponsvel;
 	}
 
+	/**
+	 * Lbl nome da cultura.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblNomeDaCultura() {
 		JLabel lblNomeDaCultura = new JLabel("Nome da Cultura");
 		lblNomeDaCultura.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -128,20 +164,35 @@ public class CriarCultura extends JanelaBase {
 		return lblNomeDaCultura;
 	}
 
+	/**
+	 * Lbl inicie A sesso.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
-		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de uma cultura");
+		JLabel lblInicieASesso = new JLabel("Criacao de uma cultura");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Lbl descrio da cultura.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblDescrioDaCultura() {
-		JLabel lblDescrioDaCultura = new JLabel("Descri\u00E7\u00E3o da Cultura");
+		JLabel lblDescrioDaCultura = new JLabel("Descricao da Cultura");
 		lblDescrioDaCultura.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblDescrioDaCultura.setBounds(12, 239, 197, 16);
 		return lblDescrioDaCultura;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

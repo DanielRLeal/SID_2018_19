@@ -14,23 +14,39 @@ import javax.swing.JOptionPane;
 import bancoDeDados.Alerta;
 import bancoDeDados.BancoDeDados;
 
+/**
+ * Class VerificarAlertas.
+ */
 public class VerificarAlertas implements Runnable {
 
+	/** The bd. */
 	private BancoDeDados bd;
+	
+	/** The email remetente. */
 	private final String emailRemetente = "es2.2019.iscte";
+	
+	/** The email pass. */
 	private final String emailPass = "es22019iscte";
 	
+	/**
+	 * Instancia o VerificarAlertas.
+	 *
+	 * @param bd da coneção criada no login
+	 */
     public VerificarAlertas(BancoDeDados bd) {
     	this.bd = bd;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Runnable#run()
+     */
     public void run() {
         while(true){
         	try {
         		ArrayList<Alerta> alert = bd.verificarAlertas();
         		if(alert != null){
 	        		for (Alerta alerta : alert) {
-	        			String mensagem = "Limite Ultrapassado " + alerta.getDescricao();
+	        			String mensagem = alerta.getDescricao();
 	        			String assunto = "Alerta da variavel " + alerta.getNomeVariavel();
 	        			
 						if(alerta.getEmailUtilizador() != null && !alerta.getEmailUtilizador().isEmpty()){
@@ -56,6 +72,13 @@ public class VerificarAlertas implements Runnable {
     }
     
     
+    /**
+     * Send email.
+     *
+     * @param emailDestinatario o email do destinatario
+     * @param Assunto o assunto do email
+     * @param corpoEmail o corpo de email
+     */
     public void sendEmail(String emailDestinatario, String Assunto, String corpoEmail) {
 		try {
 
@@ -91,6 +114,11 @@ public class VerificarAlertas implements Runnable {
 
 	}
 
+	/**
+	 * Propriedades do email
+	 *
+	 * @return the properties
+	 */
 	private Properties props() {
 		String host = "smtp.gmail.com";
 		Properties props = System.getProperties();

@@ -29,12 +29,24 @@ import bancoDeDados.BancoDeDados;
 
 import javax.swing.JList;
 
+/**
+ * Class ListSistema.
+ */
 public class ListSistema extends JanelaBase {
+	
+	/**
+	 * Instancia o ListSistema.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public ListSistema(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -75,6 +87,11 @@ public class ListSistema extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Lbl inicie A sessao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Consulta do Sistema");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -82,6 +99,11 @@ public class ListSistema extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Table.
+	 *
+	 * @return the j table
+	 */
 	private JTable table() {
 		Object[] columnNames = { "Limite Superior Temperatura", "Limite Inferior Temperatura",
 				"Limite Superior Luminosidade", "Limite Inferior Luminosidade" };
@@ -91,6 +113,11 @@ public class ListSistema extends JanelaBase {
 		return table;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

@@ -27,9 +27,19 @@ import bancoDeDados.Cultura;
 import bancoDeDados.Variaveis;
 import bancoDeDados.Variaveis;
 
+/**
+ * Class ListVariaveis.
+ */
 public class ListVariaveis extends JanelaBase {
+	
+	/** The variaveis. */
 	private ArrayList<Variaveis> variaveis;
 
+	/**
+	 * Instancia o ListVariaveis.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public ListVariaveis(BancoDeDados bd) {
 		super(bd);
 		getContentPane().setLayout(null);
@@ -37,6 +47,9 @@ public class ListVariaveis extends JanelaBase {
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -51,7 +64,8 @@ public class ListVariaveis extends JanelaBase {
 		frame.getContentPane().add(panel_1);
 
 		JTable table = table();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		panel_1.setViewportView(table);
+		
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnVoltar.setBackground(new Color(192, 192, 192));
@@ -66,16 +80,24 @@ public class ListVariaveis extends JanelaBase {
 		}
 	}
 
+	/**
+	 * Panel 1.
+	 *
+	 * @return the j scroll pane
+	 */
 	private JScrollPane panel_1() {
 		JScrollPane panel_1 = new JScrollPane();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_1.setBackground(Color.GRAY);
 		panel_1.setBounds(12, 183, 470, 209);
-		JTable table = table();
-		panel_1.setViewportView(table);
 		return panel_1;
 	}
 
+	/**
+	 * Lbl inicie A sesso.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Consulta de Variaveis");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -83,14 +105,25 @@ public class ListVariaveis extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Table.
+	 *
+	 * @return the j table
+	 */
 	private JTable table() {
 		Object[] columnNames = { "#", "Nome Variaveis", "Nome Cultura" };
 		Object[][] Vars = FuncoesAjuda.listaParaTabela(variaveis, 3);
 		JTable table = new JTable(Vars, columnNames);
 		table.setDefaultEditor(Object.class, null);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		return table;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);
@@ -100,6 +133,13 @@ public class ListVariaveis extends JanelaBase {
 		return panel;
 	}
 
+	/**
+	 * Btn criar variaveis.
+	 *
+	 * @param table the table
+	 * @param btnVoltar the btn voltar
+	 * @return the j button
+	 */
 	private JButton btnCriarVariaveis(JTable table, JButton btnVoltar) {
 		JButton btnCriarVariaveis = new JButton("Criar Variaveis");
 		btnCriarVariaveis.setBounds(360, 416, 120, 23);

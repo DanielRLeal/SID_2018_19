@@ -18,12 +18,24 @@ import Login.JanelaBase;
 import Login.Login;
 import bancoDeDados.BancoDeDados;
 
+/**
+ * Class menu_Admin.
+ */
 public class menu_Admin extends JanelaBase {
+	
+	/**
+	 * Instancia o menu_Admin.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public menu_Admin(BancoDeDados bd) {
 		super(bd, true);
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -46,6 +58,11 @@ public class menu_Admin extends JanelaBase {
 
 	}
 
+	/**
+	 * Panel 1.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel_1() {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));

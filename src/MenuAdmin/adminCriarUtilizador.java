@@ -25,17 +25,36 @@ import bancoDeDados.BancoDeDados;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
+/**
+ * Class adminCriarUtilizador.
+ */
 public class adminCriarUtilizador extends JanelaBase {
+	
+	/** The text field tipo de utilizador. */
 	private JTextField textField_TipoDeUti;
+	
+	/** The text field password. */
 	private JTextField textField_password;
+	
+	/** The text field nome. */
 	private JTextField textField_nome;
+	
+	/** The text field email. */
 	private JTextField textField_Email;
 
+	/**
+	 * Instancia o adminCriarUtilizador.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public adminCriarUtilizador(BancoDeDados bd) {
 		super(bd);
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	protected void initialize() {
 		super.initialize();
 
@@ -105,30 +124,47 @@ public class adminCriarUtilizador extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Text field password.
+	 */
 	private void textField_password() {
 		textField_password = new JTextField();
 		textField_password.setBounds(194, 245, 216, 22);
 		textField_password.setColumns(10);
 	}
 
+	/**
+	 * Text field nome.
+	 */
 	private void textField_nome() {
 		textField_nome = new JTextField();
 		textField_nome.setBounds(194, 193, 216, 22);
 		textField_nome.setColumns(10);
 	}
 
+	/**
+	 * Text field tipo de utilizador.
+	 */
 	private void textField_TipoDeUti() {
 		textField_TipoDeUti = new JTextField();
 		textField_TipoDeUti.setBounds(194, 297, 216, 22);
 		textField_TipoDeUti.setColumns(10);
 	}
 
+	/**
+	 * Text field email.
+	 */
 	private void textField_Email() {
 		textField_Email = new JTextField();
 		textField_Email.setColumns(10);
 		textField_Email.setBounds(194, 347, 216, 22);
 	}
 
+	/**
+	 * Lbl tipo de utilizador.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblTipoDeUtilizador() {
 		JLabel lblTipoDeUtilizador = new JLabel("Tipo de Utilizador");
 		lblTipoDeUtilizador.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -136,6 +172,11 @@ public class adminCriarUtilizador extends JanelaBase {
 		return lblTipoDeUtilizador;
 	}
 
+	/**
+	 * Lbl password.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblPassword() {
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -143,6 +184,11 @@ public class adminCriarUtilizador extends JanelaBase {
 		return lblPassword;
 	}
 
+	/**
+	 * Lbl nome.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblNome() {
 		JLabel lblNome = new JLabel("Nome ");
 		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -150,13 +196,23 @@ public class adminCriarUtilizador extends JanelaBase {
 		return lblNome;
 	}
 
+	/**
+	 * Lbl inicie A sesso.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
-		JLabel lblInicieASesso = new JLabel("Cria\u00E7\u00E3o de um utilizador");
+		JLabel lblInicieASesso = new JLabel("Criacao de um utilizador");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblInicieASesso.setBounds(186, 157, 196, 16);
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Lbl email.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblEmail() {
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -164,6 +220,11 @@ public class adminCriarUtilizador extends JanelaBase {
 		return lblEmail;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);

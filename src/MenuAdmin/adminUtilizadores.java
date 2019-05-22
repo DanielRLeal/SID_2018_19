@@ -34,16 +34,28 @@ import bancoDeDados.Utilizador;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
+/**
+ * Class adminUtilizadores.
+ */
 public class adminUtilizadores extends JanelaBase {
+	
+	/** lista de utilizadores. */
 	ArrayList<Utilizador> users;
-	// DefaultListModel<String> dlm = new DefaultListModel<>();
 
+	/**
+	 * Instancia o adminUtilizadores.
+	 *
+	 * @param bd da coneção criada no login
+	 */
 	public adminUtilizadores(BancoDeDados bd) {
 		super(bd);
 		users = bd.listarUtilizador();
 		initialize();
 	}
 
+	/* (non-Javadoc)
+	 * @see Login.JanelaBase#initialize()
+	 */
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -58,9 +70,10 @@ public class adminUtilizadores extends JanelaBase {
 		frame.getContentPane().add(panel_1);
 
 		JTable table = table();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		panel_1.setViewportView(table);
+		
 		JButton btnEditar = new JButton("Editar");
-		JButton btnEliminar = new JButton("Ativar/Desativar");
+		JButton btnEliminar = new JButton("Desativar");
 
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
@@ -146,7 +159,7 @@ public class adminUtilizadores extends JanelaBase {
 						bd.actualizarUtilizador(u.getID(), Nome.getText(), CategoriaProfissional.getText(), Email.getText(), Ativo.isSelected(), "");
 						
 						frame.setVisible(false);
-						adminCriarUtilizador aCriarUti = new adminCriarUtilizador(bd);
+						adminUtilizadores aCriarUti = new adminUtilizadores(bd);
 						frame.setVisible(false);
 					}
 				});
@@ -195,16 +208,24 @@ public class adminUtilizadores extends JanelaBase {
 		});
 	}
 
+	/**
+	 * Panel 1.
+	 *
+	 * @return the j scroll pane
+	 */
 	private JScrollPane panel_1() {
 		JScrollPane panel_1 = new JScrollPane();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.WHITE));
 		panel_1.setBackground(Color.GRAY);
 		panel_1.setBounds(12, 183, 470, 209);
-		JTable table = table();
-		panel_1.setViewportView(table);
 		return panel_1;
 	}
 
+	/**
+	 * Lbl inicie A sessao.
+	 *
+	 * @return the j label
+	 */
 	private JLabel lblInicieASesso() {
 		JLabel lblInicieASesso = new JLabel("Consulta de utilizadores");
 		lblInicieASesso.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -212,14 +233,25 @@ public class adminUtilizadores extends JanelaBase {
 		return lblInicieASesso;
 	}
 
+	/**
+	 * Table.
+	 *
+	 * @return the j table
+	 */
 	private JTable table() {
 		Object[] columnNames = { "#", "Nome Utilizador", "Categoria Profissional", "Email", "Activo" };
 		Object[][] culturas = FuncoesAjuda.listaParaTabela(users, 5);
 		JTable table = new JTable(culturas, columnNames);
 		table.setDefaultEditor(Object.class, null);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		return table;
 	}
 
+	/**
+	 * Panel.
+	 *
+	 * @return the j panel
+	 */
 	private JPanel panel() {
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 107, 494, 37);
