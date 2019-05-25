@@ -13,17 +13,20 @@ Manuel Sepúlveda 68934
 
 Os softwares e as suas configurações necessárias já estão implementadas na MV entregue.
 
+Deve inicialmente ligar o XAMPP e selecionar START na linha onde está referido "Apache" e "MySQL". 
 Para a utilização do programa só necessita de clicar duas vezes no icon chamado "Controlo de Culturas" presente no desktop e iniciar com as seguintes contas:
+
+[Os Logins são feitos a partir do ID do utilizador]
 
 *Contas de ADMIN:
 
-user: 
-pass:
+user: 31
+pass: 654321
 ______________________
 
 *Contas de Investigador:
 
-user: 
-pass:
+user: 30
+pass: 123456
 
 -----------------------------------------------------------------------------------------------------------------------------
